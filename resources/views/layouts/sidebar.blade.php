@@ -18,23 +18,19 @@
                         </div>
                     </div>
                     <div class="navbar-nav w-100">
-                        <a href="index.html" class="nav-item nav-link active"><i
+                        <a href="{{ route('dashboard') }}"
+                            class="nav-item nav-link {{ Request::is('/') ? 'active' : '' }}"><i
                                 class="fa fa-tachometer-alt me-2"></i>SEHAN</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                                    class="fa fa-laptop me-2"></i>Elements</a>
-                            <div class="dropdown-menu bg-transparent border-0">
-                                <a href="button.html" class="dropdown-item">Buttons</a>
-                                <a href="typography.html" class="dropdown-item">Typography</a>
-                                <a href="element.html" class="dropdown-item">Other Elements</a>
-                            </div>
-                        </div>
 
-                        <a href="{{ route('produk.index') }}" class="nav-item nav-link"><i
+
+                        <a href="{{ route('produk.index') }}"
+                            class="nav-item nav-link {{ Request::is('produk') ? 'active' : '' }}"><i
                                 class="fa fa-th me-2"></i>Produk</a>
-                        <a href="{{ route('kategori.index') }}" class="nav-item nav-link"><i
+                        <a href="{{ route('kategori.index') }}"
+                            class="nav-item nav-link {{ Request::is('kategori') ? 'active' : '' }}"><i
                                 class="fa fa-keyboard me-2"></i>Kategori</a>
-                        <a href="{{ route('supplier.index') }}" class="nav-item nav-link"><i
+                        <a href="{{ route('supplier.index') }}"
+                            class="nav-item nav-link {{ Request::is('supplier') ? 'active' : '' }}"><i
                                 class="fa fa-table me-2"></i>Supplier</a>
                         <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
                         <div class="nav-item dropdown">

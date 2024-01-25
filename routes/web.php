@@ -17,12 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // =============================== Route Dashboard =======================================
-Route::get('dashboard', [dashboardController::class, 'index']);
+Route::get('/', [dashboardController::class, 'index'])->name('dashboard');
 
 
 // =============================== Route Produk ==========================================
