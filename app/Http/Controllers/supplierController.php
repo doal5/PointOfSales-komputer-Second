@@ -12,7 +12,10 @@ class supplierController extends Controller
      */
     public function index()
     {
-        return view('supplier.index');
+        $data = [
+            'title' => 'Data Supplier'
+        ];
+        return view('supplier.index', $data);
     }
 
     public function read()
