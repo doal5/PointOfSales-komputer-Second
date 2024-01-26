@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksis', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('kategori', function (Blueprint $table) {
+            $table->renameColumn('id', 'id_kategori');
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksis');
+        Schema::table('kategori', function (Blueprint $table) {
+            $table->renameColumn('id_kategori', 'id');
+        });
     }
 };
