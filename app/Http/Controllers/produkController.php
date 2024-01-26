@@ -20,7 +20,7 @@ class produkController extends Controller
     // Function menampilkan data dari database
     public function read()
     {
-        $produk = produk::all();
+        $produk = produk::with('kategori')->paginate(10);
         return view('produk.read', compact('produk'));
     }
 
