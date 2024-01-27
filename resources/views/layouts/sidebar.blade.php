@@ -32,7 +32,9 @@
                         <a href="{{ route('supplier.index') }}"
                             class="nav-item nav-link {{ Request::is('supplier') ? 'active' : '' }}"><i
                                 class="fa fa-table me-2"></i>Supplier</a>
-                        <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
+                        <a href="{{ route('transaksi.index') }}"
+                            class="nav-item nav-link {{ Request::is('transaksi') ? 'active' : '' }}"><i
+                                class="fa fa-calculator"></i>Transaksi</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                     class="far fa-file-alt me-2"></i>Pages</a>
