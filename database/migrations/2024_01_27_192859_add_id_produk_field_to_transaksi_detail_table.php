@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksi', function (Blueprint $table) {
-            $table->id();
-            $table->float('total');
-            $table->float('diskon')->nullable();
-            $table->enum('status', ['selesai', 'pending'])->default('pending');
-            $table->timestamps();
+        Schema::table('transaksi_detail', function (Blueprint $table) {
+            $table->foreignId('id_produk')->after('id');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksi');
+        Schema::table('transaksi_detail', function (Blueprint $table) {
+            $table->dropColumn('id_produk');
+        });
     }
 };

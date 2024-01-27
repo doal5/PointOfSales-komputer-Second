@@ -5,6 +5,7 @@ use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\produkController;
 use App\Http\Controllers\supplierController;
 use App\Http\Controllers\transaksiController;
+use App\Http\Controllers\transaksiDetailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,3 +58,8 @@ Route::delete('supplierhapusmultiple/{id}', [supplierController::class, 'destroy
 //! =============================== Route Transaksi ==========================================
 Route::get('transaksi', [transaksiController::class, 'index'])->name('transaksi.index');
 Route::get('transaksi/tambah', [transaksiController::class, 'create'])->name('transaksi.create');
+Route::get('transaksi/{id}/edit', [transaksiController::class, 'edit'])->name('transaksi.edit');
+
+
+//! =============================== Route Transaksi Detail ==========================================
+Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');
