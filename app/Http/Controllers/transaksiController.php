@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\transaksi;
 use Illuminate\Http\Request;
 
 class transaksiController extends Controller
@@ -11,7 +12,11 @@ class transaksiController extends Controller
      */
     public function index()
     {
-        return view('transaksi.index');
+        $data = [
+            'title' => 'Transaksi',
+            'transaksi' => transaksi::all(),
+        ];
+        return view('transaksi.index', $data);
     }
 
     /**
@@ -19,7 +24,11 @@ class transaksiController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            'title' => 'Tambah Transaksi',
+            'transaksi' => transaksi::all(),
+        ];
+        return view('transaksi.tambah', $data);
     }
 
     /**
