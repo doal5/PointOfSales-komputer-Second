@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\produk;
 use App\Models\transaksi;
+use App\Models\transaksiDetail;
 use Illuminate\Http\Request;
 
 class transaksiController extends Controller
@@ -12,6 +14,7 @@ class transaksiController extends Controller
      */
     public function index()
     {
+
         $data = [
             'title' => 'Transaksi',
             'transaksi' => transaksi::all(),
@@ -24,12 +27,16 @@ class transaksiController extends Controller
      */
     public function create()
     {
+        $diskon = 0;
+        $total = 0;
         $data = [
-            'title' => 'Tambah Transaksi',
-            'transaksi' => transaksi::all(),
+            'diskon' => $diskon,
+            'total' => $total,
         ];
-        return view('transaksi.tambah', $data);
+        $transaksi = transaksi::create($data);
+        return redirect('transaksi/' . $transaksi->id . '/edit');
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -52,7 +59,37 @@ class transaksiController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $transaksidetail = transaksiDetail::wheretransaksi_id($id)->with('produk')->get();
+        $produk = produk::all();
+        $id_produk = request('id_produk');
+        $pdetail = produk::find($id_produk);
+        $qty = request('qty');
+        $act  = request('act');
+        if ($act == 'min') {
+            if ($qty <= 1) {
+                $qty = 1;
+            } else {
+
+                $qty = $qty - 1;
+            }
+        } else {
+            $qty = $qty + 1;
+        }
+        $subtotal = 0;
+        if ($pdetail) {
+            $subtotal = $pdetail->harga_jual * $qty;
+        }
+
+        $data = [
+            'title' => 'Tambah Transaksi',
+            'produk' => $produk,
+            'qty' => $qty,
+            'pdetail' => $pdetail,
+            'subtotal' => $subtotal,
+            'transaksidetail' => $transaksidetail,
+            'transaksi' => transaksi::all(),
+        ];
+        return view('transaksi.tambah', $data);
     }
 
     /**
