@@ -10,6 +10,8 @@
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
 
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,7 +105,6 @@
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{{ asset('dashmin/lib/chart/chart.min.js') }}"></script>
         <script src="{{ asset('dashmin/lib/easing/easing.min.js') }}"></script>
         <script src="{{ asset('dashmin/lib/waypoints/waypoints.min.js') }}"></script>
@@ -115,6 +116,10 @@
         <!-- Template Javascript -->
         <script src="{{ asset('dashmin/js/main.js') }}"></script>
         <script src="{{ asset('js/jquery-3.js') }}"></script>
+        <script src="https://kit.fontawesome.com/57ce01442e.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+        </script>
 
         {{-- SweetAlert --}}
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
