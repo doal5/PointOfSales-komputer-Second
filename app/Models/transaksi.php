@@ -11,9 +11,8 @@ class transaksi extends Model
     protected $primaryKey = 'id';
     protected $guarded = [
         'id',
-        'user_id',
-        'subtotal',
-        'kasir_name',
+        'diskon',
+        'total',
         'status'
     ];
     use HasFactory;
