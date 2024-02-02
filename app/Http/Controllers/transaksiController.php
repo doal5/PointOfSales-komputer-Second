@@ -17,9 +17,19 @@ class transaksiController extends Controller
 
         $data = [
             'title' => 'Transaksi',
-            'transaksi' => transaksi::all(),
+            'transaksi' => transaksi::paginate(10),
         ];
         return view('transaksi.index', $data);
+    }
+
+    public function hapusmultiple(request $request)
+    {
+        $ids = $request->ids;
+        $transaksi = transaksi::whereIn('id', explode(',', $ids))->delete();
+
+        $td = transaksiDetail::whereIn('transaksi_id', explode(',', $ids))->delete();
+
+        return response()->json(['status' => true, 'message' => 'data berhasil dihapus']);
     }
 
     /**

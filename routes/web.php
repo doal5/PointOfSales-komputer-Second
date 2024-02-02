@@ -59,6 +59,7 @@ Route::delete('supplierhapusmultiple/{id}', [supplierController::class, 'destroy
 Route::get('transaksi', [transaksiController::class, 'index'])->name('transaksi.index');
 Route::get('transaksi/tambah', [transaksiController::class, 'create'])->name('transaksi.create');
 Route::get('transaksi/{id}/edit', [transaksiController::class, 'edit'])->name('transaksi.edit');
+Route::delete('transaksihapusmultiple/{id}', [transaksiController::class, 'hapusmultiple']);
 
 
 

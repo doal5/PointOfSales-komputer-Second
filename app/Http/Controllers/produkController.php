@@ -92,6 +92,6 @@ class produkController extends Controller
     {
         $ids = $request->ids;
         produk::whereIn('id_produk', explode(",", $ids))->delete();
-        return response()->json(['status' => true, 'message' => 'data berhasil dihapus']);
+        return redirect()->json(['status' => true, 'message' => 'data berhasil dihapus']);
     }
 }
