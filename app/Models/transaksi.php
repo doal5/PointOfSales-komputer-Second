@@ -9,11 +9,6 @@ class transaksi extends Model
 {
     protected $table = 'transaksi';
     protected $primaryKey = 'id';
-    protected $guarded = [
-        'id',
-        'diskon',
-        'total',
-        'status'
-    ];
+    protected $guarded = [];
     use HasFactory;
 }

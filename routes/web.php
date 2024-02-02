@@ -61,5 +61,8 @@ Route::get('transaksi/tambah', [transaksiController::class, 'create'])->name('tr
 Route::get('transaksi/{id}/edit', [transaksiController::class, 'edit'])->name('transaksi.edit');
 
 
+
 //! =============================== Route Transaksi Detail ==========================================
 Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');
+Route::get('transaksiDetail/delete', [transaksiDetailController::class, 'delete'])->name('transaksidetail.delete');
+Route::get('transaksiDetail/selesai/{id}', [transaksiDetailController::class, 'selesai']);
