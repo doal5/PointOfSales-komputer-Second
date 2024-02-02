@@ -31,7 +31,7 @@ class transaksiController extends Controller
         $total = 0;
         $data = [
             'diskon' => $diskon,
-            'total' => $total,
+            'total' => $total
         ];
         $transaksi = transaksi::create($data);
         return redirect('transaksi/' . $transaksi->id . '/edit');
@@ -65,6 +65,7 @@ class transaksiController extends Controller
         $pdetail = produk::find($id_produk);
         $qty = request('qty');
         $act  = request('act');
+
         if ($act == 'min') {
             if ($qty <= 1) {
                 $qty = 1;
@@ -76,10 +77,15 @@ class transaksiController extends Controller
             $qty = $qty + 1;
         }
         $subtotal = 0;
+        $diskon = 0;
         if ($pdetail) {
             $subtotal = $pdetail->harga_jual * $qty;
         }
+        $transaksi = transaksi::find($id);
+        $dibayarkan = request('dibayarkan');
+        $diskon = request('diskon');
 
+        $kembalian = $dibayarkan - $transaksi->total;
         $data = [
             'title' => 'Tambah Transaksi',
             'produk' => $produk,
@@ -87,8 +93,20 @@ class transaksiController extends Controller
             'pdetail' => $pdetail,
             'subtotal' => $subtotal,
             'transaksidetail' => $transaksidetail,
-            'transaksi' => transaksi::all(),
+            'transaksi' => $transaksi,
+            'kembalian' => $kembalian,
+            'dibayarkan' => $dibayarkan,
+            'diskon' => $diskon,
         ];
+
+        if ($diskon) {
+            $dt = [
+                'diskon' => $diskon,
+                'total' => $transaksi->total - $diskon
+            ];
+            $transaksi->update($dt);
+        }
+
         return view('transaksi.tambah', $data);
     }
 
@@ -97,7 +115,11 @@ class transaksiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $tid = $request->transaksi_id;
+        $idp = $request->id_produk;
+        $qty = $request->qty;
+        $transaksidetail = transaksiDetail::find($tid);
+        dd($transaksidetail);
     }
 
     /**
