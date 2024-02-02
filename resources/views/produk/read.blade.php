@@ -8,8 +8,8 @@
           <td><span class="badge badge-pill bg-primary">{{ $item->kode_produk }}</span></td>
           <td>{{ $item->kategori->kategori ?? '' }}</td>
           <td>{{ $item->merk }}</td>
-          <td>{{ $item->harga_beli }}</td>
-          <td>{{ $item->harga_jual }}</td>
+          <td>{{ rupiah($item->harga_beli, true) }}</td>
+          <td>{{ rupiah($item->harga_jual, true) }}</td>
           <td>{{ $item->diskon }}</td>
           <td>{{ $item->stok }}</td>
           <td>
