@@ -6,6 +6,7 @@
           <th><input type="checkbox" data-id="{{ $item->id_produk }}" class="form-check-input checkbox"></th>
           <th scope="row">{{ $i++ }}</th>
           <td><span class="badge badge-pill bg-primary">{{ $item->kode_produk }}</span></td>
+          <td>{{ $item->merk }}</td>
           <td>{{ $item->kategori->kategori ?? '' }}</td>
           <td>{{ $item->merk }}</td>
           <td>{{ rupiah($item->harga_beli, true) }}</td>

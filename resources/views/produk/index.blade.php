@@ -20,6 +20,7 @@
                                     <th><input type="checkbox" id="checkboxMain" class="form-check-input"></th>
                                     <th>No</th>
                                     <th>Kode</th>
+                                    <th>Produk</th>
                                     <th>Kategori</th>
                                     <th>Merk</th>
                                     <th>Harga Beli</th>
