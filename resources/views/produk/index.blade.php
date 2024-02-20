@@ -12,7 +12,7 @@
                             <button onclick="tambah()" class="btn btn-primary btn-sm"><i class="fa fa-plus"> </i>
                                 Tambah</button>
                             <button class="btn btn-danger btn-sm hapus-multiple"><i class="fa fa-trash"> </i> Hapus</button>
-                            {{ $kategori }}
+
                         </div>
                         <table class="table">
                             <thead>
