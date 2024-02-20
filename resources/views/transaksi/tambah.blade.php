@@ -93,7 +93,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->produk->merk }}</td>
                                     <td>{{ $item->qty }}</td>
-                                    <td>{{ $item->subtotal }}</td>
+                                    <td>{{ rupiah($item->subtotal) }}</td>
                                     <td>
                                         <div class="btn-group">
                                             <a href="{{ url('transaksiDetail/delete?id=' . $item->id) }}"><button
@@ -139,8 +139,8 @@
                         </div>
                         <div class="form-group">
                             <label for="">Total Belanja</label>
-                            <input disabled type="number" name="total_belanja" value="{{ $transaksi->total ?? 0 }}"
-                                class="form-control" id="">
+                            <input disabled type="number" name="total_belanja"
+                                value="{{ rupiah($transaksi->total ?? 0) }}" class="form-control" id="">
                         </div>
 
                         <div class="form-group">
@@ -154,7 +154,7 @@
                     </form>
                     <div class="form-group">
                         <label for="">Uang Kembalian</label>
-                        <input disabled type="number" class="form-control" value="{{ $kembalian ?? 0 }}"
+                        <input disabled type="number" class="form-control" value="{{ rupiah($kembalian ?? 0) }}"
                             name="kembalian">
                     </div>
                 </div>

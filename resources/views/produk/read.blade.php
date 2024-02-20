@@ -10,7 +10,6 @@
           <td>{{ $item->merk }}</td>
           <td>{{ rupiah($item->harga_beli, true) }}</td>
           <td>{{ rupiah($item->harga_jual, true) }}</td>
-          <td>{{ $item->diskon }}</td>
           <td>{{ $item->stok }}</td>
           <td>
               <div class="btn-group btn-sm">

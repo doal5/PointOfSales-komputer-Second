@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\kategori;
 use App\Models\produk;
 use Illuminate\Http\Request;
 
@@ -13,15 +14,17 @@ class produkController extends Controller
     public function index()
     {
         $data = produk::all();
-        return view('produk.index', compact('data'));
+        $kategori = kategori::all();
+        return view('produk.index', compact('data', 'kategori'));
     }
 
 
     // Function menampilkan data dari database
     public function read()
     {
+        $kategori = kategori::all();
         $produk = produk::with('kategori')->paginate(10);
-        return view('produk.read', compact('produk'));
+        return view('produk.read', compact('produk', 'kategori'));
     }
 
     /**
@@ -29,7 +32,8 @@ class produkController extends Controller
      */
     public function create()
     {
-        return view('produk.tambah');
+        $kategori = kategori::all();
+        return view('produk.tambah', compact('kategori'));
     }
 
     /**
@@ -40,9 +44,9 @@ class produkController extends Controller
         $data = new produk();
         $data->merk = $request->merk;
         $data->kode_produk = $request->kode_produk;
+        $data->kategori_id = $request->kategori;
         $data->harga_beli = $request->harga_beli;
         $data->harga_jual = $request->harga_jual;
-        $data->diskon = $request->diskon;
         $data->stok = $request->stok;
         $data->save();
         return response()->json('Data Berhasil Disimpan', 200);

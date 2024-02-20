@@ -12,7 +12,7 @@
                             <button onclick="tambah()" class="btn btn-primary btn-sm"><i class="fa fa-plus"> </i>
                                 Tambah</button>
                             <button class="btn btn-danger btn-sm hapus-multiple"><i class="fa fa-trash"> </i> Hapus</button>
-
+                            {{ $kategori }}
                         </div>
                         <table class="table">
                             <thead>
@@ -24,7 +24,6 @@
                                     <th>Merk</th>
                                     <th>Harga Beli</th>
                                     <th>Harga Jual</th>
-                                    <th>Diskon</th>
                                     <th>Stok</th>
                                     <th style="width: 20%"><i class="fa fa-cog"></i></th>
                                 </tr>
@@ -172,9 +171,9 @@
             var merk = $('#merk').val();
             var kode_produk = $('#kode_produk').val();
             var harga_jual = $('#harga_jual').val();
+            var kategori = $('#kategori').val();
             var harga_beli = $('#harga_beli').val();
             var stok = $('#stok').val();
-            var diskon = $('#diskon').val();
 
             $.ajax({
                 type: "get",
@@ -183,8 +182,8 @@
                     merk: merk,
                     kode_produk: kode_produk,
                     harga_jual: harga_jual,
+                    kategori: kategori,
                     harga_beli: harga_beli,
-                    diskon: diskon,
                     stok: stok
                 },
                 success: function(response) {
