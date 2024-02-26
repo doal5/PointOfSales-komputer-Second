@@ -170,7 +170,6 @@
 
         function store() {
             var merk = $('#merk').val();
-            var kode_produk = $('#kode_produk').val();
             var harga_jual = $('#harga_jual').val();
             var kategori = $('#kategori').val();
             var harga_beli = $('#harga_beli').val();
@@ -181,7 +180,6 @@
                 url: "{{ route('produk.store') }}",
                 data: {
                     merk: merk,
-                    kode_produk: kode_produk,
                     harga_jual: harga_jual,
                     kategori: kategori,
                     harga_beli: harga_beli,

@@ -4,10 +4,10 @@
         <label for="merk">Merk</label>
         <input type="text" class="form-control" id="merk" placeholder="Masukan Merk Produk">
     </div>
-    <div class="form-group">
+    {{-- <div class="form-group">
         <label for="kode_produk">kode produk</label>
         <input type="text" class="form-control" id="kode_produk" placeholder="Masukan kode produk">
-    </div>
+    </div> --}}
     <div class="form-group">
         <label for="kategori">Kategori</label>
         <select class="form-control" name="kategori" id="kategori">

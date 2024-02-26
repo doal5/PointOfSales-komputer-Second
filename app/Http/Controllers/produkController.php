@@ -41,9 +41,11 @@ class produkController extends Controller
      */
     public function store(Request $request)
     {
+        $produk = produk::latest()->first() ?? new produk();
         $data = new produk();
         $data->merk = $request->merk;
-        $data->kode_produk = $request->kode_produk;
+        $kode_produk = $request['kode_produk'] = 'P' . kode_prodnol((int)$produk->id_produk + 1, 6);
+        $data->kode_produk = $kode_produk;
         $data->kategori_id = $request->kategori;
         $data->harga_beli = $request->harga_beli;
         $data->harga_jual = $request->harga_jual;
