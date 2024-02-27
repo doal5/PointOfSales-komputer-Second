@@ -17,7 +17,7 @@ class transaksiController extends Controller
 
         $data = [
             'title' => 'Transaksi',
-            'transaksi' => transaksi::paginate(10),
+            'transaksi' => transaksi::with('transaksidetail')->paginate(10),
         ];
         return view('transaksi.index', $data);
     }
@@ -130,6 +130,12 @@ class transaksiController extends Controller
         $qty = $request->qty;
         $transaksidetail = transaksiDetail::find($tid);
         dd($transaksidetail);
+    }
+
+    public function detail($id)
+    {
+        $transaksi = transaksiDetail::with('produk')->where('transaksi_id', $id)->get();
+        return view('transaksi.detail', compact('transaksi'));
     }
 
     /**

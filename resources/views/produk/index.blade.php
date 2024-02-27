@@ -168,6 +168,7 @@
             );
         }
 
+
         function store() {
             var merk = $('#merk').val();
             var harga_jual = $('#harga_jual').val();

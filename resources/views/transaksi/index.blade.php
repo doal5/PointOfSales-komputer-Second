@@ -18,8 +18,9 @@
                                     <th><input type="checkbox" id="checkboxMain" class="form-check-input"></th>
                                     <th>No</th>
                                     <th>Diskon</th>
-                                    <th>Kasir</th>
                                     <th>Subtotal</th>
+                                    <th>Status</th>
+                                    <th><i class="fa fa-gear"></i></th>
                                 </tr>
                             </thead>
                             @foreach ($transaksi as $item)
@@ -29,8 +30,17 @@
                                                 class="form-check-input checkbox"></td>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->diskon }}</td>
-                                        <td>{{ $item->total }}</td>
+                                        <td>{{ rupiah($item->total) }}</td>
                                         <td>{{ $item->status }}</td>
+                                        <td>
+                                            <div class="btn-group btn-sm">
+                                                <button class="btn btn-success"
+                                                    onclick="detail({{ $item->transaksidetail->transaksi_id ?? '' }})"><i
+                                                        class="fa fa-eye"></i></button>
+                                                <button class="btn btn-danger" onclick="destroy({{ $item->id }})"><i
+                                                        class="fa fa-trash"></i></button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             @endforeach
@@ -40,6 +50,7 @@
             </div>
         </div>
     </div>
+    @includeIf('transaksi.modalFormDetail')
 @endsection
 @push('script')
     <script>
@@ -124,5 +135,31 @@
                 }
             });
         });
+
+        // ========================================================
+        // ================ FUNGSI DETAIL DATA ===============
+        // ========================================================
+        function show(id) {
+            $.get('{{ url('transaksishow') }}/' + id, {},
+                function(data, status) {
+                    $('#modalForm').modal('show');
+                    $('#modalFormLabel').text('Edit Data Produk');
+                    $('#page').html(data);
+                },
+            );
+        }
+
+        function detail(id) {
+            $.get('{{ url('detail-transaksi') }}/' + id, {},
+                function(data, status) {
+                    $('#modalFormDetail').modal('show');
+                    $('#modalFormLabelDetail').text('Detail Data Transaksi');
+                    $('#halaman').html(data);
+                },
+            );
+        }
+        // ========================================================
+        // ================ FUNGSI DETAIL DATA ===============
+        // ========================================================
     </script>
 @endpush

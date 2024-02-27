@@ -67,3 +67,5 @@ Route::delete('transaksihapusmultiple/{id}', [transaksiController::class, 'hapus
 Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');
 Route::get('transaksiDetail/delete', [transaksiDetailController::class, 'delete'])->name('transaksidetail.delete');
 Route::get('transaksiDetail/selesai/{id}', [transaksiDetailController::class, 'selesai']);
+Route::get('transaksishow/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
+Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
