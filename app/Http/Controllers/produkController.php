@@ -60,7 +60,10 @@ class produkController extends Controller
     public function show(string $id)
     {
         $data = produk::find($id);
-        return view('produk.edit', compact('data'));
+        $harbel = $data->harga_beli;
+        $harjul = $data->harga_jual;
+
+        return view('produk.edit', compact('data', 'harbel', 'harjul'));
     }
 
     public function detail(string $id)

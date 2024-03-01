@@ -1,23 +1,23 @@
 <form action="">
     @csrf
-    <div class="form-group">
-        <label for="nama">Nama</label>
-        <input type="text" class="form-control" id="nama" placeholder="Masukan Nama" value="{{ $supplier->nama }}">
+    <div class="form-group text-capitalize">
+        <label for="merk">merk</label>
+        <input type="text" class="form-control" id="merk" placeholder="Masukan merk" value="{{ $data->merk ?? '' }}">
     </div>
     <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" placeholder="Masukan Email"
-            value="{{ $supplier->email }}">
+        <label for="harga_beli">harga beli</label>
+        <input type="text" class="form-control" id="harga_beli" placeholder="Masukan harga beli"
+            value="{{ rupiah($data->harga_beli) }}"></input>
     </div>
     <div class="form-group">
-        <label for="no_telepon">No Telepon</label>
-        <input type="number" class="form-control" id="no_telepon" placeholder="Masukan No Telepon"
-            value="{{ $supplier->no_telepon }}">
+        <label for="harga_jual">harga jual</label>
+        <input type="text" class="form-control" id="harga_jual" placeholder="Masukan harga jual"
+            value="{{ rupiah($data->harga_jual) }}">
     </div>
     <div class="form-group">
-        <label for="alamat">Alamat</label>
-        <input type="text" class="form-control" id="alamat" placeholder="Masukan Alamat"
-            value="{{ $supplier->alamat }}">
+        <label for="stok">stok</label>
+        <input type="text" class="form-control" id="stok" placeholder="Masukan stok"
+            value="{{ $data->stok }}">
     </div>
 
     <div class="modal-footer">
