@@ -85,7 +85,14 @@ class produkController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $produk = produk::find($id);
+        $produk->kode_produk = $request->kode_produk;
+        $produk->merk = $request->merk;
+        $produk->harga_beli = $request->harga_beli;
+        $produk->harga_jual = $request->harga_jual;
+        $produk->stok = $request->stok;
+        $produk->update();
+        return response()->json('data berhasil di update', 200);
     }
 
     /**

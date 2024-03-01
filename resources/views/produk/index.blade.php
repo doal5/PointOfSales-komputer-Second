@@ -230,6 +230,45 @@
         // ================ FUNGSI DETAIL DATA ===============
         // ========================================================
 
+        // ========================================================
+        // ================ FUNGSI DETAIL DATA ===============
+        // ========================================================
+
+        function update(id) {
+            var kode_produk = $('#kode_produk').val();
+            var kategori_id = $('#kategori_id').val();
+            var merk = $('#merk').val();
+            var harga_beli = $('#harga_beli').val();
+            var harga_jual = $('#harga_jual').val();
+            var stok = $('#stok').val();
+
+            $.ajax({
+                type: "get",
+                url: "{{ url('produkupdate') }}/" + id,
+                data: {
+                    kode_produk: kode_produk,
+                    kategori_id: kategori_id,
+                    merk: merk,
+                    harga_beli: harga_beli,
+                    harga_jual: harga_jual,
+                    stok: stok
+                },
+                success: function(response) {
+                    read();
+                    Swal.fire({
+                            icon: 'success',
+                            title: 'Data Berhasil Diupdate',
+                            showConfirmButton: true
+                        }),
+                        $('#modalForm').modal('hide');
+                }
+            });
+        }
+
+        // ========================================================
+        // ================ FUNGSI DETAIL DATA ===============
+        // ========================================================
+
 
         // ========================================================
         // ================ FUNGSI HAPUS DATA ===============
