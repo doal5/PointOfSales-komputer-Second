@@ -154,7 +154,7 @@
                     </form>
                     <div class="form-group">
                         <label for="">Uang Kembalian</label>
-                        <input disabled type="number" class="form-control" value="{{ rupiah($kembalian ?? 0) }}"
+                        <input disabled type="text" class="form-control" value="{{ rupiah($kembalian ?? 0) }}"
                             name="kembalian">
                     </div>
                 </div>
