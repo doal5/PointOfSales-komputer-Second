@@ -24,14 +24,20 @@
                                 </tr>
                             </thead>
                             @foreach ($transaksi as $item)
-                                <tbody>
+                                <tbody class="text-capita3lize">
                                     <tr id="tr_{{ $item->id }}">
                                         <td><input type="checkbox" data-id="{{ $item->id }}"
                                                 class="form-check-input checkbox"></td>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->diskon }}</td>
                                         <td>{{ rupiah($item->total) }}</td>
-                                        <td>{{ $item->status }}</td>
+                                        <td>
+                                            @if ($item->status == 'selesai')
+                                                <span class="badge bg-success">{{ $item->status }}</span>
+                                            @else
+                                                <span class="badge bg-danger">{{ $item->status }}</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <div class="btn-group btn-sm">
                                                 <button class="btn btn-success"

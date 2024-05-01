@@ -16,6 +16,7 @@ return new class extends Migration
             $table->float('total');
             $table->float('diskon')->nullable();
             $table->enum('status', ['selesai', 'pending'])->default('pending');
+            $table->string('tanggal');
             $table->timestamps();
         });
     }

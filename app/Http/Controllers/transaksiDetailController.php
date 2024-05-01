@@ -32,13 +32,14 @@ class transaksiDetailController extends Controller
         $transaksi_id = $request->transaksi_id;
         $td = transaksiDetail::whereid_produk($id_produk)->wheretransaksi_id($transaksi_id)->first();
         $transaksi = transaksi::find($transaksi_id);
-
+        $tanggal = date('Y-m-d');
         if ($td == null) {
             $data = [
                 'id_produk' => $id_produk,
                 'transaksi_id' => $transaksi_id,
                 'qty' => $request->qty,
                 'subtotal' => $request->subtotal,
+                'tanggal' => $tanggal,
             ];
             transaksiDetail::create($data);
             $detail = transaksiDetail::find($transaksi_id);

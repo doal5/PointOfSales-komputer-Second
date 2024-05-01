@@ -39,9 +39,11 @@ class transaksiController extends Controller
     {
         $diskon = 0;
         $total = 0;
+        $tanggal = date('Y-m-d');
         $data = [
             'diskon' => $diskon,
-            'total' => $total
+            'total' => $total,
+            'tanggal' => $tanggal
         ];
         $transaksi = transaksi::create($data);
         return redirect('transaksi/' . $transaksi->id . '/edit');
@@ -94,6 +96,7 @@ class transaksiController extends Controller
         $transaksi = transaksi::find($id);
         $dibayarkan = request('dibayarkan');
         $diskon = request('diskon');
+        $tanggal = date('Y-m-d');
 
         $kembalian = $dibayarkan - $transaksi->total;
         $data = [
@@ -112,7 +115,8 @@ class transaksiController extends Controller
         if ($diskon) {
             $dt = [
                 'diskon' => $diskon,
-                'total' => $transaksi->total - $diskon
+                'total' => $transaksi->total - $diskon,
+                'tanggal' => $tanggal
             ];
             $transaksi->update($dt);
         }

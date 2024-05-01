@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\kategoriController;
+use App\Http\Controllers\laporanController;
 use App\Http\Controllers\produkController;
 use App\Http\Controllers\supplierController;
 use App\Http\Controllers\transaksiController;
@@ -70,3 +71,6 @@ Route::get('transaksiDetail/delete', [transaksiDetailController::class, 'delete'
 Route::get('transaksiDetail/selesai/{id}', [transaksiDetailController::class, 'selesai']);
 Route::get('transaksishow/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
 Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
+
+//! =============================== Route Laporan ==========================================
+Route::get('laporan', [laporanController::class, 'index'])->name('laporan.index');

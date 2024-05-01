@@ -12,7 +12,7 @@
                 <tr>
                     <th> <span class="badge bg-primary">{{ $item->produk->merk }}</span> </th>
                     <td>{{ $item->qty }}</td>
-                    <td>{{ rupiah($item->total) }}</td>
+                    <td>{{ rupiah($item->subtotal) }}</td>
                 </tr>
             @endforeach
         </tbody>

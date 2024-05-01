@@ -105,14 +105,6 @@
                         </tbody>
                     </table>
                     @csrf
-                    @foreach ($transaksidetail as $item)
-                        <label for="">id produk</label>
-                        <input type="text" name="id_produk" value="{{ $item->id_produk }}"> <br>
-                        <label for="">qty</label>
-                        <input type="text" name="qty" value="{{ $item->qty }}"> <br>
-                        <label for="">transaksi id</label>
-                        <input type="text" name="transaksi_id" value="{{ $item->transaksi_id }}">
-                    @endforeach
                     <div class="btn-group">
                         <a href=""><button class="btn btn-sm btn-danger"><i class="fas fa-file"></i>
                                 Pending</button></a>
@@ -142,7 +134,6 @@
                             <input disabled type="number" name="total_belanja"
                                 value="{{ rupiah($transaksi->total ?? 0) }}" class="form-control" id="">
                         </div>
-
                         <div class="form-group">
                             <label for="">Dibayarkan</label>
                             <input type="number" name="dibayarkan" value="{{ $dibayarkan ?? 0 }}" class="form-control"
