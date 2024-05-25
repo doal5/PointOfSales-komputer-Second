@@ -38,6 +38,9 @@
                         <a href="{{ route('laporan.index') }}"
                             class="nav-item nav-link {{ Request::is('laporan') ? 'active' : '' }}"><i
                                 class="fa-solid fa-file-contract"></i>Laporan</a>
+                        <a href="{{ route('analisis.index') }}"
+                            class="nav-item nav-link {{ Request::is('analisis') ? 'active' : '' }}"><i
+                                class="fa-solid fa-chart-simple"></i>Analisis</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                     class="far fa-file-alt me-2"></i>Pages</a>

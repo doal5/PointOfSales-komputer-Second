@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\analisisController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\laporanController;
@@ -74,3 +75,6 @@ Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
 
 //! =============================== Route Laporan ==========================================
 Route::get('laporan', [laporanController::class, 'index'])->name('laporan.index');
+
+//! =============================== Route analisis ==========================================
+Route::get('analisis', [analisisController::class, 'index'])->name('analisis.index');
