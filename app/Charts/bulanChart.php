@@ -17,18 +17,18 @@ class bulanChart
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
         $tanggal = [
-            $transaksi = transaksiDetail::whereMonth('tanggal', '1')->count(),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '2')->count(),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '3')->count(),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '4')->count(),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '5')->count(),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '6')->count(),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '7')->count(),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '8')->count(),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '9')->count(),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '10')->count(),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '11')->count(),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '12')->count()
+            $transaksi = transaksiDetail::whereMonth('tanggal', '1')->sum('subtotal'),
+            $transaksi = transaksiDetail::whereMonth('tanggal', '2')->sum('subtotal'),
+            $transaksi = transaksiDetail::whereMonth('tanggal', '3')->sum('subtotal'),
+            $transaksi = transaksiDetail::whereMonth('tanggal', '4')->sum('subtotal'),
+            $transaksi = transaksiDetail::whereMonth('tanggal', '5')->sum('subtotal'),
+            $transaksi = transaksiDetail::whereMonth('tanggal', '6')->sum('subtotal'),
+            $transaksi = transaksiDetail::whereMonth('tanggal', '7')->sum('subtotal'),
+            $transaksi = transaksiDetail::whereMonth('tanggal', '8')->sum('subtotal'),
+            $transaksi = transaksiDetail::whereMonth('tanggal', '9')->sum('subtotal'),
+            $transaksi = transaksiDetail::whereMonth('tanggal', '10')->sum('subtotal'),
+            $transaksi = transaksiDetail::whereMonth('tanggal', '11')->sum('subtotal'),
+            $transaksi = transaksiDetail::whereMonth('tanggal', '12')->sum('subtotal')
         ];
 
         $label = [
