@@ -48,7 +48,7 @@ class bulanChart
         return $this->chart->barChart()
             ->setTitle('Penjualan Bulanan')
             ->setSubtitle('2024.')
-            ->addData('Penjualan Unit', $tanggal)
+            ->addData('Total Penjualan',  $tanggal)
             ->setXAxis($label);
     }
 }
