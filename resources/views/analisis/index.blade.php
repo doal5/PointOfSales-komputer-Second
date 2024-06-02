@@ -12,6 +12,7 @@
                                     <div class="col">
                                         {!! $chart->container() !!}
                                     </div>
+
                                 </form>
                             </div>
                         </div>
