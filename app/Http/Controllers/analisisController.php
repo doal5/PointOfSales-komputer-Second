@@ -13,9 +13,9 @@ class analisisController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(bulanChart $chart)
+    public function index()
     {
-        return view('analisis.index', ['chart' => $chart->build()]);
+        return view('analisis.index');
     }
 
     /**
