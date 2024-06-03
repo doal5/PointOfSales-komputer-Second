@@ -29,6 +29,10 @@
         <label for="stok">Stok</label>
         <input type="number" class="form-control" id="stok" placeholder="Masukan Stok">
     </div>
+    <div class="form-group">
+        <label for="foto">foto</label>
+        <input type="file" class="form-control" id="foto" placeholder="Masukan Stok">
+    </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="store()">Simpan</button>
     </div>

@@ -45,9 +45,9 @@
        <!-- Sale & Revenue End -->
 
 
-       <!-- Sales Chart Start -->
+       <!-- Grafik Chart Start -->
        <div class="container-fluid pt-4 px-4">
-           <div class="row g-2">
+           <div class="row g-4">
                <div class="col-md-2 col-xl-6">
                    <div class="bg-light text-center rounded p-2">
                        <div class="d-flex align-items-center justify-content-between mb-2">
@@ -62,7 +62,26 @@
                        <div class="d-flex align-items-center justify-content-between mb-2">
                        </div>
                        <div class="col">
+                           {!! $mingguChart->container() !!}
+
+                       </div>
+                   </div>
+               </div>
+               <div class="col-md-2 col-xl-6">
+                   <div class="bg-light text-center rounded p-2">
+                       <div class="d-flex align-items-center justify-content-between mb-2">
+                       </div>
+                       <div class="col">
                            {!! $bulanChart->container() !!}
+                       </div>
+                   </div>
+               </div>
+               <div class="col-md-1 col-xl-6">
+                   <div class="bg-light text-center rounded p-2">
+                       <div class="d-flex align-items-center justify-content-between mb-2">
+                       </div>
+                       <div class="col">
+                           {!! $tahunChart->container() !!}
                        </div>
                    </div>
                </div>
@@ -71,6 +90,10 @@
 
        <script src="{{ $harianChart->cdn() }}"></script>
        {{ $harianChart->script() }}
+       <script src="{{ $mingguChart->cdn() }}"></script>
+       {{ $mingguChart->script() }}
        <script src="{{ $bulanChart->cdn() }}"></script>
        {{ $bulanChart->script() }}
+       <script src="{{ $tahunChart->cdn() }}"></script>
+       {{ $tahunChart->script() }}
    @endsection

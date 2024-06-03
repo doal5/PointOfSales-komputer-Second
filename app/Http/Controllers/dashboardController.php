@@ -18,29 +18,27 @@ class dashboardController extends Controller
      */
     public function index()
     {
-        date_default_timezone_set('Asia/Jakarta');
         $today = date('m');
+        $start = new Carbon();
+        $start->startOfMonth();
+        $end = new Carbon();
+        $end->endOfMonth()->toDateString();
+        $days = [];
 
-        $harian = [
-            $hari = transaksiDetail::whereMonth('tanggal', $today)->where('subtotal')->get()
-        ];
 
+        // data harian
+        $hari = transaksiDetail::whereBetween('tanggal', [$start, $end])->get();
+        $arrhari = [];
+        foreach ($hari as $value) {
+            $arrhari[] = $value->subtotal;
+        };
+        $datahari = $arrhari;
 
-        $tanggal = [
-            $transaksi = transaksiDetail::whereMonth('tanggal', '1')->sum('subtotal'),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '2')->sum('subtotal'),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '3')->sum('subtotal'),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '4')->sum('subtotal'),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '5')->sum('subtotal'),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '6')->sum('subtotal'),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '7')->sum('subtotal'),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '8')->sum('subtotal'),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '9')->sum('subtotal'),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '10')->sum('subtotal'),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '11')->sum('subtotal'),
-            $transaksi = transaksiDetail::whereMonth('tanggal', '12')->sum('subtotal')
-        ];
-
+        while ($start->lte($end)) {
+            $days[] = $start->copy()->format('d');
+            $start->addDay();
+        }
+        // Label bulanan chart
         $label = [
             'Januari',
             'Februari',
@@ -55,27 +53,60 @@ class dashboardController extends Controller
             'November',
             'Desember',
         ];
-        $labelhari = [
-            'Senin',
-            'Selasa',
-            'Rabu',
-            'Kamis',
-            'Junat',
-            'Sabtu',
-            'Minggu'
+
+        $labeltahun = [
+            2024,
+            2025,
+            2026,
+            2027,
+            2028,
+            2029,
+            2030
         ];
 
-        $harianChart = (new LarapexChart)->setType('line')
+        // label hari chart harian
+        $labelhari = $days;
+
+        // data tahuan
+        $tahun = Carbon::now()->startOfYear()->toDateString();
+        $thn = date('Y', strtotime($tahun));
+        $datatahunan = transaksiDetail::whereYear('tanggal', [$thn])->sum('subtotal');
+
+        $tahunini = [];
+        $tahunini[] = $datatahunan;
+
+        // Grafik Tahunan
+        $tahunChart = (new LarapexChart)->setTitle('Penjualan Tahunan')
+            ->setDataset($tahunini)
+            ->setLabels($labeltahun);
+
+        // Grafik chart harian
+        $harianChart = (new LarapexChart)->setType('area')
             ->setTitle('Penjualan Harian')
             ->setXAxis($labelhari)
             ->setDataset([
                 [
-                    'name'  =>  'Pendapatan harian',
-                    'data'  =>  $harian
+                    'name' => 'Pendapatan Harian',
+                    'data' => $datahari
+
                 ]
             ])
             ->setHeight(300);
 
+
+        $mingguChart = (new LarapexChart)->setType('area')
+            ->setTitle('Penjualan Mingguan')
+            ->setXAxis($labelhari)
+            ->setDataset([
+                [
+                    'name' => 'Pendapatan Mingguan',
+                    'data' => [12, 23, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 34, 34, 34, 34, 34, 34, 34, 23]
+
+                ]
+            ])
+            ->setHeight(300);
+
+        // grafik chart bulanan
         $bulanChart = (new LarapexChart)->setType('bar')
             ->setTitle('Penjualan Bulanan')
             ->setXAxis($label)
@@ -100,28 +131,8 @@ class dashboardController extends Controller
             ])
             ->setHeight(300);
 
-
-        // $bulanChart = new LarapexChart;
-        // $bulanChart->setType('bar');
-        // $bulanChart->setTitle('penjualan bulanan');
-        // $bulanChart->setDataset([
-        //     23, 33
-        // ]);
-        // $bulanChart->setXAxis([
-        //     'januari',
-        //     'februari'
-        // ]);
-        // $bulanChart->setWidth(492);
-
-        // $bulanChart = (new LarapexChart)->setType('bar')
-        //     ->setTitle('Penjualan Bulanan')
-        //     ->setDataset(
-        //         $tanggal
-        //     )
-        //     ->setLabels($label);
-
         $totalProduk = produk::count();
-        return view('dashboard.index', ['harianChart' => $harianChart, 'bulanChart' => $bulanChart, 'totalProduk' => $totalProduk]);
+        return view('dashboard.index', ['harianChart' => $harianChart, 'bulanChart' => $bulanChart, 'mingguChart' => $mingguChart, 'tahunChart' => $tahunChart, 'totalProduk' => $totalProduk]);
     }
 
     /**
