@@ -18,6 +18,7 @@ class dashboardController extends Controller
      */
     public function index()
     {
+        // data harian
         $today = date('m');
         $start = new Carbon();
         $start->startOfMonth();
@@ -25,19 +26,17 @@ class dashboardController extends Controller
         $end->endOfMonth()->toDateString();
         $days = [];
 
-
-        // data harian
         $hari = transaksiDetail::whereBetween('tanggal', [$start, $end])->get();
         $arrhari = [];
         foreach ($hari as $value) {
             $arrhari[] = $value->subtotal;
         };
         $datahari = $arrhari;
+        // end data harian
 
-        while ($start->lte($end)) {
-            $days[] = $start->copy()->format('d');
-            $start->addDay();
-        }
+        // Data Bulanan
+
+
         // Label bulanan chart
         $label = [
             'Januari',
@@ -53,6 +52,43 @@ class dashboardController extends Controller
             'November',
             'Desember',
         ];
+        // end data bulanan
+
+        // label hari chart harian
+        $labelhari = $days;
+
+        // data mingguan
+        $awalBulan = Carbon::now()->startOfMonth()->toDateString();
+        $akhirBulan = Carbon::now()->endOfMonth()->toDateString();
+
+        $mingguan = transaksiDetail::whereBetween('tanggal', [$awalBulan, $akhirBulan])
+            ->selectRaw('YEARWEEK(tanggal,4) as week, SUM(subtotal) as subtotal')
+            ->groupBy('week')
+            ->orderBy('week')
+            ->get();
+
+        $dtMinggu = [];
+        foreach ($mingguan as $minggu) {
+            $dataminggu = $minggu->subtotal;
+            $dtMinggu[] = $dataminggu;
+        }
+
+        // jumlah minggu
+        $labelMinggu = [
+            'Minggu Ke 1',
+            'Minggu Ke 2',
+            'Minggu Ke 3',
+            'Minggu Ke 4',
+        ];
+        // end data minggu
+
+        // data tahuan
+        $tahun = Carbon::now()->startOfYear()->toDateString();
+        $thn = date('Y', strtotime($tahun));
+        $datatahunan = transaksiDetail::whereYear('tanggal', [$thn])->sum('subtotal');
+
+        $tahunini = [];
+        $tahunini[] = $datatahunan;
 
         $labeltahun = [
             2024,
@@ -63,22 +99,12 @@ class dashboardController extends Controller
             2029,
             2030
         ];
+        // end data tahun
 
-        // label hari chart harian
-        $labelhari = $days;
-
-        // data tahuan
-        $tahun = Carbon::now()->startOfYear()->toDateString();
-        $thn = date('Y', strtotime($tahun));
-        $datatahunan = transaksiDetail::whereYear('tanggal', [$thn])->sum('subtotal');
-
-        $tahunini = [];
-        $tahunini[] = $datatahunan;
-
-        // Grafik Tahunan
-        $tahunChart = (new LarapexChart)->setTitle('Penjualan Tahunan')
-            ->setDataset($tahunini)
-            ->setLabels($labeltahun);
+        while ($start->lte($end)) {
+            $days[] = $start->copy()->format('d');
+            $start->addDay();
+        }
 
         // Grafik chart harian
         $harianChart = (new LarapexChart)->setType('area')
@@ -93,18 +119,19 @@ class dashboardController extends Controller
             ])
             ->setHeight(300);
 
-
-        $mingguChart = (new LarapexChart)->setType('area')
+        // Grafik chart mingguan
+        $mingguChart = (new LarapexChart)->setType('pie')
             ->setTitle('Penjualan Mingguan')
-            ->setXAxis($labelhari)
-            ->setDataset([
-                [
-                    'name' => 'Pendapatan Mingguan',
-                    'data' => [12, 23, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 34, 34, 34, 34, 34, 34, 34, 23]
+            ->setDataset($dtMinggu)
+            ->setLabels($labelMinggu)
+            ->setHeight(310);
 
-                ]
-            ])
-            ->setHeight(300);
+        // Grafik Tahunan
+        $tahunChart = (new LarapexChart)->setTitle('Penjualan Tahunan')
+            ->setDataset($tahunini)
+            ->setLabels($labeltahun)
+            ->setHeight(310);
+
 
         // grafik chart bulanan
         $bulanChart = (new LarapexChart)->setType('bar')
