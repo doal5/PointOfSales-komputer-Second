@@ -158,6 +158,8 @@ class dashboardController extends Controller
                 ]
             ])
             ->setHeight(300);
+
+        // total penjualan untuk box dashboard
         $hariniPenjualan = Carbon::now()->toDateString();
         $totalProduk = produk::count();
         $totalPenjualan = transaksi::sum('total');
