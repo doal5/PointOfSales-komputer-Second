@@ -78,3 +78,4 @@ Route::get('laporan', [laporanController::class, 'index'])->name('laporan.index'
 
 //! =============================== Route analisis ==========================================
 Route::get('analisis', [analisisController::class, 'index'])->name('analisis.index');
+Route::get('analisisread', [analisisController::class, 'read'])->name('analisis.read');

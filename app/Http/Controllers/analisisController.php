@@ -7,6 +7,7 @@ use App\Charts\penjualanbulananChart;
 use App\Models\transaksiDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class analisisController extends Controller
 {
@@ -18,6 +19,24 @@ class analisisController extends Controller
         return view('analisis.index');
     }
 
+    public function read()
+    {
+        $pt = transaksiDetail::select(
+            'id_produk',
+            DB::raw('sum(qty) as total'),
+            DB::raw('MAX(tanggal) as last_sold'),
+        )
+            ->groupBy('id_produk')
+            ->orderBy('total', 'desc')
+            ->take(5)
+            ->with('produk')
+            ->get();
+
+        $data = [
+            'pt' => $pt,
+        ];
+        return view('analisis.read', $data);
+    }
     /**
      * Show the form for creating a new resource.
      */
