@@ -6,6 +6,7 @@ use App\Charts\bulanChart;
 use App\Charts\harianChart;
 use App\Models\transaksiDetail;
 use App\Models\produk;
+use App\Models\transaksi;
 use ArielMejiaDev\LarapexCharts\Facades\LarapexChart as FacadesLarapexChart;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 use Carbon\Carbon;
@@ -157,9 +158,18 @@ class dashboardController extends Controller
                 ]
             ])
             ->setHeight(300);
-
+        $hariniPenjualan = Carbon::now()->toDateString();
         $totalProduk = produk::count();
-        return view('dashboard.index', ['harianChart' => $harianChart, 'bulanChart' => $bulanChart, 'mingguChart' => $mingguChart, 'tahunChart' => $tahunChart, 'totalProduk' => $totalProduk]);
+        $totalPenjualan = transaksi::sum('total');
+        $penjualanHari = transaksi::whereDate('tanggal', $hariniPenjualan)->sum('total');
+
+        $data = [
+            'totalProduk' => $totalProduk,
+            'totalPenjualan' => $totalPenjualan,
+            'penjualanHari' => $penjualanHari
+        ];
+
+        return view('dashboard.index', $data, ['harianChart' => $harianChart, 'bulanChart' => $bulanChart, 'mingguChart' => $mingguChart, 'tahunChart' => $tahunChart, 'totalProduk' => $totalProduk]);
     }
 
     /**

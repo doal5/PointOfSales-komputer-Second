@@ -5,6 +5,7 @@
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <div class="col-12">
+                <h5 class="mb-4">Laporan</h5>
                 <div class="bg-light rounded h-100 p-4">
                     <h6 class="mb-4">Laporan</h6>
                     <div class="row p-2">
