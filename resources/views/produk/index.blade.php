@@ -80,6 +80,9 @@
                 });
             });
 
+
+
+
             // ========================================================
             // ================ FUNGSI HAPUS MULTIPLE ===============
             // ========================================================
@@ -180,44 +183,6 @@
                 },
             );
         }
-        // ========================================================
-        // ================ FUNGSI MENAMPILKAN DATA ===============
-        // ========================================================
-
-
-        function store() {
-            var merk = $('#merk').val();
-            var harga_jual = $('#harga_jual').val();
-            var kategori = $('#kategori').val();
-            var harga_beli = $('#harga_beli').val();
-            var stok = $('#stok').val();
-            var foto = $('#foto')[0].files[0].val();
-            $.ajax({
-                type: "get",
-                url: "{{ route('produk.store') }}",
-                data: {
-                    merk: merk,
-                    harga_jual: harga_jual,
-                    harga_beli: harga_beli,
-                    kategori: kategori,
-                    stok: stok,
-                    foto: foto
-                },
-                success: function(response) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Berhasil Menyimpan Data",
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                    $('#modalForm').modal('hide');
-                    read();
-                }
-            });
-        }
-        // ========================================================
-        // ================ FUNGSI MENAMBAHKAN DATA ===============
-        // ========================================================
 
 
         // ========================================================
@@ -226,8 +191,7 @@
         function show(id) {
             $.get('{{ url('produkshow') }}/' + id, {},
                 function(data, status) {
-                    $('#modalForm').modal('show');
-                    $('#modalFormLabel').text('Edit Data Produk');
+                    $('#editProduk').modal('show');
                     $('#page').html(data);
                 },
             );

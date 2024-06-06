@@ -73,11 +73,12 @@ class produkController extends Controller
      */
     public function show(string $id)
     {
-        $data = produk::find($id);
+        $data = produk::with('kategori')->find($id);
+        $categori = kategori::all();
         $harbel = $data->harga_beli;
         $harjul = $data->harga_jual;
 
-        return view('produk.edit', compact('data', 'harbel', 'harjul'));
+        return view('produk.edit', compact('data', 'harbel', 'harjul', 'categori'));
     }
 
     public function detail(string $id)
@@ -99,14 +100,23 @@ class produkController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'foto' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+        ]);
+        $foto = $request->file('foto');
+        $fotoName = time() . '.' . $foto->extension();
+        $filePath = $foto->move(public_path('img/produk'), $fotoName);
+
         $produk = produk::find($id);
         $produk->kode_produk = $request->kode_produk;
+        $produk->kategori_id = $request->kategori;
         $produk->merk = $request->merk;
         $produk->harga_beli = $request->harga_beli;
         $produk->harga_jual = $request->harga_jual;
         $produk->stok = $request->stok;
+        $produk->foto = $fotoName;
         $produk->update();
-        return response()->json('data berhasil di update', 200);
+        return redirect()->route('produk.index');
     }
 
     /**

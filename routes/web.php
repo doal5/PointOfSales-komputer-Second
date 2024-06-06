@@ -33,7 +33,7 @@ Route::get('produkcreate', [produkController::class, 'create'])->name('produk.cr
 Route::post('produkstore', [produkController::class, 'store'])->name('produk.store');
 Route::get('produkshow/{id}', [produkController::class, 'show'])->name('produk.show');
 Route::get('produkdetail/{id}', [produkController::class, 'detail']);
-Route::get('produkupdate/{id}', [produkController::class, 'update']);
+Route::put('produkupdate/{id}', [produkController::class, 'update']);
 Route::get('produkhapus/{id}', [produkController::class, 'destroy']);
 Route::delete('produkhapusmultiple/{id}', [produkController::class, 'destroyMultiple']);
 
