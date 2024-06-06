@@ -13,11 +13,7 @@ class transaksi extends Model
 
     public function transaksidetail()
     {
-        return $this->belongsTo(transaksiDetail::class, 'id', 'transaksi_id');
-    }
-    public function produk()
-    {
-        return $this->belongsTo(produk::class, 'id', 'id_produk');
+        return $this->belongsTo(transaksiDetail::class);
     }
     use HasFactory;
 }

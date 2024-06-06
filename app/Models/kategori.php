@@ -9,9 +9,7 @@ class kategori extends Model
 {
     protected $table = 'kategori';
     protected $primaryKey = 'id';
-    protected $guarded = [
-        'id', 'kategori'
-    ];
+    protected $guarded = [];
 
     public function produk()
     {

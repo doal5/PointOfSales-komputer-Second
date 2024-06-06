@@ -30,7 +30,7 @@ Route::get('produk', [produkController::class, 'index'])->name('produk.index');
 //!Menampilkan data produk dari database
 Route::get('read', [produkController::class, 'read'])->name('produk.read');
 Route::get('produkcreate', [produkController::class, 'create'])->name('produk.create');
-Route::get('produkstore', [produkController::class, 'store'])->name('produk.store');
+Route::post('produkstore', [produkController::class, 'store'])->name('produk.store');
 Route::get('produkshow/{id}', [produkController::class, 'show'])->name('produk.show');
 Route::get('produkdetail/{id}', [produkController::class, 'detail']);
 Route::get('produkupdate/{id}', [produkController::class, 'update']);

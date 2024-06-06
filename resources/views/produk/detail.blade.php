@@ -18,5 +18,14 @@
                 <td>{{ $data->stok }}</td>
             </tr>
         </tbody>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th><img src="{{ asset('img/produk/' . $data->foto) }}" alt="" width="250"></th>
+            </tr>
+        </table>
     </table>
 </form>

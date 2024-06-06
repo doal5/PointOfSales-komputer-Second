@@ -32,8 +32,6 @@ class produkController extends Controller
      */
     public function create()
     {
-        $kategori = kategori::all();
-        return view('produk.tambah', compact('kategori'));
     }
 
     /**
@@ -41,16 +39,32 @@ class produkController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'foto' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+        ]);
+
+        $foto = $request->file('foto');
+        $fotoName = time() . '.' . $foto->extension();
+        $filePath = $foto->move(public_path('img/produk'), $fotoName);
+
+
+        // pembuatan kode produk
         $produk = produk::latest()->first() ?? new produk();
         $data = new produk();
-        $data->merk = $request->merk;
         $kode_produk = $request['kode_produk'] = 'P' . kode_prodnol((int)$produk->id_produk + 1, 6);
-        $data->kode_produk = $kode_produk;
-        $data->kategori_id = $request->kategori;
-        $data->harga_beli = $request->harga_beli;
-        $data->harga_jual = $request->harga_jual;
-        $data->stok = $request->stok;
-        $data->save();
+
+        if ($foto) {
+            produk::create([
+                'kategori_id' => $request->kategori,
+                'kode_produk' => $kode_produk,
+                'merk' => $request->merk,
+                'harga_beli' => $request->harga_beli,
+                'harga_jual' => $request->harga_jual,
+                'stok' => $request->stok,
+                'foto' => $fotoName,
+            ]);
+        }
         return response()->json('Data Berhasil Disimpan', 200);
     }
 

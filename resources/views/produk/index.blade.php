@@ -9,11 +9,12 @@
                     <h6 class="mb-4">Data Produk</h6>
                     <div class="table-responsive">
                         <div class="btn-group">
-                            <button onclick="tambah()" class="btn btn-primary btn-sm"><i class="fa fa-plus"> </i>
+                            <button id="tambahProduk" class="btn btn-primary btn-sm"><i class="fa fa-plus"> </i>
                                 Tambah</button>
                             <button class="btn btn-danger btn-sm hapus-multiple"><i class="fa fa-trash"> </i> Hapus</button>
 
                         </div>
+                        <div class="response"></div>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -38,7 +39,9 @@
             </div>
         </div>
     </div>
+
     @includeIf('produk.modalForm')
+    @includeIf('produk.tambah')
     @includeIf('produk.modalFormDetail')
     <!-- Table End -->
 @endsection
@@ -47,6 +50,35 @@
         $(document).ready(function() {
             read();
 
+            // menampilkan modal tambah produk
+            $('#tambahProduk').click(function() {
+                $('#modalProduk').modal('show');
+            });
+
+            // tambah produk
+            $('#produk').on('submit', function(e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+                $.ajax({
+                    method: 'post',
+                    url: '{{ route('produk.store') }}',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil Menyimpan Data",
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        $('#modalProduk').modal('hide');
+                        read();
+                    }
+                });
+            });
 
             // ========================================================
             // ================ FUNGSI HAPUS MULTIPLE ===============
@@ -153,37 +185,23 @@
         // ========================================================
 
 
-
-        // ========================================================
-        // ================ FUNGSI MENAMBAHKAN DATA ===============
-        // ========================================================
-        function tambah() {
-            $.get('{{ route('produk.create') }}', {},
-                function(data, status) {
-                    $('#modalForm').modal('show');
-                    $('#modalFormLabel').text('Tambah Data');
-                    $('#page').html(data);
-                },
-            );
-        }
-
-
         function store() {
             var merk = $('#merk').val();
             var harga_jual = $('#harga_jual').val();
             var kategori = $('#kategori').val();
             var harga_beli = $('#harga_beli').val();
             var stok = $('#stok').val();
-
+            var foto = $('#foto')[0].files[0].val();
             $.ajax({
                 type: "get",
                 url: "{{ route('produk.store') }}",
                 data: {
                     merk: merk,
                     harga_jual: harga_jual,
-                    kategori: kategori,
                     harga_beli: harga_beli,
-                    stok: stok
+                    kategori: kategori,
+                    stok: stok,
+                    foto: foto
                 },
                 success: function(response) {
                     Swal.fire({
@@ -195,7 +213,6 @@
                     $('#modalForm').modal('hide');
                     read();
                 }
-
             });
         }
         // ========================================================
