@@ -38,6 +38,7 @@
 
        <!-- Grafik Chart Start -->
        <div class="container-fluid pt-4 px-4">
+
            <div class="row g-4">
                <div class="col-md-2 col-xl-6">
                    <div class="bg-light text-center rounded p-2">
@@ -87,4 +88,17 @@
        {{ $bulanChart->script() }}
        <script src="{{ $tahunChart->cdn() }}"></script>
        {{ $tahunChart->script() }}
+
+       {{-- SweetAlert --}}
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+       @if (session('success'))
+           <script>
+               Swal.fire({
+                   icon: "success",
+                   title: "Anda Berhasil Login",
+                   showConfirmButton: true,
+                   timer: 1500
+               });
+           </script>
+       @endif
    @endsection

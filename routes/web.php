@@ -4,6 +4,7 @@ use App\Http\Controllers\analisisController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\laporanController;
+use App\Http\Controllers\loginController;
 use App\Http\Controllers\produkController;
 use App\Http\Controllers\supplierController;
 use App\Http\Controllers\transaksiController;
@@ -21,9 +22,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', [loginController::class, 'index'])->name('login');
+Route::post('login-proses', [loginController::class, 'login_proses'])->name('login-proses');
+Route::get('registrasi', [loginController::class, 'registrasi'])->name('registrasi');
 //!=============================== Route Dashboard =======================================
-Route::get('/', [dashboardController::class, 'index'])->name('dashboard');
-
+Route::get('dashboard', [dashboardController::class, 'index'])->name('dashboard');
 
 //!=============================== Route Produk ==========================================
 Route::get('produk', [produkController::class, 'index'])->name('produk.index');
