@@ -55,10 +55,17 @@
                                             <p class="mb-0">Please log in to your account</p>
                                         </div>
                                         <div class="form-body">
+                                            @if ($message = session('failed'))
+                                                <div class="alert alert-danger" role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                            @endif
                                             <form class="row g-3" method="post" action="{{ route('login-proses') }}">
                                                 @csrf
-                                                @error('username')
-                                                    {{ $message }}
+                                                @error('email')
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{ $message }}
+                                                    </div>
                                                 @enderror
                                                 <div class="col-12">
                                                     <label for="email" class="form-label">Email</label>
@@ -66,7 +73,9 @@
                                                         placeholder="Masukan email">
                                                 </div>
                                                 @error('password')
-                                                    {{ $message }}
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{ $message }}
+                                                    </div>
                                                 @enderror
                                                 <div class="col-12">
                                                     <label for="inputChoosePassword" class="form-label">Password</label>
@@ -129,6 +138,11 @@
         </script>
         <!--app JS-->
         <script src="{{ asset('assets/js/app.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $('.alert').fadeOut(5000);
+            });
+        </script>
     </body>
 
 </html>

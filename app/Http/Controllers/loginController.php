@@ -18,7 +18,7 @@ class loginController extends Controller
             'email' => 'required',
             'password' => 'required'
         ], [
-            'email.required' => 'Username Harap Diisi',
+            'email.required' => 'Email Harap Diisi',
             'password.required' => 'Password Harap Diisi'
         ]);
 
@@ -27,16 +27,27 @@ class loginController extends Controller
             'password' => $request->password,
         ];
 
-        // proses autentikasi login email dan password
+        // proses autentikasi login multi role, email dan password
         if (Auth::attempt($data)) {
-            return redirect()->route('dashboard')->with('success', 'Login berhasil!');
+            // jika login level 1
+            if (auth()->user()->level == 1) {
+                return redirect()->route('dashboard')->with('success', 'Login Berhasil, Selamat Datang ' . Auth::user()->name);
+            } else {
+                return redirect()->route('transaksi.index')->with('success', 'Login berhasil, Selamat Datang ' . Auth::user()->name);
+            }
         } else {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('failed', 'Email/Password Salah');
         }
     }
 
     public function registrasi()
     {
         return view('auth.registrasi');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }

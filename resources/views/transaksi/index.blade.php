@@ -168,4 +168,16 @@
         // ================ FUNGSI DETAIL DATA ===============
         // ========================================================
     </script>
+    {{-- SweetAlert --}}
+    <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if ($message = session('success'))
+        <script>
+            Swal.fire({
+                icon: "success",
+                title: "{{ $message }}",
+                showConfirmButton: true,
+                timer: 1500
+            });
+        </script>
+    @endif
 @endpush

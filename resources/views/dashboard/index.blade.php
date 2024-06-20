@@ -91,11 +91,11 @@
 
        {{-- SweetAlert --}}
        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-       @if (session('success'))
+       @if ($message = session('success'))
            <script>
                Swal.fire({
                    icon: "success",
-                   title: "Anda Berhasil Login",
+                   title: "{{ $message }}",
                    showConfirmButton: true,
                    timer: 1500
                });

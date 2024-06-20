@@ -24,61 +24,81 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [loginController::class, 'index'])->name('login');
 Route::post('login-proses', [loginController::class, 'login_proses'])->name('login-proses');
+Route::get('logout', [loginController::class, 'logout'])->name('logout');
 Route::get('registrasi', [loginController::class, 'registrasi'])->name('registrasi');
-//!=============================== Route Dashboard =======================================
-Route::get('dashboard', [dashboardController::class, 'index'])->name('dashboard');
 
-//!=============================== Route Produk ==========================================
-Route::get('produk', [produkController::class, 'index'])->name('produk.index');
-//!Menampilkan data produk dari database
-Route::get('read', [produkController::class, 'read'])->name('produk.read');
-Route::get('produkcreate', [produkController::class, 'create'])->name('produk.create');
-Route::post('produkstore', [produkController::class, 'store'])->name('produk.store');
-Route::get('produkshow/{id}', [produkController::class, 'show'])->name('produk.show');
-Route::get('produkdetail/{id}', [produkController::class, 'detail']);
-Route::put('produkupdate/{id}', [produkController::class, 'update']);
-Route::get('produkhapus/{id}', [produkController::class, 'destroy']);
-Route::delete('produkhapusmultiple/{id}', [produkController::class, 'destroyMultiple']);
-
-
-//!=============================== Route Kategori ==========================================
-Route::get('kategori', [kategoriController::class, 'index'])->name('kategori.index');
-Route::get('kategoriread', [kategoriController::class, 'read'])->name('kategori.read');
-Route::get('create', [kategoriController::class, 'create'])->name('kategori.create');
-Route::get('tambah', [kategoriController::class, 'store'])->name('kategori.store');
-Route::get('kategorihapus/{id}', [kategoriController::class, 'destroy']);
-Route::delete('kategorihapusmultiple/{id}', [kategoriController::class, 'destroyMultiple']);
+Route::group(['middleware' => 'auth'], function () {
+    // mengirim parameter level
+    Route::group(['middleware' => 'level:1,1'], function () {
+        //!=============================== Route Dashboard =======================================
+        Route::get('dashboard', [dashboardController::class, 'index'])->name('dashboard');
+        //!=============================== Route Produk ==========================================
+        Route::get('produk', [produkController::class, 'index'])->name('produk.index');
+        //!Menampilkan data produk dari database
+        Route::get('read', [produkController::class, 'read'])->name('produk.read');
+        Route::get('produkcreate', [produkController::class, 'create'])->name('produk.create');
+        Route::post('produkstore', [produkController::class, 'store'])->name('produk.store');
+        Route::get('produkshow/{id}', [produkController::class, 'show'])->name('produk.show');
+        Route::get('produkdetail/{id}', [produkController::class, 'detail']);
+        Route::put('produkupdate/{id}', [produkController::class, 'update']);
+        Route::get('produkhapus/{id}', [produkController::class, 'destroy']);
+        Route::delete('produkhapusmultiple/{id}', [produkController::class, 'destroyMultiple']);
 
 
-//! =============================== Route Supplier ==========================================
-Route::get('supplier', [supplierController::class, 'index'])->name('supplier.index');
-Route::get('supplierread', [supplierController::class, 'read'])->name('supplier.read');
-Route::get('suppliercreate', [supplierController::class, 'create'])->name('supplier.create');
-Route::get('supplierstore', [supplierController::class, 'store'])->name('supplier.store');
-Route::get('suppliershow/{id}', [supplierController::class, 'show']);
-Route::get('supplierupdate/{id}', [supplierController::class, 'update']);
-Route::get('supplierhapus/{id}', [supplierController::class, 'destroy']);
-Route::delete('supplierhapusmultiple/{id}', [supplierController::class, 'destroymultiple']);
+        //!=============================== Route Kategori ==========================================
+        Route::get('kategori', [kategoriController::class, 'index'])->name('kategori.index');
+        Route::get('kategoriread', [kategoriController::class, 'read'])->name('kategori.read');
+        Route::get('create', [kategoriController::class, 'create'])->name('kategori.create');
+        Route::get('tambah', [kategoriController::class, 'store'])->name('kategori.store');
+        Route::get('kategorihapus/{id}', [kategoriController::class, 'destroy']);
+        Route::delete('kategorihapusmultiple/{id}', [kategoriController::class, 'destroyMultiple']);
 
 
-//! =============================== Route Transaksi ==========================================
-Route::get('transaksi', [transaksiController::class, 'index'])->name('transaksi.index');
-Route::get('transaksi/tambah', [transaksiController::class, 'create'])->name('transaksi.create');
-Route::get('transaksi/{id}/edit', [transaksiController::class, 'edit'])->name('transaksi.edit');
-Route::delete('transaksihapusmultiple/{id}', [transaksiController::class, 'hapusmultiple']);
+        //! =============================== Route Supplier ==========================================
+        Route::get('supplier', [supplierController::class, 'index'])->name('supplier.index');
+        Route::get('supplierread', [supplierController::class, 'read'])->name('supplier.read');
+        Route::get('suppliercreate', [supplierController::class, 'create'])->name('supplier.create');
+        Route::get('supplierstore', [supplierController::class, 'store'])->name('supplier.store');
+        Route::get('suppliershow/{id}', [supplierController::class, 'show']);
+        Route::get('supplierupdate/{id}', [supplierController::class, 'update']);
+        Route::get('supplierhapus/{id}', [supplierController::class, 'destroy']);
+        Route::delete('supplierhapusmultiple/{id}', [supplierController::class, 'destroymultiple']);
+
+
+        //! =============================== Route Transaksi ==========================================
+        Route::get('transaksi', [transaksiController::class, 'index'])->name('transaksi.index');
+        Route::get('transaksi/tambah', [transaksiController::class, 'create'])->name('transaksi.create');
+        Route::get('transaksi/{id}/edit', [transaksiController::class, 'edit'])->name('transaksi.edit');
+        Route::delete('transaksihapusmultiple/{id}', [transaksiController::class, 'hapusmultiple']);
 
 
 
-//! =============================== Route Transaksi Detail ==========================================
-Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');
-Route::get('transaksiDetail/delete', [transaksiDetailController::class, 'delete'])->name('transaksidetail.delete');
-Route::get('transaksiDetail/selesai/{id}', [transaksiDetailController::class, 'selesai']);
-Route::get('transaksishow/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
-Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
+        //! =============================== Route Transaksi Detail ==========================================
+        Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');
+        Route::get('transaksiDetail/delete', [transaksiDetailController::class, 'delete'])->name('transaksidetail.delete');
+        Route::get('transaksiDetail/selesai/{id}', [transaksiDetailController::class, 'selesai']);
+        Route::get('transaksishow/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
+        Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
 
-//! =============================== Route Laporan ==========================================
-Route::get('laporan', [laporanController::class, 'index'])->name('laporan.index');
+        //! =============================== Route Laporan ==========================================
+        Route::get('laporan', [laporanController::class, 'index'])->name('laporan.index');
 
-//! =============================== Route analisis ==========================================
-Route::get('analisis', [analisisController::class, 'index'])->name('analisis.index');
-Route::get('analisisread', [analisisController::class, 'read'])->name('analisis.read');
+        //! =============================== Route analisis ==========================================
+        Route::get('analisis', [analisisController::class, 'index'])->name('analisis.index');
+        Route::get('analisisread', [analisisController::class, 'read'])->name('analisis.read');
+    });
+    Route::group(['middleware' => 'level:1,2'], function () {
+        //! =============================== Route Transaksi ==========================================
+        Route::get('transaksi', [transaksiController::class, 'index'])->name('transaksi.index');
+        Route::get('transaksi/tambah', [transaksiController::class, 'create'])->name('transaksi.create');
+        Route::get('transaksi/{id}/edit', [transaksiController::class, 'edit'])->name('transaksi.edit');
+        Route::delete('transaksihapusmultiple/{id}', [transaksiController::class, 'hapusmultiple']);
+
+        //! =============================== Route Transaksi Detail ==========================================
+        Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');
+        Route::get('transaksiDetail/delete', [transaksiDetailController::class, 'delete'])->name('transaksidetail.delete');
+        Route::get('transaksiDetail/selesai/{id}', [transaksiDetailController::class, 'selesai']);
+        Route::get('transaksishow/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
+        Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
+    });
+});
