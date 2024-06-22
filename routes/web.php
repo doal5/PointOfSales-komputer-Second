@@ -22,10 +22,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [loginController::class, 'index'])->name('login');
-Route::post('login-proses', [loginController::class, 'login_proses'])->name('login-proses');
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/', [loginController::class, 'index'])->name('login');
+    Route::post('login-proses', [loginController::class, 'login_proses'])->name('login-proses');
+});
+
 Route::get('logout', [loginController::class, 'logout'])->name('logout');
-Route::get('registrasi', [loginController::class, 'registrasi'])->name('registrasi');
+
 
 Route::group(['middleware' => 'auth'], function () {
     // mengirim parameter level
@@ -44,6 +47,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('produkhapus/{id}', [produkController::class, 'destroy']);
         Route::delete('produkhapusmultiple/{id}', [produkController::class, 'destroyMultiple']);
 
+        //!=============================== Route registrasi ==========================================
+        Route::get('registrasi', [loginController::class, 'registrasi'])->name('registrasi');
+        Route::post('insertregistrasi', [loginController::class, 'insertRegistrasi'])->name('registrasi-insert');
 
         //!=============================== Route Kategori ==========================================
         Route::get('kategori', [kategoriController::class, 'index'])->name('kategori.index');

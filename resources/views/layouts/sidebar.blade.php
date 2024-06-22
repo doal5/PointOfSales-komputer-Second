@@ -47,6 +47,9 @@
                             <a href="{{ route('analisis.index') }}"
                                 class="nav-item nav-link {{ Request::is('analisis') ? 'active' : '' }}"><i
                                     class="fa-solid fa-chart-simple"></i>Analisis</a>
+                            <a href="{{ route('registrasi') }}"
+                                class="nav-item nav-link {{ Request::is('registrasi') ? 'active' : '' }}"><i
+                                    class="fa-solid fa-users"></i>Registrasi</a>
                         @else
                             {{-- jika user login level 2, hanya menu tersebut yang tampil --}}
                             <a href="{{ route('transaksi.index') }}"

@@ -54,25 +54,63 @@
                                             <h5 class="">Rocker Admin</h5>
                                             <p class="mb-0">Please fill the below details to create your account</p>
                                         </div>
+                                        @if ($message = session('sukses'))
+                                            <div class="alert alert-success" role="alert">
+                                                {{ $message }}
+                                            </div>
+                                        @endif
                                         <div class="form-body">
-                                            <form class="row g-3">
+                                            <form class="row g-3" method="POST"
+                                                action="{{ route('registrasi-insert') }}">
+                                                @csrf
+                                                @error('nama')
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <div class="col-12">
                                                     <label for="nama" class="form-label">Nama</label>
                                                     <input type="text" name="nama" class="form-control"
-                                                        id="nama" placeholder="Sechan">
+                                                        id="nama" placeholder="Sechan"
+                                                        value="{{ old('nama') }}">
                                                 </div>
+                                                @error('email')
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <div class="col-12">
                                                     <label for="inputEmailAddress" class="form-label">Email
                                                         Address</label>
-                                                    <input type="email" class="form-control" id="inputEmailAddress"
-                                                        placeholder="example@user.com">
+                                                    <input type="email" name="email" class="form-control"
+                                                        id="inputEmailAddress" placeholder="example@user.com"
+                                                        value="{{ old('email') }}">
                                                 </div>
+                                                @error('level')
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                                <div class="col-12">
+                                                    <label for="inputEmailAddress" class="form-label">Role</label>
+                                                    <select name="level" id="" class="form-select">
+                                                        <option value="#">Pilih Role</option>
+                                                        <option value="1">Admin</option>
+                                                        <option value="2">Kasir</option>
+                                                    </select>
+                                                </div>
+                                                @error('password')
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <div class="col-12">
                                                     <label for="inputChoosePassword" class="form-label">Password</label>
                                                     <div class="input-group" id="show_hide_password">
-                                                        <input type="password" class="form-control border-end-0"
-                                                            id="inputChoosePassword" value="12345678"
-                                                            placeholder="Enter Password"> <a href="javascript:;"
+                                                        <input type="password" name="password"
+                                                            class="form-control border-end-0" id="inputChoosePassword"
+                                                            value="{{ old('password') }}" placeholder="Enter Password">
+                                                        <a href="javascript:;"
                                                             class="input-group-text bg-transparent"><i
                                                                 class='bx bx-hide'></i></a>
                                                     </div>
@@ -87,41 +125,23 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="d-grid">
-                                                        <button type="submit" class="btn btn-primary">Sign up</button>
+                                                        <button type="submit" class="btn btn-primary">Sign
+                                                            up</button>
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="text-center ">
-                                                        <p class="mb-0">Already have an account? <a
-                                                                href="{{ route('login') }}">Sign in here</a></p>
+                                                        <p class="mb-0">Kembali Ke<a
+                                                                href="{{ route('dashboard') }}">
+                                                                Dashboard</a></p>
                                                     </div>
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="login-separater text-center mb-5"> <span>OR SIGN UP WITH
-                                                EMAIL</span>
-                                            <hr />
-                                        </div>
-                                        <div class="list-inline contacts-social text-center">
-                                            <a href="javascript:;"
-                                                class="list-inline-item bg-facebook text-white border-0 rounded-3"><i
-                                                    class="bx bxl-facebook"></i></a>
-                                            <a href="javascript:;"
-                                                class="list-inline-item bg-twitter text-white border-0 rounded-3"><i
-                                                    class="bx bxl-twitter"></i></a>
-                                            <a href="javascript:;"
-                                                class="list-inline-item bg-google text-white border-0 rounded-3"><i
-                                                    class="bx bxl-google"></i></a>
-                                            <a href="javascript:;"
-                                                class="list-inline-item bg-linkedin text-white border-0 rounded-3"><i
-                                                    class="bx bxl-linkedin"></i></a>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <!--end row-->
                 </div>
@@ -154,6 +174,12 @@
         </script>
         <!--app JS-->
         <script src="assets/js/app.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.alert').fadeOut(5000);
+            });
+        </script>
+
     </body>
 
 </html>
