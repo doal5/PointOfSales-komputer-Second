@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\analisisController;
-use App\Http\Controllers\dashboardController;
-use App\Http\Controllers\kategoriController;
-use App\Http\Controllers\laporanController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\userController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\produkController;
+use App\Http\Controllers\laporanController;
+use App\Http\Controllers\analisisController;
+use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\supplierController;
+use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\transaksiController;
 use App\Http\Controllers\transaksiDetailController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,7 +79,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('transaksihapusmultiple/{id}', [transaksiController::class, 'hapusmultiple']);
 
 
-
         //! =============================== Route Transaksi Detail ==========================================
         Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');
         Route::get('transaksiDetail/delete', [transaksiDetailController::class, 'delete'])->name('transaksidetail.delete');
@@ -92,6 +92,18 @@ Route::group(['middleware' => 'auth'], function () {
         //! =============================== Route analisis ==========================================
         Route::get('analisis', [analisisController::class, 'index'])->name('analisis.index');
         Route::get('analisisread', [analisisController::class, 'read'])->name('analisis.read');
+
+        //!=============================== Route Produk ==========================================
+        Route::get('user', [userController::class, 'index'])->name('user.index');
+        //!Menampilkan data user dari database
+        Route::get('userread', [userController::class, 'read'])->name('user.read');
+        Route::get('usercreate', [userController::class, 'create'])->name('user.create');
+        Route::post('userstore', [userController::class, 'store'])->name('user.store');
+        Route::get('userShow/{id}', [userController::class, 'show'])->name('user.show');
+        Route::get('userdetail/{id}', [userController::class, 'detail']);
+        Route::post('userUpdate/{id}', [userController::class, 'update']);
+        Route::get('userHapus/{id}', [userController::class, 'destroy']);
+        Route::delete('userhapusmultiple/{id}', [userController::class, 'destroyMultiple']);
     });
     Route::group(['middleware' => 'level:1,2'], function () {
         //! =============================== Route Transaksi ==========================================

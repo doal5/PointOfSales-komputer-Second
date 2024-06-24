@@ -74,6 +74,7 @@ class loginController extends Controller
         $user->name = $request->nama;
         $user->email = $request->email;
         $user->level = $request->level;
+        $user->password_dekripsi = $request->password;
         // enkripsi password
         $user->password = bcrypt($request->password);
         $user->save();

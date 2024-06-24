@@ -47,6 +47,9 @@
                             <a href="{{ route('analisis.index') }}"
                                 class="nav-item nav-link {{ Request::is('analisis') ? 'active' : '' }}"><i
                                     class="fa-solid fa-chart-simple"></i>Analisis</a>
+                            <a href="{{ route('user.index') }}"
+                                class="nav-item nav-link {{ Request::is('user') ? 'active' : '' }}"><i
+                                    class="fa-solid fa-user"></i>user</a>
                             <a href="{{ route('registrasi') }}"
                                 class="nav-item nav-link {{ Request::is('registrasi') ? 'active' : '' }}"><i
                                     class="fa-solid fa-users"></i>Registrasi</a>

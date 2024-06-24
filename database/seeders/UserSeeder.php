@@ -18,14 +18,37 @@ class UserSeeder extends Seeder
                 'name' => 'sechan',
                 'email' => 'sechan@gmail.com',
                 'level' => 1,
-                'password' => bcrypt(123456)
+                'password' => bcrypt(123456),
+                'password_dekripsi' => 123456
             ],
             [
-                'name' => 'aldo',
-                'email' => 'aldo@gmail.com',
-                'level' => 2,
-                'password' => bcrypt(123456)
-            ]
+                'name' => 'sechan',
+                'email' => 'sechan1@gmail.com',
+                'level' => 1,
+                'password' => bcrypt(123456),
+                'password_dekripsi' => 123456
+            ],
+            [
+                'name' => 'sechan',
+                'email' => 'sechan2@gmail.com',
+                'level' => 1,
+                'password' => bcrypt(123456),
+                'password_dekripsi' => 123456
+            ],
+            [
+                'name' => 'sechan',
+                'email' => 'sechan3@gmail.com',
+                'level' => 1,
+                'password' => bcrypt(123456),
+                'password_dekripsi' => 123456
+            ],
+            [
+                'name' => 'sechan',
+                'email' => 'sechan4@gmail.com',
+                'level' => 1,
+                'password' => bcrypt(123456),
+                'password_dekripsi' => 123456
+            ],
         ];
 
         foreach ($userdata as $item) {
