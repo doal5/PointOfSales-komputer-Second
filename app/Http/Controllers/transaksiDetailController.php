@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\produk;
 use App\Models\transaksi;
 use App\Models\transaksiDetail;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class transaksiDetailController extends Controller
 {
@@ -80,12 +82,20 @@ class transaksiDetailController extends Controller
     public function selesai($id)
     {
         $transaksi = transaksi::find($id);
-        $td = transaksiDetail::wheretransaksi_id($id)->get();
+        $td = transaksiDetail::wheretransaksi_id($id)->with('produk')->get();
+        $date = date('d F Y');
         foreach ($td as $item) {
             $produk = produk::find($item->id_produk);
             $produk->stok -= $item->qty;
             $produk->update();
         }
+
+        $invoice = [
+            'transaksi' => $transaksi,
+            'td' => $td,
+            'tanggal' => $date
+        ];
+
         $data = [
             'status' => 'selesai'
         ];
@@ -93,6 +103,33 @@ class transaksiDetailController extends Controller
 
         return redirect('transaksi');
     }
+
+
+    public function invoice($id)
+    {
+        $transaksi = transaksi::find($id);
+        $td = transaksiDetail::wheretransaksi_id($id)->with('produk')->get();
+        $date = date('d F Y');
+
+        $invoice = [
+            'transaksi' => $transaksi,
+            'td' => $td,
+            'tanggal' => $date
+        ];
+
+
+
+        $data = [
+            'title' => 'Transaksi',
+            'transaksi' => transaksi::with('transaksidetail')->paginate(10),
+        ];
+        $pdf = Pdf::loadview('transaksi.invoice', $invoice);
+        return $pdf->download('invoice.pdf');
+        // Simpan PDF ke penyimpanan lokal
+    }
+
+
+
 
     /**
      * Display the specified resource.

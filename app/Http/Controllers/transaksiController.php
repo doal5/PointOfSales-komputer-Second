@@ -133,7 +133,6 @@ class transaksiController extends Controller
         $idp = $request->id_produk;
         $qty = $request->qty;
         $transaksidetail = transaksiDetail::find($tid);
-        dd($transaksidetail);
     }
 
     public function detail($id)

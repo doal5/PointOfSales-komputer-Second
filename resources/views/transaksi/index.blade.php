@@ -40,8 +40,7 @@
                                         </td>
                                         <td>
                                             <div class="btn-group btn-sm">
-                                                <button class="btn btn-success"
-                                                    onclick="detail({{ $item->transaksidetail->transaksi_id ?? '' }})"><i
+                                                <button class="btn btn-success" onclick="detail({{ $item->id ?? '' }})"><i
                                                         class="fa fa-eye"></i></button>
                                                 <button class="btn btn-danger" onclick="destroy({{ $item->id }})"><i
                                                         class="fa fa-trash"></i></button>

@@ -1,9 +1,15 @@
             <!-- Sidebar Start -->
-            <div class="sidebar pe-4 pb-3">
+            <div class="sidebar pe-7 pb-3">
                 <nav class="navbar bg-light navbar-dark">
-                    <a href="{{ route('dashboard') }}" class="navbar-brand mx-4 mb-3">
-                        <h4 class="text-primary"><i class="fa fa-laptop"></i> POS PAROENG </h4>
-                    </a>
+                    <div class="logo" style="margin-left:15px; margin-bottom:10px">
+
+                        <a href="{{ route('dashboard') }}" class="navbar-brand mx-4 mb-3">
+                            <img src="{{ asset('img/logo.png') }}" width="120" height="100" alt=""
+                                style="width: 100px; height: 100px; margin-left:20px">
+                        </a>
+                        <h5> <b> <i> <span class="badge bg-primary">POS - LSP</span></i> </b> </h5>
+                    </div>
+
                     <div class="d-flex align-items-center ms-4 mb-4">
                         <div class="position-relative">
                             <img class="rounded-circle" src="{{ asset('dashmin/img/user.jpg') }}" alt=""
@@ -41,6 +47,9 @@
                             <a href="{{ route('transaksi.index') }}"
                                 class="nav-item nav-link {{ Request::is('transaksi') ? 'active' : '' }}"><i
                                     class="fa fa-calculator"></i>Transaksi</a>
+                            <a href="{{ route('pengeluaran.index') }}"
+                                class="nav-item nav-link {{ Request::is('pengeluaran') ? 'active' : '' }}"><i
+                                    class="fa fa-calculator"></i>pengeluaran</a>
                             <a href="{{ route('laporan.index') }}"
                                 class="nav-item nav-link {{ Request::is('laporan') ? 'active' : '' }}"><i
                                     class="fa-solid fa-file-contract"></i>Laporan</a>

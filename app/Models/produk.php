@@ -20,5 +20,10 @@ class produk extends Model
     {
         return $this->hasMany(transaksiDetail::class, 'id_produk', 'id_produk');
     }
+
+    public function pengeluaran_detail()
+    {
+        return $this->hasMany(pengeluaran_detail::class, 'id_produk', 'id_produk');
+    }
     use HasFactory;
 }

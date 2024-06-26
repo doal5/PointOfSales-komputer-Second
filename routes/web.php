@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\loginController;
@@ -9,8 +10,12 @@ use App\Http\Controllers\analisisController;
 use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\supplierController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\pengeluaranController;
+use App\Http\Controllers\pengeluarandetailController;
 use App\Http\Controllers\transaksiController;
 use App\Http\Controllers\transaksiDetailController;
+use App\Models\pengeluaran_detail;
+use App\Models\transaksiDetail;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,19 +77,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('supplierhapusmultiple/{id}', [supplierController::class, 'destroymultiple']);
 
 
-        //! =============================== Route Transaksi ==========================================
-        Route::get('transaksi', [transaksiController::class, 'index'])->name('transaksi.index');
-        Route::get('transaksi/tambah', [transaksiController::class, 'create'])->name('transaksi.create');
-        Route::get('transaksi/{id}/edit', [transaksiController::class, 'edit'])->name('transaksi.edit');
-        Route::delete('transaksihapusmultiple/{id}', [transaksiController::class, 'hapusmultiple']);
-
-
-        //! =============================== Route Transaksi Detail ==========================================
-        Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');
-        Route::get('transaksiDetail/delete', [transaksiDetailController::class, 'delete'])->name('transaksidetail.delete');
-        Route::get('transaksiDetail/selesai/{id}', [transaksiDetailController::class, 'selesai']);
-        Route::get('transaksishow/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
-        Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
 
         //! =============================== Route Laporan ==========================================
         Route::get('laporan', [laporanController::class, 'index'])->name('laporan.index');
@@ -93,7 +85,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('analisis', [analisisController::class, 'index'])->name('analisis.index');
         Route::get('analisisread', [analisisController::class, 'read'])->name('analisis.read');
 
-        //!=============================== Route Produk ==========================================
+        //!=============================== Route user ==========================================
         Route::get('user', [userController::class, 'index'])->name('user.index');
         //!Menampilkan data user dari database
         Route::get('userread', [userController::class, 'read'])->name('user.read');
@@ -104,8 +96,25 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('userUpdate/{id}', [userController::class, 'update']);
         Route::get('userHapus/{id}', [userController::class, 'destroy']);
         Route::delete('userhapusmultiple/{id}', [userController::class, 'destroyMultiple']);
+
+        //!=============================== Route pengeluaran ==========================================
+        Route::get('pengeluaran', [pengeluaranController::class, 'index'])->name('pengeluaran.index');
+        //!Menampilkan data pengeluaran dari database
+        Route::get('pengeluaranread', [pengeluaranController::class, 'read'])->name('pengeluaran.read');
+        Route::get('pengeluarancreate', [pengeluaranController::class, 'create'])->name('pengeluaran.create');
+        Route::get('pengeluaran/{id}/edit', [pengeluaranController::class, 'edit'])->name('pengeluaran.edit');
+        Route::post('pengeluaranstore', [pengeluaranController::class, 'store'])->name('pengeluaran.store');
+        Route::get('pengeluaranShow/{id}', [pengeluaranController::class, 'show'])->name('pengeluaran.show');
+        Route::get('pengeluarandetail/{id}', [pengeluaranController::class, 'detail']);
+        Route::post('pengeluaranUpdate/{id}', [pengeluaranController::class, 'update']);
+        Route::get('pengeluaranHapus/{id}', [pengeluaranController::class, 'destroy']);
+        Route::delete('pengeluaranhapusmultiple/{id}', [pengeluaranController::class, 'destroyMultiple']);
+
+        // route pengeluaran detail
+        Route::post('pengeluarandetailstore', [pengeluarandetailController::class, 'store'])->name('pengeluarandetail.store');
+        Route::get('pengeluaranDetail/delete', [pengeluarandetailController::class, 'delete'])->name('pengeluaran_detail.delete');
     });
-    Route::group(['middleware' => 'level:1,2'], function () {
+    Route::group(['middleware' => 'level:2,1'], function () {
         //! =============================== Route Transaksi ==========================================
         Route::get('transaksi', [transaksiController::class, 'index'])->name('transaksi.index');
         Route::get('transaksi/tambah', [transaksiController::class, 'create'])->name('transaksi.create');
@@ -116,6 +125,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');
         Route::get('transaksiDetail/delete', [transaksiDetailController::class, 'delete'])->name('transaksidetail.delete');
         Route::get('transaksiDetail/selesai/{id}', [transaksiDetailController::class, 'selesai']);
+        Route::get('struk/{id}', [transaksiDetailController::class, 'invoice']);
         Route::get('transaksishow/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
         Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
     });

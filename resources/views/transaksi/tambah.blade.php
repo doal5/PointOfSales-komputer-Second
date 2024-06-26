@@ -105,13 +105,12 @@
                         </tbody>
                     </table>
                     @csrf
-                    <div class="btn-group">
-                        <a href=""><button class="btn btn-sm btn-danger"><i class="fas fa-file"></i>
-                                Pending</button></a>
-                        <a href="{{ url('transaksiDetail/selesai/' . Request::segment(2)) }}"><button
-                                class="btn btn-sm btn-success"><i class="fas fa-check"></i>
-                                Selesai</button></a>
-                    </div>
+                    <a href="{{ url('transaksiDetail/selesai/' . Request::segment(2)) }}"><button
+                            class="btn btn-sm btn-success"><i class="fas fa-check"></i>
+                            Selesai</button></a>
+                    <a href="{{ url('struk/' . Request::segment(2)) }}" style="float: right"><button
+                            class="btn btn-sm btn-success"><i class="fas fa-print"></i>
+                            Cetak</button></a>
                     </form>
                 </div>
             </div>

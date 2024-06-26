@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class transaksiDetail extends Model
+class pengeluaran_detail extends Model
 {
-    protected $table = 'transaksi_detail';
+    protected $table = 'pengeluaran_detail';
     protected $primaryKey = 'id';
     protected $guarded = [];
 
@@ -15,9 +15,9 @@ class transaksiDetail extends Model
     {
         return $this->belongsTo(produk::class, 'id_produk', 'id_produk');
     }
-    public function transaksi()
+    public function supplier()
     {
-        return $this->hasMany(transaksi::class, 'id', 'transaksi_id');
+        return $this->belongsTo(supplier::class, 'id_supplier', 'id_supplier');
     }
     use HasFactory;
 }
