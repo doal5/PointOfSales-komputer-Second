@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id_supplier');
             $table->string('nama');
             $table->string('email');
-            $table->integer('no_telepon');
+            $table->string('no_telepon', 15)->unique();
             $table->string('alamat');
             $table->timestamps();
         });

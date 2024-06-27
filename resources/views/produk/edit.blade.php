@@ -7,10 +7,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('produkupdate/' . $data->id_produk) }}" method="POST"
+                <form action="{{ url('produkupdate/' . $data->id_produk) }}" method="post" id="updateProduk"
                     enctype="multipart/form-data">
                     @csrf
-                    @method('put')
                     <div class="form-group text-capitalize">
                         <input type="hidden" name="kode_produk" value="{{ $data->kode_produk }}">
                         <label for="merk">merk</label>

@@ -81,6 +81,38 @@
                 });
             });
 
+            // update produk
+            // $('#updateProduk').on('submit', function(e) {
+            //     e.preventDefault();
+            //     var id = $(this).data('id');
+            //     var formData = new FormData(this);
+            //     $.ajax({
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            //         },
+            //         method: 'post',
+            //         url: $(this).prop('action'),
+            //         data: formData,
+            //         cache: false,
+            //         contentType: false,
+            //         processData: false,
+
+            //         success: function(response) {
+            //             Swal.fire({
+            //                 icon: "success",
+            //                 title: "Berhasil Update Data",
+            //                 showConfirmButton: false,
+            //                 timer: 1500
+            //             })
+            //             $('#modalProduk').modal('hide');
+            //             read();
+            //         },
+            //         error: function(response) {
+            //             console.log(response);
+            //         }
+            //     });
+            // });
+
 
 
 
@@ -221,9 +253,10 @@
             var harga_beli = $('#harga_beli').val();
             var harga_jual = $('#harga_jual').val();
             var stok = $('#stok').val();
+            var foto = $('#foto').val();
 
             $.ajax({
-                type: "get",
+                type: "post",
                 url: "{{ url('produkupdate') }}/" + id,
                 data: {
                     kode_produk: kode_produk,
@@ -231,7 +264,8 @@
                     merk: merk,
                     harga_beli: harga_beli,
                     harga_jual: harga_jual,
-                    stok: stok
+                    stok: stok,
+                    foto: foto
                 },
                 success: function(response) {
                     read();

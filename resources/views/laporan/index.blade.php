@@ -48,8 +48,11 @@
                                     <div class="row g-3">
                                         <div class="col-sm">
                                             <div class="btn-group">
-                                                <button class="btn btn-success btn-sm">Cetak <i
-                                                        class="fa-solid fa-print"></i></button>
+                                                {{-- ngirim data tanggal awal dan tanggal akhir ke excell cetak --}}
+                                                <a href="{{ url('laporan/' . $tglawal . '/' . $tglakhir) }}">
+                                                    <button class="btn btn-success btn-sm">Cetak <i
+                                                            class="fa-solid fa-print"></i></button>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -64,11 +67,7 @@
                                             <td>{{ $item->qty }}</td>
                                             <td>{{ rupiah($item->subtotal) }}</td>
                                             <td>
-                                                @if ($item->transaksi->status == 'selesai')
-                                                    <span class="badge bg-success">{{ $item->transaksi->status }}</span>
-                                                @else
-                                                    <span class="badge bg-danger">{{ $item->transaksi->status }}</span>
-                                                @endif
+                                                <span class="badge bg-success">{{ $item->transaksi2->status }}</span>
                                             </td>
                                             <td>{{ date('d F Y', strtotime($item->tanggal)) }}</td>
                                         </tr>

@@ -15,5 +15,9 @@ class transaksi extends Model
     {
         return $this->belongsTo(transaksiDetail::class, 'transaksi_id', 'id');
     }
+    public function transaksidetail2()
+    {
+        return $this->hasMany(transaksiDetail::class, 'transaksi_id', 'id');
+    }
     use HasFactory;
 }

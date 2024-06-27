@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\laporanExport;
 use App\Models\transaksi;
 use App\Models\transaksiDetail;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class laporanController extends Controller
 {
@@ -16,7 +18,7 @@ class laporanController extends Controller
         $tglawal = request('tanggalawal');
         $tglakhir = request('tanggalakhir');
 
-        $transaksi = transaksiDetail::whereBetween('tanggal', [$tglawal, $tglakhir])->with('produk', 'transaksi')->get();
+        $transaksi = transaksiDetail::whereBetween('tanggal', [$tglawal, $tglakhir])->with('produk', 'transaksi2')->get();
 
         $data = [
             'i' => 1,
@@ -29,8 +31,10 @@ class laporanController extends Controller
     }
 
 
-    public function cetak()
+    public function cetak($tglawal, $tglakhir)
     {
+
+        return Excel::download(new laporanExport($tglawal, $tglakhir), 'laporan.xlsx');
     }
 
 

@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('produkstore', [produkController::class, 'store'])->name('produk.store');
         Route::get('produkshow/{id}', [produkController::class, 'show'])->name('produk.show');
         Route::get('produkdetail/{id}', [produkController::class, 'detail']);
-        Route::put('produkupdate/{id}', [produkController::class, 'update']);
+        Route::post('produkupdate/{id}', [produkController::class, 'update']);
         Route::get('produkhapus/{id}', [produkController::class, 'destroy']);
         Route::delete('produkhapusmultiple/{id}', [produkController::class, 'destroyMultiple']);
 
@@ -80,10 +80,12 @@ Route::group(['middleware' => 'auth'], function () {
 
         //! =============================== Route Laporan ==========================================
         Route::get('laporan', [laporanController::class, 'index'])->name('laporan.index');
+        Route::get('laporan/{tglawal}/{tglakhir}', [laporanController::class, 'cetak']);
 
         //! =============================== Route analisis ==========================================
         Route::get('analisis', [analisisController::class, 'index'])->name('analisis.index');
         Route::get('analisisread', [analisisController::class, 'read'])->name('analisis.read');
+        Route::get('analisiscetak', [analisisController::class, 'cetak'])->name('analisis.cetak');
 
         //!=============================== Route user ==========================================
         Route::get('user', [userController::class, 'index'])->name('user.index');

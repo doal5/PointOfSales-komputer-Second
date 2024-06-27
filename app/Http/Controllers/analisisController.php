@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Charts\bulanChart;
 use App\Charts\penjualanbulananChart;
+use App\Exports\analisisExport;
 use App\Models\transaksiDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class analisisController extends Controller
 {
@@ -16,16 +18,19 @@ class analisisController extends Controller
      */
     public function index()
     {
-        return view('analisis.index');
+        $year = Carbon::now()->year;
+        return view('analisis.index', compact('year'));
     }
 
     public function read()
     {
+        $year = Carbon::now()->year;
         $pt = transaksiDetail::select(
             'id_produk',
             DB::raw('sum(qty) as total'),
             DB::raw('MAX(tanggal) as last_sold'),
         )
+            ->whereYear('tanggal', $year)
             ->groupBy('id_produk')
             ->orderBy('total', 'desc')
             ->take(5)
@@ -36,6 +41,11 @@ class analisisController extends Controller
             'pt' => $pt,
         ];
         return view('analisis.read', $data);
+    }
+
+    public function cetak()
+    {
+        return Excel::download(new analisisExport, 'analisis.xlsx');
     }
     /**
      * Show the form for creating a new resource.
