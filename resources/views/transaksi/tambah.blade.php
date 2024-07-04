@@ -120,23 +120,20 @@
                     <form action="" method="get">
                         <div class="form-group">
                             <label for="">Total Belanja</label>
-                            <input disabled type="number" name="total_belanja" value="{{ $transaksi->total ?? 0 }}"
-                                class="form-control" id="">
+                            <input disabled type="number" name="total_belanja" id="total_belanja"
+                                value="{{ $transaksi->total ?? 0 }}" class="form-control" id="">
                         </div>
-                        <div class="form-group">
-                            <label for="">Diskon</label>
-                            <input type="number" name="diskon" value="{{ $diskon ?? 0 }}" class="form-control"
-                                id="">
+                        <label for="">Diskon %</label>
+                        <div class="d-flex" style="padding-right: 250px">
+                            <input type="number" name="diskon" placeholder="%" value="{{ $transaksi->diskon ?? 0 }}"
+                                class="form-control">
                         </div>
-                        <div class="form-group">
-                            <label for="">Total Belanja</label>
-                            <input disabled type="number" name="total_belanja"
-                                value="{{ rupiah($transaksi->total ?? 0) }}" class="form-control" id="">
+                        <div class="d-grid gap-2">
                         </div>
                         <div class="form-group">
                             <label for="">Dibayarkan</label>
-                            <input type="number" name="dibayarkan" value="{{ $dibayarkan ?? 0 }}" class="form-control"
-                                id="">
+                            <input required type="number" name="dibayarkan" value="{{ $dibayarkan ?? 0 }}"
+                                class="form-control">
                         </div> <br>
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary btn-block"> Hitung</button>

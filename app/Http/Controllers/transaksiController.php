@@ -82,7 +82,6 @@ class transaksiController extends Controller
             if ($qty <= 1) {
                 $qty = 1;
             } else {
-
                 $qty = $qty - 1;
             }
         } else {
@@ -90,15 +89,38 @@ class transaksiController extends Controller
         }
         $subtotal = 0;
         $diskon = 0;
+
         if ($pdetail) {
             $subtotal = $pdetail->harga_jual * $qty;
         }
+
         $transaksi = transaksi::find($id);
         $dibayarkan = request('dibayarkan');
         $diskon = request('diskon');
         $tanggal = date('Y-m-d');
 
-        $kembalian = $dibayarkan - $transaksi->total;
+        $nomDiskon = ($transaksi->total * $diskon) / 100;
+
+        if ($dibayarkan) {
+            $dt = [
+                'diskon' => $diskon,
+                'total' => $transaksi->total - $nomDiskon,
+                'tanggal' => $tanggal
+            ];
+            $transaksi->update($dt);
+        } else {
+            $dt = [
+                'diskon' => $diskon,
+                'total' => $transaksi->total,
+                'tanggal' => $tanggal
+            ];
+        }
+
+        if ($dibayarkan) {
+
+            $kembalian = $dibayarkan - $transaksi->total;
+        }
+
         $data = [
             'title' => 'Tambah Transaksi',
             'produk' => $produk,
@@ -107,22 +129,14 @@ class transaksiController extends Controller
             'subtotal' => $subtotal,
             'transaksidetail' => $transaksidetail,
             'transaksi' => $transaksi,
-            'kembalian' => $kembalian,
+            'kembalian' => $kembalian ?? 0,
             'dibayarkan' => $dibayarkan,
             'diskon' => $diskon,
         ];
 
-        if ($diskon) {
-            $dt = [
-                'diskon' => $diskon,
-                'total' => $transaksi->total - $diskon,
-                'tanggal' => $tanggal
-            ];
-            $transaksi->update($dt);
-        }
-
         return view('transaksi.tambah', $data);
     }
+
 
     /**
      * Update the specified resource in storage.

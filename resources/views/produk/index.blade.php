@@ -81,6 +81,8 @@
                 });
             });
 
+            // tambah produk
+
             // update produk
             // $('#updateProduk').on('submit', function(e) {
             //     e.preventDefault();
@@ -248,7 +250,7 @@
         // ========================================================
         function update(id) {
             var kode_produk = $('#kode_produk').val();
-            var kategori_id = $('#kategori_id').val();
+            var kategori_id = $('#kategori').val();
             var merk = $('#merk').val();
             var harga_beli = $('#harga_beli').val();
             var harga_jual = $('#harga_jual').val();
@@ -256,7 +258,7 @@
             var foto = $('#foto').val();
 
             $.ajax({
-                type: "post",
+                type: "get",
                 url: "{{ url('produkupdate') }}/" + id,
                 data: {
                     kode_produk: kode_produk,
@@ -268,13 +270,13 @@
                     foto: foto
                 },
                 success: function(response) {
-                    read();
                     Swal.fire({
                             icon: 'success',
                             title: 'Data Berhasil Diupdate',
                             showConfirmButton: true
                         }),
                         $('#modalForm').modal('hide');
+                    read();
                 }
             });
         }

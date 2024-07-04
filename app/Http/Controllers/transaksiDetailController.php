@@ -71,9 +71,17 @@ class transaksiDetailController extends Controller
         $id = request('id');
         $td = transaksiDetail::find($id);
         $transaksi = transaksi::find($td->transaksi_id);
-        $data = [
-            'total' => $transaksi->total - $td->subtotal,
-        ];
+        $cekt = transaksiDetail::where('transaksi_id', $td->transaksi_id)->count();
+
+        if ($cekt > 1) {
+            $data = [
+                'total' => $transaksi->total - $td->subtotal,
+            ];
+        } else {
+            $data = [
+                'total' => 0,
+            ];
+        }
         $transaksi->update($data);
         $td->delete();
         return redirect()->back();

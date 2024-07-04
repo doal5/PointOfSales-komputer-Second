@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('produkstore', [produkController::class, 'store'])->name('produk.store');
         Route::get('produkshow/{id}', [produkController::class, 'show'])->name('produk.show');
         Route::get('produkdetail/{id}', [produkController::class, 'detail']);
-        Route::post('produkupdate/{id}', [produkController::class, 'update']);
+        Route::get('produkupdate/{id}', [produkController::class, 'update']);
         Route::get('produkhapus/{id}', [produkController::class, 'destroy']);
         Route::delete('produkhapusmultiple/{id}', [produkController::class, 'destroyMultiple']);
 

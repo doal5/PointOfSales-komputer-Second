@@ -103,10 +103,8 @@ class produkController extends Controller
         $request->validate([
             'foto' => 'required|image|mimes:png,jpg,jpeg|max:2048'
         ]);
-        $foto = $request->file('foto');
-        $fotoName = time() . '.' . $foto->extension();
-        $filePath = $foto->move(public_path('img/produk'), $fotoName);
-
+        // $id_produk = request->input('id_produk');
+        $foto = $request->foto;
         $produk = produk::find($id);
         $produk->kode_produk = $request->kode_produk;
         $produk->kategori_id = $request->kategori;
@@ -114,9 +112,21 @@ class produkController extends Controller
         $produk->harga_beli = $request->harga_beli;
         $produk->harga_jual = $request->harga_jual;
         $produk->stok = $request->stok;
-        $produk->foto = $fotoName;
+        $produk->foto = $request->foto;
         $produk->update();
-        return redirect()->route('produk.index');
+
+        // if ($foto) {
+        //     produk::update([
+        //         'kategori_id' => $request->kategori,
+        //         'kode_produk' => $request->kode_produk,
+        //         'merk' => $request->merk,
+        //         'harga_beli' => $request->harga_beli,
+        //         'harga_jual' => $request->harga_jual,
+        //         'stok' => $request->stok,
+        //         'foto' => $foto,
+        //     ]);
+        // }
+        return response()->json('Data Berhasil Di Update', 200);
     }
 
     /**
