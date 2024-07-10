@@ -11,8 +11,6 @@
               <div class="btn-group btn-sm">
                   <button onclick="show({{ $item->id }})" class="btn btn-sm btn-primary"><i class="fa fa-pen"></i>
                   </button>
-                  <button class="btn btn-danger" onclick="destroy({{ $item->id }})"><i
-                          class="fa fa-trash"></i></button>
               </div>
           </td>
       </tr>
