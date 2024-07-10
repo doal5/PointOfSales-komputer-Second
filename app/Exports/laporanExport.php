@@ -14,12 +14,14 @@ class laporanExport implements FromView
     /**
      * @return \Illuminate\Support\Collection
      */
-    protected $tglawal, $tglakhir;
+    protected $tglawal, $tglakhir, $total;
     // ngambil parameter tanggal awal akhir yang dikirim
-    public function __construct($tglawal, $tglakhir)
+    public function __construct($tglawal, $tglakhir, $total)
     {
+
         $this->tglawal = $tglawal;
         $this->tglakhir = $tglakhir;
+        $this->total = $total;
     }
 
     public function view(): View
@@ -29,6 +31,7 @@ class laporanExport implements FromView
             'transaksi' => $transaksi,
             'tglawal' => $this->tglawal,
             'tglakhir' => $this->tglakhir,
+            'total' => $this->total
         ]);
     }
 }

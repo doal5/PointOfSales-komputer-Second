@@ -5,7 +5,6 @@
       <tr id="tr_{{ $item->id }}">
           <th><input type="checkbox" data-id="{{ $item->id }}" class="form-check-input checkbox"></th>
           <th scope="row">{{ $i++ }}</th>
-          <td><span class="badge badge-pill bg-primary">{{ $item->supplier->nama ?? '' }}</span></td>
           <td>{{ $item->keterangan }}</td>
           <td>{{ rupiah($item->total) }}</td>
           <td>

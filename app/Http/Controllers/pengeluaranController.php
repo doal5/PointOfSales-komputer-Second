@@ -24,8 +24,11 @@ class pengeluaranController extends Controller
     // Function menampilkan data dari database
     public function read()
     {
-        $pengeluaran = pengeluaran::paginate(10);
-        return view('pengeluaran.read', compact('pengeluaran'));
+        $pengeluaran = pengeluaran::with('supplier', 'pengeluaran_detail')->where('total', '>', 0)->paginate(10);
+        $data = [
+            'pengeluaran' => $pengeluaran,
+        ];
+        return view('pengeluaran.read', $data);
     }
 
     /**

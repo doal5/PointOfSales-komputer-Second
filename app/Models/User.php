@@ -25,6 +25,14 @@ class User extends Authenticatable
         'password_dekripsi',
     ];
 
+    public function hasLevel($level)
+    {
+        if ($level == $this->level) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

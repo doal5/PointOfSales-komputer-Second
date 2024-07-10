@@ -14,14 +14,13 @@ class izinAkses
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $level, $level2): Response
+    public function handle(Request $request, Closure $next, $level): Response
     {
-        // cek login dan admin
-        if (auth()->user() && $level && $level2 == auth()->user()->level) {
-            return $next($request);
-        };
 
-        // jika tidak ada
-        return redirect()->route('login');
+        if (auth()->user()->level !== $level && auth()->user()->level !== 1) {
+            return redirect()->route('logout');
+        }
+
+        return $next($request);
     }
 }

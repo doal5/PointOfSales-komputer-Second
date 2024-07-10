@@ -8,10 +8,10 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Produk</th>
-                                <th>Supplier</th>
+                                <th style="width: 30%">Produk</th>
+                                <th style="width: 30%">Supplier</th>
                                 <th>Qty</th>
-                                <th>Subtotal</th>
+                                <th style="width: 30%">Subtotal</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -20,7 +20,7 @@
                                     @csrf
                                     <td>
                                         <div class="d-flex">
-                                            <select name="id_produk" class="form-select" id="">
+                                            <select name="id_produk" class="form-select" id="" required>
                                                 <option value="">-- Pilih Produk --</option>
                                                 @foreach ($produk as $item)
                                                     <option value="{{ $item->id_produk }}">{{ $item->merk }}</option>

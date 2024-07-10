@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\laporanExport;
 use App\Models\transaksi;
 use App\Models\transaksiDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -20,21 +21,44 @@ class laporanController extends Controller
 
         $transaksi = transaksiDetail::whereBetween('tanggal', [$tglawal, $tglakhir])->with('produk', 'transaksi2')->get();
 
+        // $totalSalesPerDay = $transaksi->groupBy(function ($item) {
+        //     return $item->tanggal;
+        // })->map(function ($day) {
+        //     return $day->sum(function ($item) {
+        //         return $item->amount;
+        //     });
+        // });
+
+        $transaksiDetails = transaksiDetail::whereBetween('tanggal', [$tglawal, $tglakhir])
+            ->get();
+
+        // Hitung total penjualan per hari
+        $totalPenjualanPerHari = $transaksiDetails->groupBy(function ($item) {
+            return Carbon::parse($item->tanggal); // Kelompokkan berdasarkan tanggal
+        })->map(function ($hari) {
+            return $hari->sum('jumlah'); // Asumsikan 'jumlah' adalah kolom yang mewakili jumlah penjualan
+        });
+
+        // Tampilkan data dan total penjualan per hari
+
+        // Calculate total sales
+        $total = transaksiDetail::whereBetween('tanggal', [$tglawal, $tglakhir])->sum('subtotal');
+
         $data = [
             'i' => 1,
             'tglawal' => $tglawal,
             'tglakhir' => $tglakhir,
             'transaksi' => $transaksi,
+            'total' => $total,
         ];
 
         return view('laporan.index', $data);
     }
 
 
-    public function cetak($tglawal, $tglakhir)
+    public function cetak($tglawal, $tglakhir, $total)
     {
-
-        return Excel::download(new laporanExport($tglawal, $tglakhir), 'laporan.xlsx');
+        return Excel::download(new laporanExport($tglawal, $tglakhir, $total), 'laporan.xlsx');
     }
 
 

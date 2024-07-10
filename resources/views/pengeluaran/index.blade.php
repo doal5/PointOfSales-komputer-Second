@@ -36,7 +36,6 @@
                                 <tr>
                                     <th><input type="checkbox" id="checkboxMain" class="form-check-input"></th>
                                     <th>No</th>
-                                    <th>Supplier</th>
                                     <th>Keterangan</th>
                                     <th>Total</th>
                                     <th style="width: 20%"><i class="fa fa-cog"></i></th>

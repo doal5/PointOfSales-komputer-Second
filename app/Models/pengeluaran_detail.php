@@ -19,5 +19,10 @@ class pengeluaran_detail extends Model
     {
         return $this->belongsTo(supplier::class, 'id_supplier', 'id_supplier');
     }
+
+    public function pengeluaran()
+    {
+        return $this->hasMany(pengeluaran::class);
+    }
     use HasFactory;
 }

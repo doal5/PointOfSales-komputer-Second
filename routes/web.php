@@ -38,7 +38,7 @@ Route::get('logout', [loginController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
     // mengirim parameter level
-    Route::group(['middleware' => 'level:1,1'], function () {
+    Route::group(['middleware' => 'level:1'], function () {
         //!=============================== Route Dashboard =======================================
         Route::get('dashboard', [dashboardController::class, 'index'])->name('dashboard');
         //!=============================== Route Produk ==========================================
@@ -77,10 +77,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('supplierhapusmultiple/{id}', [supplierController::class, 'destroymultiple']);
 
 
-
         //! =============================== Route Laporan ==========================================
         Route::get('laporan', [laporanController::class, 'index'])->name('laporan.index');
-        Route::get('laporan/{tglawal}/{tglakhir}', [laporanController::class, 'cetak']);
+        Route::get('laporan/{tglawal}/{tglakhir}/{total}', [laporanController::class, 'cetak']);
 
         //! =============================== Route analisis ==========================================
         Route::get('analisis', [analisisController::class, 'index'])->name('analisis.index');
@@ -116,19 +115,21 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('pengeluarandetailstore', [pengeluarandetailController::class, 'store'])->name('pengeluarandetail.store');
         Route::get('pengeluaranDetail/delete', [pengeluarandetailController::class, 'delete'])->name('pengeluaran_detail.delete');
     });
-    Route::group(['middleware' => 'level:2,1'], function () {
-        //! =============================== Route Transaksi ==========================================
-        Route::get('transaksi', [transaksiController::class, 'index'])->name('transaksi.index');
-        Route::get('transaksi/tambah', [transaksiController::class, 'create'])->name('transaksi.create');
-        Route::get('transaksi/{id}/edit', [transaksiController::class, 'edit'])->name('transaksi.edit');
-        Route::delete('transaksihapusmultiple/{id}', [transaksiController::class, 'hapusmultiple']);
 
-        //! =============================== Route Transaksi Detail ==========================================
-        Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');
-        Route::get('transaksiDetail/delete', [transaksiDetailController::class, 'delete'])->name('transaksidetail.delete');
-        Route::get('transaksiDetail/selesai/{id}', [transaksiDetailController::class, 'selesai']);
-        Route::get('struk/{id}', [transaksiDetailController::class, 'invoice']);
-        Route::get('transaksishow/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
-        Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
-    });
+    Route::get(
+        'transaksi',
+        [transaksiController::class, 'index']
+    )->name('transaksi.index');
+
+    Route::get('transaksi/tambah', [transaksiController::class, 'create'])->name('transaksi.create');
+    Route::get('transaksi/{id}/edit', [transaksiController::class, 'edit'])->name('transaksi.edit');
+    Route::delete('transaksihapusmultiple/{id}', [transaksiController::class, 'hapusmultiple']);
+
+    //! =============================== Route Transaksi Detail ==========================================
+    Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');
+    Route::get('transaksiDetail/delete', [transaksiDetailController::class, 'delete'])->name('transaksidetail.delete');
+    Route::get('transaksiDetail/selesai/{id}', [transaksiDetailController::class, 'selesai']);
+    Route::get('struk/{id}', [transaksiDetailController::class, 'invoice']);
+    Route::get('transaksishow/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
+    Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
 });

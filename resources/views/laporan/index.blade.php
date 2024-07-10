@@ -39,7 +39,6 @@
                                     <th>Produk</th>
                                     <th>Qty</th>
                                     <th>Total</th>
-                                    <th>Status</th>
                                     <th>Tanggal</th>
                                 </tr>
                             </thead>
@@ -49,7 +48,7 @@
                                         <div class="col-sm">
                                             <div class="btn-group">
                                                 {{-- ngirim data tanggal awal dan tanggal akhir ke excell cetak --}}
-                                                <a href="{{ url('laporan/' . $tglawal . '/' . $tglakhir) }}">
+                                                <a href="{{ url('laporan/' . $tglawal . '/' . $tglakhir . '/' . $total) }}">
                                                     <button class="btn btn-success btn-sm">Cetak <i
                                                             class="fa-solid fa-print"></i></button>
                                                 </a>
@@ -66,14 +65,23 @@
                                             <td>{{ $item->produk->merk }}</td>
                                             <td>{{ $item->qty }}</td>
                                             <td>{{ rupiah($item->subtotal) }}</td>
-                                            <td>
-                                                <span class="badge bg-success">{{ $item->transaksi2->status }}</span>
-                                            </td>
                                             <td>{{ date('d F Y', strtotime($item->tanggal)) }}</td>
                                         </tr>
                                     @endforeach
                                 @endif
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total</td>
+                                    <td></td>
+                                    <td>{{ rupiah($total) }}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

@@ -19,18 +19,42 @@ class analisisController extends Controller
     public function index()
     {
         $year = Carbon::now()->year;
-        return view('analisis.index', compact('year'));
-    }
-
-    public function read()
-    {
-        $year = Carbon::now()->year;
-        $pt = transaksiDetail::select(
-            'id_produk',
+        $ptS = transaksiDetail::select(
+            'transaksi_detail.id_produk',
             DB::raw('sum(qty) as total'),
-            DB::raw('MAX(tanggal) as last_sold'),
+            DB::raw('MAX(tanggal) as last_sold')
         )
+            ->join('produk', 'transaksi_detail.id_produk', '=', 'produk.id_produk')
             ->whereYear('tanggal', $year)
+            ->where('produk.kategori_id', 9)
+            ->groupBy('id_produk')
+            ->orderBy('total', 'desc')
+            ->take(5)
+            ->with('produk')
+            ->get();
+
+        $ptK = transaksiDetail::select(
+            'transaksi_detail.id_produk',
+            DB::raw('sum(qty) as total'),
+            DB::raw('MAX(tanggal) as last_sold')
+        )
+            ->join('produk', 'transaksi_detail.id_produk', '=', 'produk.id_produk')
+            ->whereYear('tanggal', $year)
+            ->where('produk.kategori_id', 2)
+            ->groupBy('id_produk')
+            ->orderBy('total', 'desc')
+            ->take(5)
+            ->with('produk')
+            ->get();
+
+        $ptL = transaksiDetail::select(
+            'transaksi_detail.id_produk',
+            DB::raw('sum(qty) as total'),
+            DB::raw('MAX(tanggal) as last_sold')
+        )
+            ->join('produk', 'transaksi_detail.id_produk', '=', 'produk.id_produk')
+            ->whereYear('tanggal', $year)
+            ->where('produk.kategori_id', 1)
             ->groupBy('id_produk')
             ->orderBy('total', 'desc')
             ->take(5)
@@ -38,7 +62,46 @@ class analisisController extends Controller
             ->get();
 
         $data = [
-            'pt' => $pt,
+            'ptS' => $ptS,
+            'ptK' => $ptK,
+            'ptL' => $ptL,
+        ];
+        return view('analisis.index', $data, compact('year'));
+    }
+
+    public function read()
+    {
+        $year = Carbon::now()->year;
+        $ptS = transaksiDetail::select(
+            'transaksi_detail.id_produk',
+            DB::raw('sum(qty) as total'),
+            DB::raw('MAX(tanggal) as last_sold')
+        )
+            ->join('produk', 'transaksi_detail.id_produk', '=', 'produk.id_produk')
+            ->whereYear('tanggal', $year)
+            ->where('produk.kategori_id', 9)
+            ->groupBy('id_produk')
+            ->orderBy('total', 'desc')
+            ->take(5)
+            ->with('produk')
+            ->get();
+        $ptK = transaksiDetail::select(
+            'transaksi_detail.id_produk',
+            DB::raw('sum(qty) as total'),
+            DB::raw('MAX(tanggal) as last_sold')
+        )
+            ->join('produk', 'transaksi_detail.id_produk', '=', 'produk.id_produk')
+            ->whereYear('tanggal', $year)
+            ->where('produk.kategori_id', 9)
+            ->groupBy('id_produk')
+            ->orderBy('total', 'desc')
+            ->take(5)
+            ->with('produk')
+            ->get();
+
+        $data = [
+            'ptS' => $ptS,
+            'ptK' => $ptK,
         ];
         return view('analisis.read', $data);
     }

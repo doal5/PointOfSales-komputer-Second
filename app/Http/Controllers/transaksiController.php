@@ -17,7 +17,7 @@ class transaksiController extends Controller
 
         $data = [
             'title' => 'Transaksi',
-            'transaksi' => transaksi::with('transaksidetail')->paginate(10),
+            'transaksi' => transaksi::with('transaksidetail')->where('total', '>', 0)->paginate(10),
         ];
         return view('transaksi.index', $data);
     }

@@ -18,4 +18,12 @@
             </tr>
         @endforeach
     </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>TOTAL</th>
+            <th>{{ $total }}</th>
+        </tr>
+    </tfoot>
 </table>
