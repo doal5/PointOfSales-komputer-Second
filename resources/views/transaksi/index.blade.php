@@ -19,7 +19,7 @@
                                     <th>No</th>
                                     <th>Diskon</th>
                                     <th>Subtotal</th>
-                                    <th>Status</th>
+                                    <th>Tanggal</th>
                                     <th><i class="fa fa-gear"></i></th>
                                 </tr>
                             </thead>
@@ -31,12 +31,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->diskon }}</td>
                                         <td>{{ rupiah($item->total) }}</td>
-                                        <td>
-                                            @if ($item->status == 'selesai')
-                                                <span class="badge bg-success">{{ $item->status }}</span>
-                                            @else
-                                                <span class="badge bg-danger">{{ $item->status }}</span>
-                                            @endif
+                                        <td>{{ date('d F Y', strtotime($item->tanggal)) }}
                                         </td>
                                         <td>
                                             <div class="btn-group btn-sm">

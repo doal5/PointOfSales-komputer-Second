@@ -62,6 +62,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('kategoriread', [kategoriController::class, 'read'])->name('kategori.read');
         Route::get('create', [kategoriController::class, 'create'])->name('kategori.create');
         Route::get('tambah', [kategoriController::class, 'store'])->name('kategori.store');
+        Route::get('kategorishow/{id}', [kategoriController::class, 'show']);
+        Route::get('kategoriupdate/{id}', [kategoriController::class, 'update']);
         Route::get('kategorihapus/{id}', [kategoriController::class, 'destroy']);
         Route::delete('kategorihapusmultiple/{id}', [kategoriController::class, 'destroyMultiple']);
 
@@ -79,7 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         //! =============================== Route Laporan ==========================================
         Route::get('laporan', [laporanController::class, 'index'])->name('laporan.index');
-        Route::get('laporan/{tglawal}/{tglakhir}/{total}', [laporanController::class, 'cetak']);
+        Route::get('laporan/{tglawal}/{tglakhir}/{total}/{totalPengeluaran}', [laporanController::class, 'cetak']);
 
         //! =============================== Route analisis ==========================================
         Route::get('analisis', [analisisController::class, 'index'])->name('analisis.index');
@@ -106,6 +108,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('pengeluaran/{id}/edit', [pengeluaranController::class, 'edit'])->name('pengeluaran.edit');
         Route::post('pengeluaranstore', [pengeluaranController::class, 'store'])->name('pengeluaran.store');
         Route::get('pengeluaranShow/{id}', [pengeluaranController::class, 'show'])->name('pengeluaran.show');
+        Route::get('pengeluaranbatal/{id}', [pengeluaranController::class, 'batal']);
         Route::get('pengeluarandetail/{id}', [pengeluaranController::class, 'detail']);
         Route::post('pengeluaranUpdate/{id}', [pengeluaranController::class, 'update']);
         Route::get('pengeluaranHapus/{id}', [pengeluaranController::class, 'destroy']);

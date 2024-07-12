@@ -37,7 +37,9 @@ class pengeluaranController extends Controller
     public function create()
     {
         $data = [
-            'total' => 0
+            'total' => 0,
+            'keterangan' => '',
+            'tanggal' => date('Y-m-d')
         ];
         $pengeluaran = pengeluaran::create($data);
         return redirect('pengeluaran/' . $pengeluaran->id . '/edit');
@@ -110,5 +112,23 @@ class pengeluaranController extends Controller
         $idsArray = explode(',', $ids);
         pengeluaran::destroy($idsArray);
         return response()->json(['status' => true, 'message' => 'Berhasil Hapus Data']);
+    }
+
+    public function batal($id)
+    {
+        $pengeluaran = pengeluaran::findOrFail($id);
+        $pengeluaran->delete();
+        $pengeluaranDetail = pengeluaran_detail::where('pengeluaran_id', $id)->get();
+
+        foreach ($pengeluaranDetail as $p) {
+            $id_produk = $p->id_produk;
+            $produk = produk::find($id_produk);
+
+            if ($produk) {
+                $produk->stok -= $p->qty;
+                $produk->save();
+            }
+        }
+        return redirect()->route('pengeluaran.index');
     }
 }

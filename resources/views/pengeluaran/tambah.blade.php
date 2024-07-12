@@ -5,6 +5,11 @@
             <div class="col-md-15">
                 <div class="bg-light rounded h-100 p-4">
                     <h6 class="mb-4">Pengadaan Produk</h6>
+                    <a href="{{ url('pengeluaran') }}">
+                        <h6 style="float: right"><button class="btn btn-primary btn-sm"><i class="fa fa-arrow-left"></i>
+                                Kembali</button></h6>
+
+                    </a>
                     <table>
                         <thead>
                             <tr>
@@ -47,6 +52,8 @@
 
                             </tr>
                         </tbody>
+                        <label for="">Keterangan</label> <br>
+                        <textarea name="keterangan" id="" class="form-control mb-2" cols="112" rows="3">{{ $pengeluaran->keterangan }}</textarea>
                     </table>
                     <div class="row mt-3">
                         <div class="col-md-5">
@@ -105,11 +112,12 @@
                     </table>
                     @csrf
                     <div class="btn-group">
-                        <a href=""><button class="btn btn-sm btn-danger"><i class="fas fa-file"></i>
-                                Pending</button></a>
+                        <a href="{{ url('pengeluaranbatal/' . Request::segment(2)) }}"><button
+                                class="btn btn-sm btn-danger"><i class="fas fa-file"></i>
+                                Batal</button></a>
 
-                        <a href="{{ url('pengeluarandetail/selesai/' . Request::segment(2)) }}"><button
-                                class="btn btn-sm btn-success"><i class="fas fa-check"></i>
+                        <a href="{{ url('pengeluaran') }}"><button class="btn btn-sm btn-success"><i
+                                    class="fas fa-check"></i>
                                 Selesai</button></a>
                     </div>
                     </form>

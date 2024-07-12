@@ -46,7 +46,8 @@ class kategoriController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $kategori = kategori::findOrFail($id);
+        return view('kategori.edit', compact('kategori'));
     }
 
     /**
@@ -54,7 +55,6 @@ class kategoriController extends Controller
      */
     public function edit(string $id)
     {
-        //
     }
 
     /**
@@ -62,7 +62,10 @@ class kategoriController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $kategori = kategori::findOrFail($id);
+        $kategori->kategori = $request->kategori;
+        $kategori->update();
+        return view('kategori.index');
     }
 
     /**

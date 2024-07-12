@@ -35,7 +35,6 @@
         </div>
     </div>
     @includeIf('kategori.modalForm')
-    @includeIf('kategori.modalFormDetail')
     <!-- Table End -->
 @endsection
 @push('script')
@@ -192,6 +191,39 @@
         // ================ FUNGSI MENAMBAHKAN DATA ===============
         // ========================================================
 
+        // edit data
+        function show(id) {
+            $.get('{{ url('kategorishow') }}/' + id, {},
+                function(data, status) {
+                    $('#modalForm').modal('show');
+                    $('#modalFormLabel').text('Edit Data Kategori');
+                    $('#page').html(data);
+                },
+            );
+        }
+
+        function update(id) {
+            var kategori = $('#kategori').val();
+
+            $.ajax({
+                type: "get",
+                url: "{{ url('kategoriupdate') }}/" + id,
+                data: {
+                    kategori: kategori,
+                },
+                success: function(response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil Update Data",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    $('#modalForm').modal('hide');
+                    read();
+                }
+
+            });
+        }
 
 
         // ========================================================

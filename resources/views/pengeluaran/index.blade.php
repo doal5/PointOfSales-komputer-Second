@@ -38,6 +38,7 @@
                                     <th>No</th>
                                     <th>Keterangan</th>
                                     <th>Total</th>
+                                    <th>Tanggal</th>
                                     <th style="width: 20%"><i class="fa fa-cog"></i></th>
                                 </tr>
                             </thead>

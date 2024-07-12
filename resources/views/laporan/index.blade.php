@@ -14,12 +14,13 @@
                                 <form class="row p-2" target="" method="get">
                                     <div class="col-6">
                                         <label for="">Tanggal Awal</label>
-                                        <input type="date" class="form-control" id="tanggalawal" name="tanggalawal">
+                                        <input type="date" class="form-control" id="tanggalawal" name="tanggalawal"
+                                            required>
                                     </div>
                                     <div class="col-6">
                                         <label>Tanggal Akhir</label>
                                         <input type="date" class="form-control" id="tanggalakhir" name="tanggalakhir"
-                                            placeholder="Password">
+                                            required>
                                     </div>
                                     <div class="d-grid gap-2 col-12 mt-3 mx-auto">
                                         <button class="btn btn-primary" type="submit">Button</button>
@@ -30,25 +31,34 @@
                     </div>
                     </form>
                     <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th><input type="checkbox" id="checkboxMain" class="form-check-input"></th>
-                                    <th>No</th>
-                                    <th>Kode_produk</th>
-                                    <th>Produk</th>
-                                    <th>Qty</th>
-                                    <th>Total</th>
-                                    <th>Tanggal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if ($transaksi)
+                        @if ($tglawal)
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>PEMASUKAN</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode_produk</th>
+                                        <th>Produk</th>
+                                        <th>Qty</th>
+                                        <th>Total</th>
+                                        <th>Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
                                     <div class="row g-3">
                                         <div class="col-sm">
                                             <div class="btn-group">
                                                 {{-- ngirim data tanggal awal dan tanggal akhir ke excell cetak --}}
-                                                <a href="{{ url('laporan/' . $tglawal . '/' . $tglakhir . '/' . $total) }}">
+                                                <a
+                                                    href="{{ url('laporan/' . $tglawal . '/' . $tglakhir . '/' . $total . '/' . $totalPengeluaran) }}">
                                                     <button class="btn btn-success btn-sm">Cetak <i
                                                             class="fa-solid fa-print"></i></button>
                                                 </a>
@@ -56,9 +66,7 @@
                                         </div>
                                     </div>
                                     @foreach ($transaksi as $item)
-                                        <tr id="tr_{{ $item->id }}">
-                                            <th><input type="checkbox" data-id="{{ $item->id }}"
-                                                    class="form-check-input checkbox"></th>
+                                        <tr>
                                             <td>{{ $i++ }}</td>
                                             <td> <span class="badge bg-primary"> {{ $item->produk->kode_produk }}</span>
                                             </td>
@@ -68,21 +76,59 @@
                                             <td>{{ date('d F Y', strtotime($item->tanggal)) }}</td>
                                         </tr>
                                     @endforeach
-                                @endif
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>Total</td>
-                                    <td></td>
-                                    <td>{{ rupiah($total) }}</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tfoot>
-                        </table>
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Total</td>
+                                        <td></td>
+                                        <td>{{ rupiah($total) }}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>PENGELUARAN</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th width='10%'>No</th>
+                                        <th width='30%'>Keterangan</th>
+                                        <th width='30%'>Total</th>
+                                        <th>Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if ($tglawal)
+                                        @foreach ($pengeluaran as $key => $item)
+                                            <tr>
+                                                <td>{{ ++$key }}</td>
+                                                <td>{{ $item->keterangan }}</td>
+                                                <td>{{ rupiah($item->total) }}</td>
+                                                <td>{{ date('d F Y', strtotime($item->tanggal)) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td>Total</td>
+                                        <td>{{ rupiah($totalPengeluaran) }}</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        @endif
                     </div>
                 </div>
             </div>

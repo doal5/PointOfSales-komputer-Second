@@ -34,6 +34,7 @@ class pengeluarandetailController extends Controller
         $id_produk = $request->id_produk;
         $qty = $request->qty;
         $subtotal = $request->subtotal;
+        $keterangan = $request->keterangan;
         $id_supplier = $request->id_supplier;
         $produk = produk::find($id_produk);
         $pengeluaran = pengeluaran::find($id_pengeluaran);
@@ -51,7 +52,8 @@ class pengeluarandetailController extends Controller
             $pd = pengeluaran_detail::find($id_pengeluaran);
 
             $dtpengeluaran = [
-                'total' => $pengeluaran->total + $subtotal
+                'total' => $pengeluaran->total + $subtotal,
+                'keterangan' => $keterangan
             ];
             $pengeluaran->update($dtpengeluaran);
 
@@ -76,7 +78,7 @@ class pengeluarandetailController extends Controller
             ];
             $produk->update($dtproduk);
         }
-        return redirect('pengeluaran/' . $pengeluaran->id . '/edit');
+        return redirect('pengeluaran/' . $pengeluaran->id . '/edit')->withInput();
     }
 
     /**
@@ -131,6 +133,6 @@ class pengeluarandetailController extends Controller
         $produk->update($pdata);
 
         $pd->delete();
-        return redirect()->back();
+        return redirect('pengeluaran/' . $pengeluaran->id . '/edit')->withInput();
     }
 }
