@@ -26,7 +26,7 @@ class analisisController extends Controller
         )
             ->join('produk', 'transaksi_detail.id_produk', '=', 'produk.id_produk')
             ->whereYear('tanggal', $year)
-            ->where('produk.kategori_id', 9)
+            ->where('produk.kategori_id', 14)
             ->groupBy('id_produk')
             ->orderBy('total', 'desc')
             ->take(5)
@@ -54,7 +54,21 @@ class analisisController extends Controller
         )
             ->join('produk', 'transaksi_detail.id_produk', '=', 'produk.id_produk')
             ->whereYear('tanggal', $year)
-            ->where('produk.kategori_id', 1)
+            ->where('produk.kategori_id', 15)
+            ->groupBy('id_produk')
+            ->orderBy('total', 'desc')
+            ->take(5)
+            ->with('produk')
+            ->get();
+
+        $ptLaptop = transaksiDetail::select(
+            'transaksi_detail.id_produk',
+            DB::raw('sum(qty) as total'),
+            DB::raw('MAX(tanggal) as last_sold')
+        )
+            ->join('produk', 'transaksi_detail.id_produk', '=', 'produk.id_produk')
+            ->whereYear('tanggal', $year)
+            ->where('produk.kategori_id', 16)
             ->groupBy('id_produk')
             ->orderBy('total', 'desc')
             ->take(5)
@@ -65,7 +79,9 @@ class analisisController extends Controller
             'ptS' => $ptS,
             'ptK' => $ptK,
             'ptL' => $ptL,
+            'ptLaptop' => $ptLaptop
         ];
+
         return view('analisis.index', $data, compact('year'));
     }
 
