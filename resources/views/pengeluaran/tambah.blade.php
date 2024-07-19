@@ -53,8 +53,7 @@
                             </tr>
                         </tbody>
                         <label for="">Keterangan</label> <br>
-                        <textarea name="keterangan" id="keterangan-awal" value="{{ $pengeluaran->keterangan ?? '' }}" id=""
-                            class="form-control mb-2" cols="112" rows="3">{{ $pengeluaran->keterangan }}</textarea>
+                        <textarea name="keterangan" id="keterangan-awal" id="" class="form-control mb-2" cols="112" rows="3">{{ $pengeluaran->keterangan }}</textarea>
                     </table>
                     <div class="row mt-3">
                         <div class="col-md-5">
@@ -142,13 +141,6 @@
                     $('#keterangan-new').val($(this).val());
                 });
             });
-
-            tinymce.init({
-                selector: '#keterangan-awal',
-                plugins: ['quickbars'],
-                menubar: false,
-                statusbar: false
-            })
         </script>
     @endpush
 @endsection
