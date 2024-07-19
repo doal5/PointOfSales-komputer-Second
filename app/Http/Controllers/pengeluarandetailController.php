@@ -55,6 +55,7 @@ class pengeluarandetailController extends Controller
                 'total' => $pengeluaran->total + $subtotal,
                 'keterangan' => $keterangan
             ];
+
             $pengeluaran->update($dtpengeluaran);
 
             $dtproduk = [
@@ -80,6 +81,9 @@ class pengeluarandetailController extends Controller
         }
         return redirect('pengeluaran/' . $pengeluaran->id . '/edit')->withInput();
     }
+
+
+
 
     /**
      * Display the specified resource.

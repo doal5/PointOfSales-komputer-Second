@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\kategori;
 use App\Models\produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class produkController extends Controller
 {
@@ -32,6 +34,11 @@ class produkController extends Controller
      */
     public function create()
     {
+        $kategori = kategori::all();
+        $data = [
+            'kategori' =>  $kategori
+        ];
+        return view('produk.tambah', $data);
     }
 
     /**
@@ -58,14 +65,16 @@ class produkController extends Controller
             produk::create([
                 'kategori_id' => $request->kategori,
                 'kode_produk' => $kode_produk,
+                'produk' => $request->produk,
                 'merk' => $request->merk,
+                'spesifikasi' => $request->spesifikasi,
                 'harga_beli' => $request->harga_beli,
                 'harga_jual' => $request->harga_jual,
                 'stok' => $request->stok,
                 'foto' => $fotoName,
             ]);
         }
-        return response()->json('Data Berhasil Disimpan', 200);
+        return Redirect()->route('produk.index')->with('sukses', 'Data Berhasil Disimpan');
     }
 
     /**
@@ -73,12 +82,19 @@ class produkController extends Controller
      */
     public function show(string $id)
     {
-        $data = produk::with('kategori')->find($id);
+        $produk = produk::with('kategori')->find($id);
         $categori = kategori::all();
-        $harbel = $data->harga_beli;
-        $harjul = $data->harga_jual;
+        $harbel = $produk->harga_beli;
+        $harjul = $produk->harga_jual;
 
-        return view('produk.edit', compact('data', 'harbel', 'harjul', 'categori'));
+        $data = [
+            'produk' => $produk,
+            'categori' => $categori,
+            'harbel' => $harbel,
+            'harjul' => $harjul
+        ];
+
+        return view('produk.edit', $data);
     }
 
     public function detail(string $id)
@@ -92,7 +108,6 @@ class produkController extends Controller
      */
     public function edit(string $id)
     {
-        //
     }
 
     /**
@@ -103,30 +118,29 @@ class produkController extends Controller
         $request->validate([
             'foto' => 'required|image|mimes:png,jpg,jpeg|max:2048'
         ]);
+
         // $id_produk = request->input('id_produk');
-        $foto = $request->foto;
+
         $produk = produk::find($id);
-        $produk->kode_produk = $request->kode_produk;
+        $produk->spesifikasi = $request->spesifikasi;
+        $produk->produk = $request->produk;
         $produk->kategori_id = $request->kategori;
         $produk->merk = $request->merk;
         $produk->harga_beli = $request->harga_beli;
         $produk->harga_jual = $request->harga_jual;
         $produk->stok = $request->stok;
-        $produk->foto = $request->foto;
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            if ($produk->foto) {
+                Storage::delete('public/img/produk/' . $produk->foto);
+            }
+            $fotoName = time() . '.' . $foto->extension();
+            $filePath = $foto->move(public_path('img/produk'), $fotoName);
+            $produk->foto = $fotoName;
+        }
         $produk->update();
 
-        // if ($foto) {
-        //     produk::update([
-        //         'kategori_id' => $request->kategori,
-        //         'kode_produk' => $request->kode_produk,
-        //         'merk' => $request->merk,
-        //         'harga_beli' => $request->harga_beli,
-        //         'harga_jual' => $request->harga_jual,
-        //         'stok' => $request->stok,
-        //         'foto' => $foto,
-        //     ]);
-        // }
-        return response()->json('Data Berhasil Di Update', 200);
+        return Redirect()->route('produk.index')->with('sukses', 'Data Berhasil Di Update');
     }
 
     /**

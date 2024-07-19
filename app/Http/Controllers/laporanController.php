@@ -63,7 +63,8 @@ class laporanController extends Controller
 
     public function cetak($tglawal, $tglakhir, $total, $totalPengeluaran)
     {
-        return Excel::download(new laporanExport($tglawal, $tglakhir, $total, $totalPengeluaran), 'laporan.xlsx');
+        $filename = date('d-m-Y-h:i:s');
+        return Excel::download(new laporanExport($tglawal, $tglakhir, $total, $totalPengeluaran), 'laporan-' . $filename . '.xlsx');
     }
 
 

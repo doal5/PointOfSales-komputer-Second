@@ -97,6 +97,18 @@ class pengeluaranController extends Controller
         return redirect()->route('user.index')->with('sukses', 'data berhasil diupdate');
     }
 
+    public function updPengeluaran(Request $request)
+    {
+        $subtotal = $request->subtotal;
+        $keterangan = $request->keterangan;
+        $id = $request->pengeluaran_id;
+        $pengeluaran = pengeluaran::find($id);
+        $pengeluaran->total = $subtotal;
+        $pengeluaran->keterangan = $keterangan;
+        $pengeluaran->update();
+        return redirect()->route('pengeluaran.index');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

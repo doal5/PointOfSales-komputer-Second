@@ -14,7 +14,6 @@ class transaksiController extends Controller
      */
     public function index()
     {
-
         $data = [
             'title' => 'Transaksi',
             'transaksi' => transaksi::with('transaksidetail')->where('total', '>', 0)->paginate(10),
@@ -49,6 +48,13 @@ class transaksiController extends Controller
         return redirect('transaksi/' . $transaksi->id . '/edit');
     }
 
+
+    public function kembali($id)
+    {
+        $transaksi = transaksi::find($id);
+        $transaksi->delete();
+        return redirect()->route('transaksi.index');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -161,5 +167,11 @@ class transaksiController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getProduk($id)
+    {
+        $produk = produk::find($id);
+        return response()->json($produk);
     }
 }

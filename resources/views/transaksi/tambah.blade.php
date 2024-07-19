@@ -16,11 +16,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <a href="{{ url('transaksiBatal/' . Request::segment(2)) }}"><button
+                                    class="btn btn-sm btn-danger block"><i class="fas fa-arrow-left"></i>
+                                    Kembali</button></a>
                             <tr>
                                 <td>
                                     <form method="GET">
                                         <div class="d-flex">
-                                            <select name="id_produk" class="form-control" id="">
+                                            <select name="id_produk" class="form-control" id="produk">
                                                 <option value="">-- {{ $pdetail->merk ?? 'Pilih Produk' }} --</option>
                                                 @foreach ($produk as $item)
                                                     <option value="{{ $item->id_produk }}">{{ $item->merk }}</option>
@@ -38,11 +41,11 @@
                                     <input type="hidden" name="diskon" value="{{ $diskon }}">
 
                                     <td>
-                                        <input type="text" value="{{ $pdetail->merk ?? '' }}" name="merk"
-                                            class="form-control" disabled>
+                                        <input type="text" value="{{ $pdetail->merk ?? '' }}" id="merk"
+                                            name="merk" class="form-control" disabled>
                                     </td>
                                     <td><input type="text" value="{{ $pdetail->harga_jual ?? '' }}" name="harga_jual"
-                                            class="form-control" disabled>
+                                            class="form-control" id="harga_jual" disabled>
                                     </td>
                                     <td>
                                         <div class="d-flex">
@@ -62,9 +65,7 @@
                     </table>
                     <div class="row mt-3">
                         <div class="col-md-5">
-                            <a href="{{ route('transaksi.index') }}"><button class="btn btn-sm btn-danger block"><i
-                                        class="fas fa-arrow-left"></i>
-                                    Kembali</button></a>
+
                             <button type="submit" class="btn btn-sm btn-primary">Tambah <i
                                     class="fas fa-arrow-right"></i></button>
                         </div>

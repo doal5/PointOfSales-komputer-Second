@@ -8,12 +8,18 @@
                 <h5 class="mb-4">Produk</h5>
                 <div class="bg-light rounded h-100 p-4">
                     <h6 class="mb-4">Data Produk</h6>
+                    @if (session('sukses'))
+                        <div class="alert alert-success">
+                            {{ session('sukses') }}
+                        </div>
+                    @endif
                     <div class="table-responsive">
                         <div class="btn-group">
-                            <button id="tambahProduk" class="btn btn-primary btn-sm"><i class="fa fa-plus"> </i>
-                                Tambah</button>
+                            <a href="{{ route('produk.create') }}">
+                                <button class="btn btn-primary btn-sm"><i class="fa fa-plus"> </i>
+                                    Tambah</button>
+                            </a>
                             <button class="btn btn-danger btn-sm hapus-multiple"><i class="fa fa-trash"> </i> Hapus</button>
-
                         </div>
                         <div class="response"></div>
                         <table class="table">
@@ -23,8 +29,8 @@
                                     <th>No</th>
                                     <th>Kode</th>
                                     <th>Produk</th>
-                                    <th>Kategori</th>
                                     <th>Merk</th>
+                                    <th>Kategori</th>
                                     <th>Harga Beli</th>
                                     <th>Harga Jual</th>
                                     <th>Stok</th>
@@ -42,7 +48,6 @@
     </div>
 
     @includeIf('produk.modalForm')
-    @includeIf('produk.tambah')
     @includeIf('produk.modalFormDetail')
     <!-- Table End -->
 @endsection
@@ -50,6 +55,7 @@
     <script>
         $(document).ready(function() {
             read();
+            $('.alert').fadeOut(3000);
 
             // menampilkan modal tambah produk
             $('#tambahProduk').click(function() {

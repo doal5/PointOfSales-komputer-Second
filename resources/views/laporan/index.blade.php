@@ -46,6 +46,7 @@
                                         <th>No</th>
                                         <th>Kode_produk</th>
                                         <th>Produk</th>
+                                        <th>Merk</th>
                                         <th>Qty</th>
                                         <th>Total</th>
                                         <th>Tanggal</th>
@@ -70,6 +71,7 @@
                                             <td>{{ $i++ }}</td>
                                             <td> <span class="badge bg-primary"> {{ $item->produk->kode_produk }}</span>
                                             </td>
+                                            <td>{{ $item->produk->produk }}</td>
                                             <td>{{ $item->produk->merk }}</td>
                                             <td>{{ $item->qty }}</td>
                                             <td>{{ rupiah($item->subtotal) }}</td>
@@ -80,6 +82,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td>Total</td>

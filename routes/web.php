@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('produkstore', [produkController::class, 'store'])->name('produk.store');
         Route::get('produkshow/{id}', [produkController::class, 'show'])->name('produk.show');
         Route::get('produkdetail/{id}', [produkController::class, 'detail']);
-        Route::get('produkupdate/{id}', [produkController::class, 'update']);
+        Route::post('produkupdate/{id}', [produkController::class, 'update']);
         Route::get('produkhapus/{id}', [produkController::class, 'destroy']);
         Route::delete('produkhapusmultiple/{id}', [produkController::class, 'destroyMultiple']);
 
@@ -113,6 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('pengeluaranUpdate/{id}', [pengeluaranController::class, 'update']);
         Route::get('pengeluaranHapus/{id}', [pengeluaranController::class, 'destroy']);
         Route::delete('pengeluaranhapusmultiple/{id}', [pengeluaranController::class, 'destroyMultiple']);
+        Route::post('pengeluaranUpd', [pengeluaranController::class, 'updPengeluaran'])->name('pengeluaranUpd');
 
         // route pengeluaran detail
         Route::post('pengeluarandetailstore', [pengeluarandetailController::class, 'store'])->name('pengeluarandetail.store');
@@ -126,7 +127,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('transaksi/tambah', [transaksiController::class, 'create'])->name('transaksi.create');
     Route::get('transaksi/{id}/edit', [transaksiController::class, 'edit'])->name('transaksi.edit');
+    Route::get('produk/{id}', [transaksiController::class, 'getProduk']);
     Route::delete('transaksihapusmultiple/{id}', [transaksiController::class, 'hapusmultiple']);
+    Route::get('transaksiBatal/{id}', [transaksiController::class, 'kembali']);
 
     //! =============================== Route Transaksi Detail ==========================================
     Route::post('transaksiDetail/store', [transaksiDetailController::class, 'store'])->name('transaksidetail.store');

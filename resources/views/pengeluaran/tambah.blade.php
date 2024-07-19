@@ -25,7 +25,7 @@
                                     @csrf
                                     <td>
                                         <div class="d-flex">
-                                            <select name="id_produk" class="form-select" id="" required>
+                                            <select name="id_produk" class="form-select" id="">
                                                 <option value="">-- Pilih Produk --</option>
                                                 @foreach ($produk as $item)
                                                     <option value="{{ $item->id_produk }}">{{ $item->merk }}</option>
@@ -53,15 +53,15 @@
                             </tr>
                         </tbody>
                         <label for="">Keterangan</label> <br>
-                        <textarea name="keterangan" id="" class="form-control mb-2" cols="112" rows="3">{{ $pengeluaran->keterangan }}</textarea>
+                        <textarea name="keterangan" id="keterangan-awal" value="{{ $pengeluaran->keterangan ?? '' }}" id=""
+                            class="form-control mb-2" cols="112" rows="3">{{ $pengeluaran->keterangan }}</textarea>
                     </table>
                     <div class="row mt-3">
                         <div class="col-md-5">
-                            <a href="{{ route('pengeluaran.index') }}"><button class="btn btn-sm btn-danger block"><i
-                                        class="fas fa-arrow-left"></i>
-                                    Kembali</button></a>
-                            <button type="submit" class="btn btn-sm btn-primary">Tambah <i
-                                    class="fas fa-arrow-right"></i></button>
+                            <button type="submit" class="btn btn-sm btn-primary">
+                                Tambah
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
                         </div>
                         </form>
                     </div>
@@ -116,13 +116,39 @@
                                 class="btn btn-sm btn-danger"><i class="fas fa-file"></i>
                                 Batal</button></a>
 
-                        <a href="{{ url('pengeluaran') }}"><button class="btn btn-sm btn-success"><i
-                                    class="fas fa-check"></i>
-                                Selesai</button></a>
+                        {{-- Update Keterangan --}}
+                        <form action="{{ route('pengeluaranUpd') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="keterangan" id="keterangan-new"
+                                value="{{ $pengeluaran->keterangan }}">
+                            <input type="hidden" name="subtotal" value="{{ $pengeluaran->total }}">
+                            <input type="hidden" name="pengeluaran_id" value="{{ Request::segment(2) }}">
+                            <button class="btn btn-sm btn-success" type="submit"><i class="fas fa-check"></i>
+                                Selesai
+                            </button>
+                        </form>
+                        {{-- Update Keterangan --}}
+
                     </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    @push('script')
+        <script>
+            $(document).ready(function() {
+                $('#keterangan-awal').on('input', function() {
+                    $('#keterangan-new').val($(this).val());
+                });
+            });
+
+            tinymce.init({
+                selector: '#keterangan-awal',
+                plugins: ['quickbars'],
+                menubar: false,
+                statusbar: false
+            })
+        </script>
+    @endpush
 @endsection
