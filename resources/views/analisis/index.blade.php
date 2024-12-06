@@ -1,20 +1,5 @@
 @extends('layouts.master')
 @section('content')
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top mt-5">
-        <div class="container-fluid justify-content-center">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Harian</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Minggu</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Bulan</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
     <div class="container-fluid pt-4 px-4">
         <div class="bg-light rounded h-100 p-4">
             <h5 class="mb-4">Analisis</h5>
