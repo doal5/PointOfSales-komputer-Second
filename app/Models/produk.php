@@ -26,4 +26,9 @@ class produk extends Model
         return $this->hasMany(pengeluaran_detail::class, 'id_produk', 'id_produk');
     }
     use HasFactory;
+
+    public static function simpanProduk($data)
+    {
+        return self::create($data);
+    }
 }

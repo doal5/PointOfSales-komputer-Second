@@ -51,7 +51,7 @@
                                             <img src="assets/images/logo-icon.png" width="60" alt="" />
                                         </div>
                                         <div class="text-center mb-4">
-                                            <h5 class="">Rocker Admin</h5>
+                                            <h5 class="">LSP Admin</h5>
                                             <p class="mb-0">Please fill the below details to create your account</p>
                                         </div>
                                         @if ($message = session('sukses'))

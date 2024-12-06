@@ -16,7 +16,7 @@
             <tr>
                 <td>{{ ++$key }}</td>
                 <td>{{ $item->produk->kode_produk }}</td>
-                <td>{{ $item->produk->merk }}</td>
+                <td>{{ $item->produk->produk }}</td>
                 <td>{{ $item->produk->kategori->kategori }}</td>
                 <td>{{ date('d F Y', strtotime($item->last_sold)) }}</td>
                 <td>{{ rupiah(($item->produk->harga_jual - $item->produk->harga_beli) * $item->total) }}</td>

@@ -61,7 +61,7 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: sans-serif;
             font-size: 14px;
         }
 
@@ -234,7 +234,7 @@
                                     <td></td>
                                     <td></td>
                                     <td>Diskon</td>
-                                    <td class="text-end"> {{ $transaksi->diskon }}</td>
+                                    <td class="text-end"> {{ $transaksi->diskon }} %</td>
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -244,7 +244,6 @@
                                     <td class="text-end">{{ rupiah($transaksi->total) }}</td>
                                 </tr>
                             </table>
-
                         </div>
                     </div>
                     <div class = "invoice-foot text-center">

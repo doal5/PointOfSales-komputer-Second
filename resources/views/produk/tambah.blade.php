@@ -30,17 +30,13 @@
                             </select>
                         </div>
 
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <label for="harga_beli">Harga Beli</label>
                             <input type="number" class="form-control" name="harga_beli" placeholder="Masukan Harga Beli">
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <label for="harga_jual">Harga Jual</label>
                             <input type="number" class="form-control" name="harga_jual" placeholder="Masukan Harga Jual">
-                        </div>
-                        <div class="col-md-2">
-                            <label for="stok">Stok</label>
-                            <input type="number" class="form-control" name="stok" placeholder="Stok">
                         </div>
                         <div class="col-md-12">
                             <label for="foto">foto</label>

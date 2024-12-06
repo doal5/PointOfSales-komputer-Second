@@ -161,6 +161,8 @@ class transaksiController extends Controller
         return view('transaksi.detail', compact('transaksi'));
     }
 
+
+
     /**
      * Remove the specified resource from storage.
      */

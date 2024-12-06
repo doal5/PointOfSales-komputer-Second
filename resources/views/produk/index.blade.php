@@ -22,7 +22,7 @@
                             <button class="btn btn-danger btn-sm hapus-multiple"><i class="fa fa-trash"> </i> Hapus</button>
                         </div>
                         <div class="response"></div>
-                        <table class="table">
+                        <table class="table" id="table-produk">
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="checkboxMain" class="form-check-input"></th>
@@ -37,10 +37,40 @@
                                     <th style="width: 20%"><i class="fa fa-cog"></i></th>
                                 </tr>
                             </thead>
-                            <tbody id="tampil">
+                            <tbody>
+                                @foreach ($produk as $row => $item)
+                                    <tr id="tr_{{ $item->id_produk }}">
+                                        <th><input type="checkbox" data-id="{{ $item->id_produk }}"
+                                                class="form-check-input checkbox"></th>
+                                        <th scope="row">
+                                            {{ ($produk->currentPage() - 1) * $produk->perPage() + $loop->iteration }}</th>
 
+                                        <td><span class="badge badge-pill bg-primary">{{ $item->kode_produk }}</span></td>
+                                        <td>{{ $item->produk }}</td>
+                                        <td>{{ $item->merk }}</td>
+                                        <td>{{ $item->kategori->kategori ?? '' }}</td>
+                                        <td>{{ rupiah($item->harga_beli, true) }}</td>
+                                        <td>{{ rupiah($item->harga_jual, true) }}</td>
+                                        <td>{{ $item->stok }}</td>
+                                        <td>
+                                            <div class="btn-group btn-sm">
+                                                <a href="{{ url('produkshow/' . $item->id_produk) }}">
+                                                    <button class="btn btn-sm btn-primary"><i class="fa fa-pen"></i>
+                                                    </button>
+                                                </a>
+                                                <button class="btn btn-sm btn-success"
+                                                    onclick="detail({{ $item->id_produk }})"><i
+                                                        class="fa fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-danger"
+                                                    onclick="destroy({{ $item->id_produk }})"><i
+                                                        class="fa fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
+                        {{ $produk->links() }}
                     </div>
                 </div>
             </div>
@@ -54,7 +84,7 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            read();
+
             $('.alert').fadeOut(3000);
 
             // menampilkan modal tambah produk
@@ -82,7 +112,7 @@
                             timer: 1500
                         })
                         $('#modalProduk').modal('hide');
-                        read();
+
                     }
                 });
             });
@@ -113,7 +143,7 @@
             //                 timer: 1500
             //             })
             //             $('#modalProduk').modal('hide');
-            //             read();
+            //
             //         },
             //         error: function(response) {
             //             console.log(response);
@@ -211,19 +241,20 @@
             // ================ FUNGSI HAPUS MULTIPLE ===============
             // ========================================================
 
+            $('#table-produk').DataTable({
+                "paging": false, // Mengaktifkan pagination
+                "searching": true, // Mengaktifkan pencarian
+                "ordering": true, // Mengaktifkan sorting
+                "info": false, // Menampilkan informasi total data
+                "lengthChange": true, // Pilihan untuk mengubah jumlah baris yang ditampilkan
+                "language": {
+                    "search": "Cari:",
+                    "zeroRecords": "Data tidak ditemukan",
+                    "infoEmpty": "Tidak ada data yang tersedia",
+                }
+            });
 
         });
-
-        // ========================================================
-        // ================ FUNGSI MENAMPILKAN DATA ===============
-        // ========================================================
-        function read() {
-            $.get('{{ route('produk.read') }}', {},
-                function(data, status) {
-                    $('#tampil').html(data);
-                },
-            );
-        }
 
 
         // ========================================================
@@ -282,7 +313,7 @@
                             showConfirmButton: true
                         }),
                         $('#modalForm').modal('hide');
-                    read();
+
                 }
             });
         }
@@ -317,7 +348,7 @@
                                 text: "Your file has been deleted.",
                                 icon: "success"
                             });
-                            read();
+
                         }
                     });
                 }

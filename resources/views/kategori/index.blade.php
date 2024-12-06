@@ -161,7 +161,6 @@
                     $('#modalFormLabel').text('Tambah Data Kategori');
                     $('#page').html(data);
                 },
-
             );
         }
 

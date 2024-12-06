@@ -10,15 +10,27 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class analisisExport implements FromView
 {
+    protected $kategori;
+
+    public function __construct($kategori)
+    {
+        $this->kategori = $kategori;
+    }
+
     public function view(): View
     {
         $year = Carbon::now()->year;
-        $pt = transaksiDetail::select(
+
+        // Mengambil data berdasarkan kategori
+        $pt = TransaksiDetail::select(
             'id_produk',
             DB::raw('sum(qty) as total'),
-            DB::raw('MAX(tanggal) as last_sold'),
+            DB::raw('MAX(tanggal) as last_sold')
         )
             ->whereYear('tanggal', $year)
+            ->whereHas('produk', function ($query) {
+                $query->where('kategori_id', $this->kategori);
+            })
             ->groupBy('id_produk')
             ->orderBy('total', 'desc')
             ->take(5)

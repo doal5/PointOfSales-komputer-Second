@@ -6,6 +6,7 @@ use App\Models\produk;
 use App\Models\transaksi;
 use App\Models\transaksiDetail;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,16 +15,12 @@ class transaksiDetailController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
@@ -40,7 +37,7 @@ class transaksiDetailController extends Controller
                 'id_produk' => $id_produk,
                 'transaksi_id' => $transaksi_id,
                 'qty' => $request->qty,
-                'subtotal' => $request->subtotal,
+                'subtotal' => $request->harga_jual * $request->qty,
                 'tanggal' => $tanggal,
             ];
             transaksiDetail::create($data);
@@ -112,6 +109,61 @@ class transaksiDetailController extends Controller
         return redirect('transaksi');
     }
 
+    public function updateQty(Request $request)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'id_produk' => 'required|exists:produk,id_produk',
+            'transaksi_id' => 'nullable', // Boleh kosong karena bisa kita buat baru
+            'qty' => 'required|integer|min:1',
+            'harga_jual' => 'required|numeric', // Validasi harga_jual
+        ]);
+
+        // Cek apakah transaksi_id ada atau tidak
+        if (!$validated['transaksi_id']) {
+            // Buat transaksi baru jika belum ada
+            $transaksi = Transaksi::create([
+                // Tambahkan field transaksi yang dibutuhkan, contoh:
+                'tanggal' => Carbon::now(),
+                'status' => 'baru', // Atur status transaksi default
+                // Tambahkan field lain sesuai kebutuhan
+            ]);
+
+            // Assign id transaksi baru ke variabel transaksi_id
+            $transaksi_id = $transaksi->id;
+        } else {
+            // Jika transaksi sudah ada, ambil transaksi_id dari request
+            $transaksi_id = $validated['transaksi_id'];
+        }
+
+        // Cek apakah detail transaksi sudah ada
+        $transaksiDetail = TransaksiDetail::where('id_produk', $validated['id_produk'])
+            ->where('transaksi_id', $transaksi_id)
+            ->first();
+
+        if ($transaksiDetail) {
+            // Jika detail transaksi sudah ada, update qty dan subtotal
+            $transaksiDetail->qty = $validated['qty'];
+            $transaksiDetail->subtotal = $validated['harga_jual'] * $validated['qty'];
+            $transaksiDetail->save();
+        } else {
+            // Jika belum ada, buat detail transaksi baru
+            $transaksiDetail = TransaksiDetail::create([
+                'id_produk' => $validated['id_produk'],
+                'transaksi_id' => $transaksi_id,
+                'qty' => $validated['qty'],
+                'subtotal' => $validated['harga_jual'] * $validated['qty'], // Hitung subtotal
+                'tanggal' => Carbon::now()
+            ]);
+        }
+
+        // Kembalikan response dengan format JSON
+        return response()->json([
+            'success' => true,
+            'subtotal' => number_format($transaksiDetail->subtotal, 0, ',', '.'),
+            'transaksi_id' => $transaksi_id, // Kembalikan transaksi_id yang dibuat atau diambil
+        ]);
+    }
 
     public function invoice($id)
     {
@@ -142,9 +194,7 @@ class transaksiDetailController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-    }
+    public function show(string $id) {}
 
     /**
      * Show the form for editing the specified resource.

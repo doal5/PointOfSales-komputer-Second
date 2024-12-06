@@ -44,7 +44,11 @@
                                     class="fa fa-calculator"></i>Transaksi</a>
                             <a href="{{ route('pengeluaran.index') }}"
                                 class="nav-item nav-link {{ Request::is('pengeluaran') ? 'active' : '' }}"><i
-                                    class="fa fa-calculator"></i>pengeluaran</a>
+                                    class="fa fa-cube"></i>pengadaan produk</a>
+                            <a href="{{ route('pengeluaranToko.index') }}"
+                                class="nav-item nav-link {{ Request::is('pengeluaranToko') ? 'active' : '' }}"><i
+                                    class="fa fa-wallet"></i> Pengeluaran
+                            </a>
                             <a href="{{ route('laporan.index') }}"
                                 class="nav-item nav-link {{ Request::is('laporan') ? 'active' : '' }}"><i
                                     class="fa-solid fa-file-contract"></i>Laporan</a>

@@ -7,9 +7,9 @@
 
 
             <div class="col-12">
-                <h5 class="mb-4">Pengadaan Produk</h5>
+                <h5 class="mb-4">Pengeluaran</h5>
                 <div class="bg-light rounded h-100 p-4">
-                    <h6 class="mb-4">Data Pengadaan Produk</h6>
+                    <h6 class="mb-4">Data Pengeluaran</h6>
 
                     <div class="table-responsive">
                         @if ($message = session('sukses'))
@@ -22,7 +22,7 @@
                                 <button class="btn btn-primary btn-sm tambah-pengadaan" style="float: right"><i
                                         class="fa fa-plus">
                                     </i>
-                                    Tambah Pengadaan Produk</button>
+                                    Tambah Pengeluaran</button>
                             </a>
                         </div>
                         <div class="btn-group">
@@ -42,10 +42,28 @@
                                     <th style="width: 20%"><i class="fa fa-cog"></i></th>
                                 </tr>
                             </thead>
-                            <tbody id="tampil">
-
+                            <tbody>
+                                @foreach ($pengeluaranToko as $item)
+                                    <tr id="tr_{{ $item->id }}">
+                                        <th><input type="checkbox" data-id="{{ $item->id }}"
+                                                class="form-check-input checkbox"></th>
+                                        <th scope="row">{{ $i++ }}</th>
+                                        <td>{{ $item->keterangan }}</td>
+                                        <td>{{ rupiah($item->total) }}</td>
+                                        <td>{{ date('d F Y', strtotime($item->tanggal)) }}</td>
+                                        <td>
+                                            <div class="btn-group btn-sm">
+                                                <a href="{{ url('pengeluaran/' . $item->id . '/edit') }}">
+                                                    <button class="btn btn-sm btn-primary"><i class="fa fa-pen"></i>
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
+                        {{ $pengeluaranToko->links() }}
                     </div>
                 </div>
             </div>
@@ -155,16 +173,6 @@
 
         });
 
-        // ========================================================
-        // ================ FUNGSI MENAMPILKAN DATA ===============
-        // ========================================================
-        function read() {
-            $.get('{{ route('pengeluaran.read') }}', {},
-                function(data, status) {
-                    $('#tampil').html(data);
-                },
-            );
-        }
 
 
         // ========================================================

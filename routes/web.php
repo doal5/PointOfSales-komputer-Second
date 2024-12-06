@@ -12,6 +12,7 @@ use App\Http\Controllers\supplierController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\pengeluaranController;
 use App\Http\Controllers\pengeluarandetailController;
+use App\Http\Controllers\pengeluaranTokoController;
 use App\Http\Controllers\transaksiController;
 use App\Http\Controllers\transaksiDetailController;
 use App\Models\pengeluaran_detail;
@@ -86,7 +87,7 @@ Route::group(['middleware' => 'auth'], function () {
         //! =============================== Route analisis ==========================================
         Route::get('analisis', [analisisController::class, 'index'])->name('analisis.index');
         Route::get('analisisread', [analisisController::class, 'read'])->name('analisis.read');
-        Route::get('analisiscetak', [analisisController::class, 'cetak'])->name('analisis.cetak');
+        Route::get('analisiscetak/{kategori}', [analisisController::class, 'cetak'])->name('analisis.cetak');
 
         //!=============================== Route user ==========================================
         Route::get('user', [userController::class, 'index'])->name('user.index');
@@ -118,6 +119,25 @@ Route::group(['middleware' => 'auth'], function () {
         // route pengeluaran detail
         Route::post('pengeluarandetailstore', [pengeluarandetailController::class, 'store'])->name('pengeluarandetail.store');
         Route::get('pengeluaranDetail/delete', [pengeluarandetailController::class, 'delete'])->name('pengeluaran_detail.delete');
+
+
+        //!=============================== Route pengeluaran ==========================================
+        Route::get('pengeluaranToko', [pengeluaranTokoController::class, 'index'])->name('pengeluaranToko.index');
+        //!Menampilkan data pengeluaran dari database
+        Route::get('pengeluaranTokocreate', [pengeluaranTokoController::class, 'create'])->name('pengeluaranToko.create');
+        Route::get('pengeluaranToko/{id}/edit', [pengeluaranTokoController::class, 'edit'])->name('pengeluaranToko.edit');
+        Route::post('pengeluaranTokostore', [pengeluaranTokoController::class, 'store'])->name('pengeluaranToko.store');
+        Route::get('pengeluaranTokoShow/{id}', [pengeluaranTokoController::class, 'show'])->name('pengeluaranToko.show');
+        Route::get('pengeluaranTokobatal/{id}', [pengeluaranTokoController::class, 'batal']);
+        Route::get('pengeluaranTokodetail/{id}', [pengeluaranTokoController::class, 'detail']);
+        Route::post('pengeluaranTokoUpdate/{id}', [pengeluaranTokoController::class, 'update']);
+        Route::get('pengeluaranTokoHapus/{id}', [pengeluaranTokoController::class, 'destroy']);
+        Route::delete('pengeluaranTokohapusmultiple/{id}', [pengeluaranTokoController::class, 'destroyMultiple']);
+        Route::post('pengeluaranTokoUpd', [pengeluaranTokoController::class, 'updPengeluaran'])->name('pengeluaranToko');
+
+        // route pengeluaran detail
+        Route::post('pengeluarandetailstore', [pengeluarandetailController::class, 'store'])->name('pengeluarandetail.store');
+        Route::get('pengeluaranDetail/delete', [pengeluarandetailController::class, 'delete'])->name('pengeluaran_detail.delete');
     });
 
     Route::get(
@@ -138,4 +158,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('struk/{id}', [transaksiDetailController::class, 'invoice']);
     Route::get('transaksishow/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
     Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
+    Route::post('transaksidetail/updateQty', [transaksiDetailController::class, 'updateQty'])->name('transaksidetail.updateQty');
 });

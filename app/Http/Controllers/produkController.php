@@ -15,9 +15,14 @@ class produkController extends Controller
      */
     public function index()
     {
-        $data = produk::all();
+        $produk = produk::with('kategori')->paginate(10);
         $kategori = kategori::all();
-        return view('produk.index', compact('data', 'kategori'));
+        $data = [
+            'produk' => $produk,
+            'kategori' => $kategori,
+            'i' => 1
+        ];
+        return view('produk.index', $data);
     }
 
 
@@ -62,7 +67,8 @@ class produkController extends Controller
         $kode_produk = $request['kode_produk'] = 'P' . kode_prodnol((int)$produk->id_produk + 1, 6);
 
         if ($foto) {
-            produk::create([
+            // Data untuk disimpan
+            $data = [
                 'kategori_id' => $request->kategori,
                 'kode_produk' => $kode_produk,
                 'produk' => $request->produk,
@@ -70,9 +76,12 @@ class produkController extends Controller
                 'spesifikasi' => $request->spesifikasi,
                 'harga_beli' => $request->harga_beli,
                 'harga_jual' => $request->harga_jual,
-                'stok' => $request->stok,
+                'stok' => 0,
                 'foto' => $fotoName,
-            ]);
+            ];
+
+            // Simpan produk menggunakan fungsi di model
+            produk::simpanProduk($data);
         }
         return Redirect()->route('produk.index')->with('sukses', 'Data Berhasil Disimpan');
     }
@@ -106,9 +115,7 @@ class produkController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-    }
+    public function edit(string $id) {}
 
     /**
      * Update the specified resource in storage.

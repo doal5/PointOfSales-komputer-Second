@@ -24,9 +24,9 @@
                                     <form method="GET">
                                         <div class="d-flex">
                                             <select name="id_produk" class="form-control" id="produk">
-                                                <option value="">-- {{ $pdetail->merk ?? 'Pilih Produk' }} --</option>
+                                                <option value="">-- Pilih Produk --</option>
                                                 @foreach ($produk as $item)
-                                                    <option value="{{ $item->id_produk }}">{{ $item->merk }}</option>
+                                                    <option value="{{ $item->id_produk }}">{{ $item->produk }}</option>
                                                 @endforeach
                                             </select>
                                             <button class="btn btn-sm btn-primary">Pilih</button>
@@ -36,36 +36,32 @@
                                 <form action="{{ route('transaksidetail.store') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="id_produk" value="{{ $pdetail->id_produk ?? '' }}">
-                                    <input type="hidden" name="transaksi_id" value="{{ Request::segment(2) }}">
+                                    <input type="text" name="transaksi_id" value="{{ Request::segment(2) }}">
                                     <input type="hidden" name="subtotal" value="{{ $subtotal }}">
                                     <input type="hidden" name="diskon" value="{{ $diskon }}">
 
                                     <td>
-                                        <input type="text" value="{{ $pdetail->merk ?? '' }}" id="merk"
+                                        <input type="text" value="{{ $pdetail->produk ?? '' }}" id="merk"
                                             name="merk" class="form-control" disabled>
                                     </td>
-                                    <td><input type="text" value="{{ $pdetail->harga_jual ?? '' }}" name="harga_jual"
-                                            class="form-control" id="harga_jual" disabled>
+                                    <td><input type="text" value="{{ $pdetail->harga_jual ?? '' }}" id="harga_jual"
+                                            name="harga_jual_visible" class="form-control" id="harga_jual" disabled>
+                                        <input type="hidden" value="{{ $pdetail->harga_jual ?? '' }}" name="harga_jual">
                                     </td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="?id_produk={{ request('id_produk') }}&act=min&qty={{ $qty }}"
-                                                class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></a>
-                                            <input style="width: 27%" type="number" class="form-control" name="qty"
+                                            <input style="width: 50%" type="number" class="form-control" name="qty"
                                                 value="{{ $qty ?? 0 }}">
-                                            <a href="?id_produk={{ request('id_produk') }}&act=plus&qty={{ $qty }}"
-                                                class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </td>
                                     <td>
-                                        <h5>Rp.{{ $subtotal ?? '' }}</h5>
+                                        <h5 id="subtotal">Rp.{{ $subtotal ?? '' }}</h5>
                                     </td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="row mt-3">
                         <div class="col-md-5">
-
                             <button type="submit" class="btn btn-sm btn-primary">Tambah <i
                                     class="fas fa-arrow-right"></i></button>
                         </div>
@@ -92,7 +88,7 @@
                             @foreach ($transaksidetail as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->produk->merk }}</td>
+                                    <td>{{ $item->produk->produk }}</td>
                                     <td>{{ $item->qty }}</td>
                                     <td>{{ rupiah($item->subtotal) }}</td>
                                     <td>
@@ -150,3 +146,33 @@
         </div>
     </div>
 @endsection
+@push('script')
+    <script>
+        $(document).ready(function() {
+            // Tangkap event ketika inputan qty berubah
+            $('input[name="qty"]').on('input', function() {
+                // Ambil nilai qty dan harga jual
+                var qty = $(this).val();
+                var harga_jual = $('input[name="harga_jual"]').val();
+
+                // Pastikan qty tidak kosong atau nol
+                if (qty > 0) {
+                    // Hitung subtotal (tanpa diskon)
+                    var subtotal = qty * harga_jual;
+
+                    // Format subtotal ke dalam format rupiah
+                    var rupiah = new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR'
+                    }).format(subtotal);
+
+                    // Update subtotal di halaman
+                    $('#subtotal').text(rupiah);
+                } else {
+                    // Jika qty kosong atau nol, kosongkan subtotal
+                    $('#subtotal').text('Rp.0');
+                }
+            });
+        });
+    </script>
+@endpush
