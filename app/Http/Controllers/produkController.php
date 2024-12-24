@@ -123,7 +123,7 @@ class produkController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'foto' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+            'foto' => 'nullable|image|mimes:png,jpg,jpeg|max:2048'
         ]);
 
         // $id_produk = request->input('id_produk');

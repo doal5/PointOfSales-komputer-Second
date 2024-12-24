@@ -66,7 +66,7 @@
                             <label for="spesifikasi">spesifikasi</label>
                         </div>
                         <div class="col-md-12">
-                            <textarea name="spesifikasi" id="spesifikasi" cols="103" rows="5" value="{{ $produk->spesifikasi ?? '-' }}">{{ $produk->spesifikasi ?? '-' }}</textarea>
+                            <textarea name="spesifikasi" id="spesifikasi" cols="103" rows="5">{{ $produk->spesifikasi ?? '-' }}</textarea>
                         </div>
                         <button class="btn btn-primary" type="submit">Simpan</button>
                     </form>
@@ -79,6 +79,7 @@
             tinymce.init({
                 selector: '#spesifikasi',
                 plugins: ['quickbars'],
+                license_key: 'gpl',
                 menubar: false,
                 statusbar: false,
                 height: 300

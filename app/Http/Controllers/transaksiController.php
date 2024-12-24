@@ -77,7 +77,9 @@ class transaksiController extends Controller
      */
     public function edit(string $id)
     {
-        $transaksidetail = transaksiDetail::wheretransaksi_id($id)->with('produk')->get();
+        $transaksidetail = transaksiDetail::where('transaksi_id', $id)->with('produk')->get();
+
+
         $produk = produk::all();
         $id_produk = request('id_produk');
         $pdetail = produk::find($id_produk);
@@ -141,6 +143,25 @@ class transaksiController extends Controller
         ];
 
         return view('transaksi.tambah', $data);
+    }
+
+    public function updateDiskonTotal(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:transaksi,id',
+            'diskon' => 'required|numeric|min:0|max:100',
+            'total_belanja' => 'required|numeric|min:0',
+        ]);
+
+        // Cari transaksi berdasarkan ID
+        $transaksi = Transaksi::find($request->id);
+
+        // Update diskon dan total belanja
+        $transaksi->diskon = $request->diskon;
+        $transaksi->total = $request->total_belanja;
+        $transaksi->save();
+
+        return response()->json(['success' => true, 'message' => 'Transaksi berhasil diperbarui.']);
     }
 
 

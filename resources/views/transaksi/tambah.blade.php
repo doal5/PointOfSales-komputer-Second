@@ -37,7 +37,6 @@
                                     @csrf
                                     <input type="hidden" name="id_produk" value="{{ $pdetail->id_produk ?? '' }}">
                                     <input type="text" name="transaksi_id" value="{{ Request::segment(2) }}">
-                                    <input type="hidden" name="subtotal" value="{{ $subtotal }}">
                                     <input type="hidden" name="diskon" value="{{ $diskon }}">
 
                                     <td>
@@ -55,7 +54,10 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <h5 id="subtotal">Rp.{{ $subtotal ?? '' }}</h5>
+                                        <h5 id="subtotal">{{ rupiah($subtotal ?? 0) }}</h5>
+                                        <input type="hidden" name="subtotalController" class="form-control"
+                                            value="{{ $subtotal ?? 0 }}">
+                                        {{-- <h5 id="subtotal">Rp.{{ $subtotal ?? '' }}</h5> --}}
                                     </td>
                             </tr>
                         </tbody>
@@ -113,35 +115,38 @@
             </div>
 
             <div class="col-md-6">
-                <div class="bg-light rounded h-100 p-4">
-                    <form action="" method="get">
+                <form action="" method="post">
+                    @csrf
+                    <div class="bg-light rounded h-100 p-4">
                         <div class="form-group">
                             <label for="">Total Belanja</label>
-                            <input disabled type="number" name="total_belanja" id="total_belanja"
-                                value="{{ $transaksi->total ?? 0 }}" class="form-control" id="">
+                            <input disabled type="text" name="total_belanja" id="total_belanja"
+                                value="{{ rupiah($transaksi->total) ?? 0 }}"
+                                data-value="{{ $transaksi->total ?? 'Rp. 0' }}" class="form-control" id="">
                         </div>
                         <label for="">Diskon %</label>
                         <div class="d-flex" style="padding-right: 250px">
-                            <input type="number" name="diskon" placeholder="%" value="{{ $transaksi->diskon ?? 0 }}"
-                                class="form-control">
+                            <input type="number" name="diskon" id="diskon" placeholder="%"
+                                value="{{ $transaksi->diskon ?? 0 }}" class="form-control">
                         </div>
                         <div class="d-grid gap-2">
                         </div>
                         <div class="form-group">
                             <label for="">Dibayarkan</label>
-                            <input required type="number" name="dibayarkan" value="{{ $dibayarkan ?? 0 }}"
-                                class="form-control">
+                            <input required type="number" id="dibayarkan" name="dibayarkan"
+                                value="{{ $dibayarkan ?? 0 }}" class="form-control">
                         </div> <br>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-block"> Hitung</button>
-                        </div> <br>
-                    </form>
-                    <div class="form-group">
-                        <label for="">Uang Kembalian</label>
-                        <input disabled type="text" class="form-control" value="{{ rupiah($kembalian ?? 0) }}"
-                            name="kembalian">
+
+                        <hr>
+
+                        <div class="form-group">
+                            <label for="">Uang Kembalian</label>
+                            <input disabled type="text" id="kembalian" class="form-control"
+                                value="{{ rupiah($kembalian ?? 0) }}" name="kembalian">
+                        </div>
                     </div>
-                </div>
+
+                </form>
             </div>
         </div>
     </div>
@@ -149,15 +154,11 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            // Tangkap event ketika inputan qty berubah
             $('input[name="qty"]').on('input', function() {
-                // Ambil nilai qty dan harga jual
                 var qty = $(this).val();
                 var harga_jual = $('input[name="harga_jual"]').val();
 
-                // Pastikan qty tidak kosong atau nol
                 if (qty > 0) {
-                    // Hitung subtotal (tanpa diskon)
                     var subtotal = qty * harga_jual;
 
                     // Format subtotal ke dalam format rupiah
@@ -168,10 +169,91 @@
 
                     // Update subtotal di halaman
                     $('#subtotal').text(rupiah);
+
+                    // Hapus format "Rp." dan pemisah ribuan untuk input hidden
+                    var cleanSubtotal = subtotal.toFixed(2);
+                    $('input[name="subtotalController"]').val(cleanSubtotal);
                 } else {
-                    // Jika qty kosong atau nol, kosongkan subtotal
                     $('#subtotal').text('Rp.0');
+                    $('input[name="subtotalController"]').val('0');
                 }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const totalBelanjaInput = document.querySelector('#total_belanja');
+            const diskonInput = document.querySelector('#diskon');
+            const dibayarkanInput = document.querySelector('#dibayarkan');
+            const kembalianInput = document.querySelector('#kembalian');
+
+            // Ambil nilai asli total belanja
+            const totalBelanjaAsli = parseFloat(totalBelanjaInput.dataset.value);
+
+            // Update total belanja saat diskon berubah
+            diskonInput.addEventListener('input', function() {
+                const diskon = parseFloat(this.value) || 0;
+                const totalSetelahDiskon = totalBelanjaAsli - (totalBelanjaAsli * diskon / 100);
+
+                // Format ke Rupiah
+                totalBelanjaInput.value = new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR'
+                }).format(totalSetelahDiskon);
+            });
+
+            // Hitung uang kembalian saat dibayarkan diisi
+            dibayarkanInput.addEventListener('input', function() {
+                const dibayarkan = parseFloat(this.value) || 0;
+                const diskon = parseFloat(diskonInput.value) || 0;
+                const totalSetelahDiskon = totalBelanjaAsli - (totalBelanjaAsli * diskon / 100);
+                const kembalian = dibayarkan - totalSetelahDiskon;
+
+                // Format ke Rupiah
+                kembalianInput.value = new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR'
+                }).format(kembalian);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const diskonInput = document.querySelector('#diskon');
+            const totalBelanjaInput = document.querySelector('#total_belanja');
+            const transaksiId = '{{ $transaksi->id }}'; // Pastikan ID transaksi tersedia
+
+            diskonInput.addEventListener('input', function() {
+                const diskon = parseFloat(this.value) || 0;
+                const totalBelanjaAsli = parseFloat(totalBelanjaInput.dataset.value);
+                const totalSetelahDiskon = totalBelanjaAsli - (totalBelanjaAsli * diskon / 100);
+
+                // Update total belanja di halaman
+                totalBelanjaInput.value = new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR'
+                }).format(totalSetelahDiskon);
+
+                // Kirim data ke server untuk memperbarui transaksi
+                $.ajax({
+                    url: '/transaksi/update-diskon-total', // Ganti dengan route yang sesuai
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}', // Token CSRF untuk keamanan
+                        id: transaksiId,
+                        diskon: diskon,
+                        total_belanja: totalSetelahDiskon
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log('Transaksi berhasil diperbarui');
+                        } else {
+                            console.error('Gagal memperbarui transaksi');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        console.error('Error Status:', status);
+                        console.error('Error Response:', xhr.responseText);
+                    }
+                });
             });
         });
     </script>

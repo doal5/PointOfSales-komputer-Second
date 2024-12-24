@@ -159,4 +159,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('transaksishow/{id}', [transaksiController::class, 'show'])->name('transaksi.show');
     Route::get('detail-transaksi/{id}', [transaksiController::class, 'detail']);
     Route::post('transaksidetail/updateQty', [transaksiDetailController::class, 'updateQty'])->name('transaksidetail.updateQty');
+    Route::post('/transaksi/update-diskon-total', [transaksiController::class, 'updateDiskonTotal']);
 });

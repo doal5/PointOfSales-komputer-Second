@@ -32,6 +32,9 @@ class transaksiDetailController extends Controller
         $td = transaksiDetail::whereid_produk($id_produk)->wheretransaksi_id($transaksi_id)->first();
         $transaksi = transaksi::find($transaksi_id);
         $tanggal = date('Y-m-d');
+        $subtotal = (float)$request->subtotalController; // Hilangkan format "Rp."
+
+
         if ($td == null) {
             $data = [
                 'id_produk' => $id_produk,
@@ -44,19 +47,20 @@ class transaksiDetailController extends Controller
             $detail = transaksiDetail::find($transaksi_id);
             $dt = [
                 'diskon' => $request->diskon + $transaksi->diskon,
-                'total' => $request->subtotal + $transaksi->total,
+                'total' =>
+                (float)$transaksi->total + (float)$subtotal
             ];
             $transaksi->update($dt);
         } else {
             $data = [
                 'qty' => $td->qty + $request->qty,
-                'subtotal' => $td->subtotal + $request->subtotal
+                'subtotal' => (float)$td->subtotal + (float)$subtotal
             ];
             $td->update($data);
 
             $dt = [
                 'diskon' => $request->diskon + $transaksi->diskon,
-                'total' => $request->subtotal + $transaksi->total,
+                'total' =>  (float)$transaksi->total + (float)$subtotal
             ];
             $transaksi->update($dt);
         }

@@ -17,14 +17,6 @@
                                 {{ $message }}
                             </div>
                         @endif
-                        <div class="float-right">
-                            <a href="{{ route('pengeluaran.create') }}">
-                                <button class="btn btn-primary btn-sm tambah-pengadaan" style="float: right"><i
-                                        class="fa fa-plus">
-                                    </i>
-                                    Tambah Pengeluaran</button>
-                            </a>
-                        </div>
                         <div class="btn-group">
                             <button class="btn btn-danger btn-sm hapus-multiple"><i class="fa fa-trash"> </i> Hapus</button>
                         </div>
