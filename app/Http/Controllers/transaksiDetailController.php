@@ -113,6 +113,26 @@ class transaksiDetailController extends Controller
         return redirect('transaksi');
     }
 
+    public function cekStok(Request $request)
+    {
+        $idProduk = $request->input('id_produk');
+        $qty = $request->input('qty');
+
+        $produk = produk::find($idProduk);
+
+        if (!$produk) {
+            return response()->json(['success' => false, 'message' => 'Produk tidak ditemukan']);
+        }
+
+        $stokTersedia = $produk->stok >= $qty;
+
+        return response()->json([
+            'success' => true,
+            'stok_tersedia' => $stokTersedia
+        ]);
+    }
+
+
     public function updateQty(Request $request)
     {
         // Validasi input

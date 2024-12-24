@@ -157,28 +157,63 @@
             $('input[name="qty"]').on('input', function() {
                 var qty = $(this).val();
                 var harga_jual = $('input[name="harga_jual"]').val();
+                var produkId = $('input[name="id_produk"]').val();
 
                 if (qty > 0) {
-                    var subtotal = qty * harga_jual;
+                    // Periksa stok ke server
+                    $.ajax({
+                        url: '/produk/cek-stok', // Sesuaikan route Anda
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}', // Token CSRF untuk keamanan
+                            id_produk: produkId,
+                            qty: qty
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                if (response.stok_tersedia) {
+                                    // Hitung subtotal jika stok mencukupi
+                                    var subtotal = qty * harga_jual;
 
-                    // Format subtotal ke dalam format rupiah
-                    var rupiah = new Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR'
-                    }).format(subtotal);
+                                    // Format subtotal ke dalam format rupiah
+                                    var rupiah = new Intl.NumberFormat('id-ID', {
+                                        style: 'currency',
+                                        currency: 'IDR'
+                                    }).format(subtotal);
 
-                    // Update subtotal di halaman
-                    $('#subtotal').text(rupiah);
+                                    // Update subtotal di halaman
+                                    $('#subtotal').text(rupiah);
 
-                    // Hapus format "Rp." dan pemisah ribuan untuk input hidden
-                    var cleanSubtotal = subtotal.toFixed(2);
-                    $('input[name="subtotalController"]').val(cleanSubtotal);
+                                    // Hapus format "Rp." dan pemisah ribuan untuk input hidden
+                                    $('input[name="subtotalController"]').val(subtotal.toFixed(
+                                        2));
+                                } else {
+                                    // Notifikasi jika stok kurang
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Stok Tidak Mencukupi',
+                                        text: 'Stok produk tidak cukup untuk jumlah yang dimasukkan!',
+                                        confirmButtonText: 'OK'
+                                    });
+
+                                    $('input[name="qty"]').val(0);
+                                    $('#subtotal').text('Rp.0');
+                                    $('input[name="subtotalController"]').val(0);
+                                }
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error:', error);
+                            alert('Terjadi kesalahan saat memeriksa stok.');
+                        }
+                    });
                 } else {
                     $('#subtotal').text('Rp.0');
                     $('input[name="subtotalController"]').val('0');
                 }
             });
         });
+
         document.addEventListener('DOMContentLoaded', function() {
             const totalBelanjaInput = document.querySelector('#total_belanja');
             const diskonInput = document.querySelector('#diskon');
