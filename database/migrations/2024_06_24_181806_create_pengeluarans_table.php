@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pengeluaran', function (Blueprint $table) {
             $table->increments('id');
-            $table->float('total');
+            $table->float('total', 15, 2);
             $table->timestamps();
         });
     }

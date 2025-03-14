@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('transaksi_id');
             $table->integer('qty');
-            $table->float('subtotal');
+            $table->float('subtotal', 15, 2);
             $table->string('tanggal');
             $table->timestamps();
         });

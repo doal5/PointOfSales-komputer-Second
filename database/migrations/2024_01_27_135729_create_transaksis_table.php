@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
-            $table->float('total');
-            $table->float('diskon')->nullable();
+            $table->float('total', 15, 2);
+            $table->float('diskon', 15, 2)->nullable();
             $table->enum('status', ['selesai', 'pending'])->default('pending');
             $table->string('tanggal');
             $table->timestamps();

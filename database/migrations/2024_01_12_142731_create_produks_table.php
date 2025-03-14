@@ -15,8 +15,8 @@ return new class extends Migration
             $table->increments('id_produk');
             $table->string('kode_produk');
             $table->string('merk');
-            $table->float('harga_beli');
-            $table->float('harga_jual');
+            $table->float('harga_beli', 15, 2);
+            $table->float('harga_jual', 15, 2);
             $table->integer('stok');
             $table->timestamps();
         });
