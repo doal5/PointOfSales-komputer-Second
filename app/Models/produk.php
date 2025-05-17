@@ -18,7 +18,7 @@ class produk extends Model
 
     public function transaksi_detail()
     {
-        return $this->hasMany(transaksiDetail::class, 'id_produk', 'id_produk');
+        return $this->hasMany(transaksiDetail::class, 'id_produk');
     }
 
     public function pengeluaran_detail()

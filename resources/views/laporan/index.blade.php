@@ -30,6 +30,64 @@
                         </div>
                     </div>
                     </form>
+                    @if (!$tglawal)
+                        <div class="row g-3">
+                            <div class="col-sm">
+                                <div class="btn-group">
+                                    {{-- ngirim data tanggal awal dan tanggal akhir ke excell cetak --}}
+                                    <a href="{{ route('transaksi.export.all') }}">
+                                        <button class="btn btn-success btn-sm">Cetak <i
+                                                class="fa-solid fa-print"></i></button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>PEMASUKAN</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th>No</th>
+                                        <th width="10%">Kode_produk</th>
+                                        <th>Produk</th>
+                                        <th>Qty</th>
+                                        <th>Total Amount</th>
+                                        <th>Total</th>
+                                        <th>Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $runningTotal = 0;
+                                    @endphp
+                                    @foreach ($tDetail as $item)
+                                        @php
+                                            $totalAmount = $item->subtotal; // Nilai subtotal yang sudah dikalkulasi di controller
+                                            $runningTotal += $totalAmount; // Menambahkan subtotal ke total yang berjalan
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $i++ }}</td>
+                                            <td> <span class="badge bg-primary"> {{ $item->produk->kode_produk }}</span>
+                                            </td>
+                                            <td>{{ $item->produk->produk }}</td>
+                                            <td>{{ $item->qty }}</td>
+                                            <td>{{ rupiah($item->subtotal) }}</td>
+                                            <td>{{ rupiah($runningTotal) }}</td>
+                                            <td>{{ date('d F Y', strtotime($item->tanggal)) }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+
                     <div class="table-responsive">
                         @if ($tglawal)
                             <table class="table">
@@ -128,6 +186,47 @@
                                         <td>Total</td>
                                         <td>{{ rupiah($totalPengeluaran) }}</td>
                                         <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>LABA BERSIH</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th width='10%'>No</th>
+                                        <th width='30%'>Keterangan</th>
+                                        <th width='30%'>Total</th>
+                                        <th>Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Total keuntungan</td>
+                                        <td>Rp {{ number_format($totalKeuntungan, 0, ',', '.') }}</td>
+                                        <td>{{ $tglawal }} - {{ $tglakhir }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Total pengeluaran</td>
+                                        <td>Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</td>
+                                        <td>{{ $tglawal }} - {{ $tglakhir }}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td>Total</td>
+                                        <td>Rp {{ number_format($totalKeuntunganBersih, 0, ',', '.') }}</td>
+                                        <td>{{ $tglawal }} - {{ $tglakhir }}</td>
                                     </tr>
                                 </tfoot>
                             </table>

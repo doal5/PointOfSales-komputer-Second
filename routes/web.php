@@ -1,7 +1,12 @@
 <?php
 
+use Carbon\Carbon;
+use App\Models\transaksiDetail;
+use App\Models\pengeluaran_detail;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
+use App\Exports\TransaksiDetailExport;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\produkController;
@@ -10,13 +15,11 @@ use App\Http\Controllers\analisisController;
 use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\supplierController;
 use App\Http\Controllers\dashboardController;
-use App\Http\Controllers\pengeluaranController;
-use App\Http\Controllers\pengeluarandetailController;
-use App\Http\Controllers\pengeluaranTokoController;
 use App\Http\Controllers\transaksiController;
+use App\Http\Controllers\pengeluaranController;
+use App\Http\Controllers\pengeluaranTokoController;
 use App\Http\Controllers\transaksiDetailController;
-use App\Models\pengeluaran_detail;
-use App\Models\transaksiDetail;
+use App\Http\Controllers\pengeluarandetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +85,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         //! =============================== Route Laporan ==========================================
         Route::get('laporan', [laporanController::class, 'index'])->name('laporan.index');
+        Route::get('Laporan/export', function () {
+            $tanggalSekarang = Carbon::now()->format('d_F_Y');
+            $filename = "transaksidetail_{$tanggalSekarang}.xlsx";
+            return Excel::download(new TransaksiDetailExport(), $filename);
+        })->name('transaksi.export.all');
         Route::get('laporan/{tglawal}/{tglakhir}/{total}/{totalPengeluaran}', [laporanController::class, 'cetak']);
 
         //! =============================== Route analisis ==========================================

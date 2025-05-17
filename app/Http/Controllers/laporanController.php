@@ -7,6 +7,7 @@ use App\Models\pengeluaran;
 use App\Models\transaksi;
 use App\Models\transaksiDetail;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -31,7 +32,10 @@ class laporanController extends Controller
         //     });
         // });
 
+        $tDetail = transaksiDetail::with('produk')->paginate('15');
+
         $transaksiDetails = transaksiDetail::whereBetween('tanggal', [$tglawal, $tglakhir])
+            ->with('produk')
             ->get();
 
         // Hitung total penjualan per hari
@@ -40,6 +44,27 @@ class laporanController extends Controller
         })->map(function ($hari) {
             return $hari->sum('jumlah'); // Asumsikan 'jumlah' adalah kolom yang mewakili jumlah penjualan
         });
+
+        // Hitung total keuntungan per produk
+        // Hitung total keuntungan per produk
+        $totalKeuntungan = $transaksiDetails->groupBy('id_produk')->map(function ($items) {
+            return $items->sum(function ($item) {
+                if ($item->produk) {
+                    $hargaBeli = $item->produk->harga_beli;
+                    $hargaJual = $item->produk->harga_jual;
+                    return ($hargaJual - $hargaBeli) * $item->qty;
+                }
+                return 'tidak ada';
+            });
+        })->sum();
+
+
+
+        // Hitung total pengeluaran
+        $totalPengeluaran = pengeluaran::whereBetween('tanggal', [$tglawal, $tglakhir])->sum('total');
+
+        // Hitung total keuntungan bersih
+        $totalKeuntunganBersih = $totalKeuntungan - $totalPengeluaran;
 
         // Tampilkan data dan total penjualan per hari
 
@@ -54,7 +79,10 @@ class laporanController extends Controller
             'transaksi' => $transaksi,
             'total' => $total,
             'totalPengeluaran' => $totalPengeluaran,
-            'pengeluaran' => $pengeluaran
+            'totalKeuntungan' => $totalKeuntungan,
+            'totalKeuntunganBersih' => $totalKeuntunganBersih,
+            'pengeluaran' => $pengeluaran,
+            'tDetail' => $tDetail
         ];
 
         return view('laporan.index', $data);
@@ -66,6 +94,8 @@ class laporanController extends Controller
         $filename = date('d-m-Y-h:i:s');
         return Excel::download(new laporanExport($tglawal, $tglakhir, $total, $totalPengeluaran), 'laporan-' . $filename . '.xlsx');
     }
+
+
 
 
     /**

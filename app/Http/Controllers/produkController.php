@@ -125,7 +125,6 @@ class produkController extends Controller
         $request->validate([
             'foto' => 'nullable|image|mimes:png,jpg,jpeg|max:2048'
         ]);
-
         // $id_produk = request->input('id_produk');
 
         $produk = produk::find($id);
@@ -159,6 +158,7 @@ class produkController extends Controller
         $data->delete();
         return response()->json('data berhasil dihapus', 200);
     }
+
     public function destroyMultiple(request $request)
     {
         $ids = $request->ids;

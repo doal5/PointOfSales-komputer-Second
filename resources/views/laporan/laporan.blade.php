@@ -32,6 +32,7 @@
             <th></th>
             <th></th>
             <th>TOTAL</th>
+            <th></th>
             <th>{{ $total }}</th>
         </tr>
     </tfoot>
@@ -50,7 +51,6 @@
             <th>NO</th>
             <th>KETERANGAN</th>
             <th>TOTAL</th>
-            <th>TANGGAL</th>
         </tr>
     </thead>
     <tbody>
@@ -59,7 +59,6 @@
                 <td>{{ ++$key }}</td>
                 <td>{{ $item->keterangan }}</td>
                 <td>{{ $item->total }}</td>
-                <td>{{ $item->tanggal }}</td>
             </tr>
         @endforeach
     </tbody>
@@ -69,6 +68,40 @@
             <th>TOTAL</th>
             <th>{{ $totalPengeluaran }}</th>
             <th></th>
+        </tr>
+    </tfoot>
+</table>
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>LABA BERSIH</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th width="10%">No</th>
+            <th width="30%">Keterangan</th>
+            <th width="30%">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Total keuntungan</td>
+            <td>Rp {{ number_format($total, 0, ',', '.') }}</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Total pengeluaran</td>
+            <td>Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td></td>
+            <td>Total</td>
+            <td>Rp {{ number_format($totalKeuntunganBersih, 0, ',', '.') }}</td>
         </tr>
     </tfoot>
 </table>

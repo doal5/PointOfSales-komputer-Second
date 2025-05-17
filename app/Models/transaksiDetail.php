@@ -13,7 +13,7 @@ class transaksiDetail extends Model
 
     public function produk()
     {
-        return $this->belongsTo(produk::class, 'id_produk', 'id_produk');
+        return $this->belongsTo(produk::class, 'id_produk');
     }
     public function transaksi()
     {
